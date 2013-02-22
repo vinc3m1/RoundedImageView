@@ -15,7 +15,7 @@
         android:layout_alignParentLeft="true"
         android:padding="10dip"
         android:src="@drawable/photo1"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         makeramen:corner_radius="30dip"
         makeramen:border="2dip"
         makeramen:border_color="#333333"
