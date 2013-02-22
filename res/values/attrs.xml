@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundedImageView">
+        <attr name="corner_radius" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="RoundedImageView">
+        <attr name="border" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="RoundedImageView">
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+    <declare-styleable name="RoundedImageView">
+        <attr name="round_background" format="boolean" />
+    </declare-styleable>
+</resources>
