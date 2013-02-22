@@ -18,6 +18,8 @@ public class RoundedImageView extends ImageView {
 	private int mBorder;
 	private int mBorderColor;
 	
+	private boolean mRoundBackground;
+	
 	public RoundedImageView(Context context) {
 		super(context);
 		mRadius = DEFAULT_RADIUS;
@@ -43,6 +45,8 @@ public class RoundedImageView extends ImageView {
 		
 		mBorderColor = a.getColor(R.styleable.RoundedImageView_border_color, DEFAULT_BORDER_COLOR);
 		
+		mRoundBackground = a.getBoolean(R.styleable.RoundedImageView_round_background, false);
+		
 		a.recycle();
 	}
 	
@@ -58,13 +62,21 @@ public class RoundedImageView extends ImageView {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void setBackground(Drawable background) {
-		super.setBackgroundDrawable(background);
+		if (mRoundBackground) {
+			super.setBackgroundDrawable(background);
+		} else {
+			super.setBackground(background);
+		}
 	}
 
 	@Override
 	@Deprecated
 	public void setBackgroundDrawable(Drawable background) {
-		super.setBackgroundDrawable(RoundedDrawable.fromDrawable(background, mRadius, mBorder, mBorderColor));
+		if (mRoundBackground) {
+			super.setBackgroundDrawable(RoundedDrawable.fromDrawable(background, mRadius, mBorder, mBorderColor));
+		} else {
+			super.setBackgroundDrawable(background);
+		}
 	}
 
 	public int getRadius() {
@@ -89,5 +101,13 @@ public class RoundedImageView extends ImageView {
 
 	public void setBorderColor(int mBorderColor) {
 		this.mBorderColor = mBorderColor;
+	}
+
+	public boolean isRoundBackground() {
+		return mRoundBackground;
+	}
+
+	public void setRoundBackground(boolean mRoundBackground) {
+		this.mRoundBackground = mRoundBackground;
 	}
 }

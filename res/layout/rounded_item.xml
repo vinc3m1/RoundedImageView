@@ -18,8 +18,7 @@
         android:scaleType="fitXY"
         makeramen:corner_radius="30dip"
         makeramen:border="2dip"
-        makeramen:border_color="#333333"
-        makeramen:round_background="true" />
+        makeramen:border_color="#333333" />
 
     <TextView
         android:id="@+id/textView2"
