@@ -25,7 +25,7 @@ public class RoundedDrawable extends Drawable {
 	private static final boolean USE_VIGNETTE = false;
 
 	private final RectF mDrawableRect = new RectF();
-	private final float mCornerRadius;
+	private float mCornerRadius;
 	
 	private final RectF mBitmapRect = new RectF();
 	private final BitmapShader mBitmapShader;
@@ -35,13 +35,13 @@ public class RoundedDrawable extends Drawable {
 	
 	private final RectF mBorderRect = new RectF();
 	private final Paint mBorderPaint;
-	private final int mBorder;
-	private final int mBorderColor;
+	private int mBorderWidth;
+	private int mBorderColor;
 	
 	private final Matrix mShaderMatrix = new Matrix();
 	
 	RoundedDrawable(Bitmap bitmap, float cornerRadius, int border, int borderColor) {
-		mBorder = border;
+		mBorderWidth = border;
 		mBorderColor = borderColor; 
 		
 		mBitmapWidth = bitmap.getWidth();
@@ -65,7 +65,7 @@ public class RoundedDrawable extends Drawable {
 	@Override
 	protected void onBoundsChange(Rect bounds) {
 		super.onBoundsChange(bounds);
-		mDrawableRect.set(0 + mBorder, 0 + mBorder, bounds.width() - mBorder, bounds.height() - mBorder);
+		mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, bounds.width() - mBorderWidth, bounds.height() - mBorderWidth);
 		mBorderRect.set(0, 0, bounds.width(), bounds.height());
 
 		if (USE_VIGNETTE) {
@@ -88,9 +88,9 @@ public class RoundedDrawable extends Drawable {
 
 	@Override
 	public void draw(Canvas canvas) {
-		if (mBorder > 0) {
+		if (mBorderWidth > 0) {
 			canvas.drawRoundRect(mBorderRect, mCornerRadius, mCornerRadius, mBorderPaint);
-			canvas.drawRoundRect(mDrawableRect, Math.max(mCornerRadius - mBorder, 0), Math.max(mCornerRadius - mBorder, 0), mBitmapPaint);
+			canvas.drawRoundRect(mDrawableRect, Math.max(mCornerRadius - mBorderWidth, 0), Math.max(mCornerRadius - mBorderWidth, 0), mBitmapPaint);
 		} else {
 			canvas.drawRoundRect(mDrawableRect, mCornerRadius, mCornerRadius, mBitmapPaint);
 		}
@@ -172,5 +172,31 @@ public class RoundedDrawable extends Drawable {
 			}
 		}
 		return drawable;
+	}
+
+	public float getCornerRadius() {
+		return mCornerRadius;
+	}
+
+	public int getBorderWidth() {
+		return mBorderWidth;
+	}
+
+	public int getBorderColor() {
+		return mBorderColor;
+	}
+
+	public void setCornerRadius(float radius) {
+		this.mCornerRadius = radius;
+	}
+
+	public void setBorderWidth(int width) {
+		this.mBorderWidth = width;
+		mBorderPaint.setStrokeWidth(mBorderWidth);
+	}
+
+	public void setBorderColor(int color) {
+		this.mBorderColor = color;
+		mBorderPaint.setColor(color);
 	}
 }

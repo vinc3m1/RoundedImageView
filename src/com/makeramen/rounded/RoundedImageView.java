@@ -14,16 +14,19 @@ public class RoundedImageView extends ImageView {
 	public static final int DEFAULT_BORDER = 0;
 	public static final int DEFAULT_BORDER_COLOR = Color.BLACK;
 	
-	private int mRadius;
-	private int mBorder;
+	private int mCornerRadius;
+	private int mBorderWidth;
 	private int mBorderColor;
 	
-	private boolean mRoundBackground;
+	private boolean roundBackground;
+	
+	private Drawable mDrawable;
+	private Drawable mBackgroundDrawable;
 	
 	public RoundedImageView(Context context) {
 		super(context);
-		mRadius = DEFAULT_RADIUS;
-		mBorder = DEFAULT_BORDER;
+		mCornerRadius = DEFAULT_RADIUS;
+		mBorderWidth = DEFAULT_BORDER;
 		mBorderColor = DEFAULT_BORDER_COLOR;
 	}
 
@@ -36,78 +39,120 @@ public class RoundedImageView extends ImageView {
 		
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundedImageView, defStyle, 0);
 		
-		mRadius = a.getDimensionPixelSize(R.styleable.RoundedImageView_corner_radius, -1);
-		mBorder = a.getDimensionPixelSize(R.styleable.RoundedImageView_border, -1);
+		mCornerRadius = a.getDimensionPixelSize(R.styleable.RoundedImageView_corner_radius, -1);
+		mBorderWidth = a.getDimensionPixelSize(R.styleable.RoundedImageView_border_width, -1);
 		
 		// don't allow negative values for radius and border
-		if (mRadius < 0) { mRadius = DEFAULT_RADIUS; }
-		if (mBorder < 0) { mBorder = DEFAULT_BORDER; }
+		if (mCornerRadius < 0) { mCornerRadius = DEFAULT_RADIUS; }
+		if (mBorderWidth < 0) { mBorderWidth = DEFAULT_BORDER; }
 		
 		mBorderColor = a.getColor(R.styleable.RoundedImageView_border_color, DEFAULT_BORDER_COLOR);
 		
-		mRoundBackground = a.getBoolean(R.styleable.RoundedImageView_round_background, false);
+		roundBackground = a.getBoolean(R.styleable.RoundedImageView_round_background, false);
 		
 		a.recycle();
 	}
 	
 	@Override
 	public void setImageDrawable(Drawable drawable) {
-		super.setImageDrawable(RoundedDrawable.fromDrawable(drawable, mRadius, mBorder, mBorderColor));
+		mDrawable = RoundedDrawable.fromDrawable(drawable, mCornerRadius, mBorderWidth, mBorderColor);
+		super.setImageDrawable(mDrawable);
 	}
 	
 	public void setImageBitmap(Bitmap bm) {
-		super.setImageDrawable(new RoundedDrawable(bm, mRadius, mBorder, mBorderColor));
+		mDrawable = new RoundedDrawable(bm, mCornerRadius, mBorderWidth, mBorderColor);
+		super.setImageDrawable(mDrawable);
     }
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void setBackground(Drawable background) {
-		if (mRoundBackground) {
-			super.setBackgroundDrawable(background);
-		} else {
-			super.setBackground(background);
-		}
+		setBackgroundDrawable(background);
 	}
 
 	@Override
 	@Deprecated
 	public void setBackgroundDrawable(Drawable background) {
-		if (mRoundBackground) {
-			super.setBackgroundDrawable(RoundedDrawable.fromDrawable(background, mRadius, mBorder, mBorderColor));
+		if (roundBackground) {
+			mBackgroundDrawable = RoundedDrawable.fromDrawable(background, mCornerRadius, mBorderWidth, mBorderColor);
 		} else {
-			super.setBackgroundDrawable(background);
+			mBackgroundDrawable = background;
 		}
+		super.setBackgroundDrawable(mBackgroundDrawable);
 	}
 
-	public int getRadius() {
-		return mRadius;
+	public int getCornerRadius() {
+		return mCornerRadius;
 	}
 
 	public int getBorder() {
-		return mBorder;
+		return mBorderWidth;
 	}
 
 	public int getBorderColor() {
 		return mBorderColor;
 	}
 
-	public void setRadius(int mRadius) {
-		this.mRadius = mRadius;
+	public void setCornerRadius(int radius) {
+		if (mCornerRadius == radius) { return; }
+		
+		this.mCornerRadius = radius;
+		if (mDrawable instanceof RoundedDrawable) {
+			((RoundedDrawable) mDrawable).setCornerRadius(radius);
+		}
+		if (roundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
+			((RoundedDrawable) mBackgroundDrawable).setCornerRadius(radius);
+		}
 	}
 
-	public void setBorder(int mBorder) {
-		this.mBorder = mBorder;
+	public void setBorderWidth(int width) {
+		if (mBorderWidth == width) { return; }
+		
+		this.mBorderWidth = width;
+		if (mDrawable instanceof RoundedDrawable) {
+			((RoundedDrawable) mDrawable).setBorderWidth(width);
+		}
+		if (roundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
+			((RoundedDrawable) mBackgroundDrawable).setBorderWidth(width);
+		}
+		
+		invalidate();
 	}
 
-	public void setBorderColor(int mBorderColor) {
-		this.mBorderColor = mBorderColor;
+	public void setBorderColor(int color) {
+		if (mBorderColor == color) { return; }
+		
+		this.mBorderColor = color;
+		if (mDrawable instanceof RoundedDrawable) {
+			((RoundedDrawable) mDrawable).setBorderColor(color);
+		}
+		if (roundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
+			((RoundedDrawable) mBackgroundDrawable).setBorderColor(color);
+		}
+		
+		if (mBorderWidth > 0) { invalidate(); }
 	}
 
 	public boolean isRoundBackground() {
-		return mRoundBackground;
+		return roundBackground;
 	}
 
-	public void setRoundBackground(boolean mRoundBackground) {
-		this.mRoundBackground = mRoundBackground;
+	public void setRoundBackground(boolean roundBackground) {
+		if (this.roundBackground == roundBackground) { return; }
+		
+		this.roundBackground = roundBackground;
+		if (roundBackground) {
+			if (mBackgroundDrawable instanceof RoundedDrawable) {
+				((RoundedDrawable) mBackgroundDrawable).setCornerRadius(mCornerRadius);
+				((RoundedDrawable) mBackgroundDrawable).setBorderWidth(mBorderWidth);
+				((RoundedDrawable) mBackgroundDrawable).setBorderColor(mBorderColor);
+			} else {
+				setBackgroundDrawable(mBackgroundDrawable);
+			}
+		} else if (mBackgroundDrawable instanceof RoundedDrawable) {
+			((RoundedDrawable) mBackgroundDrawable).setBorderWidth(0);
+			((RoundedDrawable) mBackgroundDrawable).setCornerRadius(0);
+		}
+		
+		invalidate();
 	}
 }

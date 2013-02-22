@@ -4,7 +4,7 @@
         <attr name="corner_radius" format="dimension" />
     </declare-styleable>
     <declare-styleable name="RoundedImageView">
-        <attr name="border" format="dimension" />
+        <attr name="border_width" format="dimension" />
     </declare-styleable>
     <declare-styleable name="RoundedImageView">
         <attr name="border_color" format="color" />
