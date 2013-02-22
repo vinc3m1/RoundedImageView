@@ -4,24 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.ComposeShader;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
-import android.graphics.RadialGradient;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,7 +17,7 @@ public class RoundedActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_stream);
+		setContentView(R.layout.activity_rounded);
 
 		StreamAdapter adapter = new StreamAdapter(this);
 		((ListView) findViewById(R.id.main_list)).setAdapter(adapter);
@@ -57,85 +43,11 @@ public class RoundedActivity extends Activity {
 		}
 	}
 
-	class StreamDrawable extends Drawable {
-		private static final boolean USE_VIGNETTE = true;
-
-		private final float mCornerRadius;
-		private final RectF mRect = new RectF();
-		private final BitmapShader mBitmapShader;
-		private final Paint mPaint;
-		private final int mMargin;
-
-		StreamDrawable(Bitmap bitmap, float cornerRadius, int margin) {
-			mCornerRadius = cornerRadius;
-
-			mBitmapShader = new BitmapShader(bitmap,
-					Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-
-			mPaint = new Paint();
-			mPaint.setAntiAlias(true);
-			mPaint.setShader(mBitmapShader);
-
-			mMargin = margin;
-		}
-
-		@Override
-		protected void onBoundsChange(Rect bounds) {
-			super.onBoundsChange(bounds);
-			mRect.set(mMargin, mMargin, bounds.width() - mMargin, bounds.height() - mMargin);
-
-			if (USE_VIGNETTE) {
-				RadialGradient vignette = new RadialGradient(
-						mRect.centerX(), mRect.centerY() * 1.0f / 0.7f, mRect.centerX() * 1.3f,
-						new int[] { 0, 0, 0x7f000000 }, new float[] { 0.0f, 0.7f, 1.0f },
-						Shader.TileMode.CLAMP);
-	
-				Matrix oval = new Matrix();
-				oval.setScale(1.0f, 0.7f);
-				vignette.setLocalMatrix(oval);
-	
-				mPaint.setShader(
-						new ComposeShader(mBitmapShader, vignette, PorterDuff.Mode.SRC_OVER));
-			}
-		}
-
-		@Override
-		public void draw(Canvas canvas) {
-			canvas.drawRoundRect(mRect, mCornerRadius, mCornerRadius, mPaint);
-		}
-
-		@Override
-		public int getOpacity() {
-			return PixelFormat.TRANSLUCENT;
-		}
-
-		@Override
-		public void setAlpha(int alpha) {
-			mPaint.setAlpha(alpha);
-		}
-
-		@Override
-		public void setColorFilter(ColorFilter cf) {
-			mPaint.setColorFilter(cf);
-		}		
-	}
-
-
 	class StreamAdapter extends ArrayAdapter<StreamItem> {
-		private static final int CORNER_RADIUS = 24; // dips
-		private static final int MARGIN = 12; // dips
-
-		private final int mCornerRadius;
-		private final int mMargin;
 		private final LayoutInflater mInflater;
 
 		public StreamAdapter(Context context) {
 			super(context, 0);
-			
-			final float density = context.getResources().getDisplayMetrics().density;
-			mCornerRadius = (int) (CORNER_RADIUS * density + 0.5f);
-			mMargin = (int) (MARGIN * density + 0.5f);
-
 			mInflater = LayoutInflater.from(getContext());
 		}
 
@@ -144,28 +56,16 @@ public class RoundedActivity extends Activity {
 			ViewGroup view = null;
 			
 			if (convertView == null) {
-				view = (ViewGroup) mInflater.inflate(R.layout.stream_item, parent, false);
+				view = (ViewGroup) mInflater.inflate(R.layout.rounded_item, parent, false);
 			} else {
 				view = (ViewGroup) convertView;
 			}
 
 			StreamItem item = getItem(position);
 
-			StreamDrawable d = new StreamDrawable(item.mBitmap, mCornerRadius, mMargin);
-			view.setBackground(d);
-
+			((RoundedImageView) view.findViewById(R.id.imageView1)).setImageBitmap(item.mBitmap);
 			((TextView) view.findViewById(R.id.textView1)).setText(item.mLine1);
 			((TextView) view.findViewById(R.id.textView2)).setText(item.mLine2);
-
-			int w = item.mBitmap.getWidth();
-			int h = item.mBitmap.getHeight();
-
-			float ratio = w / (float) h;
-
-			LayoutParams lp = view.getLayoutParams();
-			lp.width = getContext().getResources().getDisplayMetrics().widthPixels;
-			lp.height = (int) (lp.width / ratio);
-
 			return view;
 		}
 	}

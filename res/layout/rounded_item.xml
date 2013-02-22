@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:makeramen="http://schemas.android.com/apk/res/com.makeramen.rounded"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    
+    <com.makeramen.rounded.RoundedImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:padding="10dip"
+        android:src="@drawable/photo1"
+        android:scaleType="centerCrop"
+        makeramen:corner_radius="30dip"
+        makeramen:border="2dip"
+        makeramen:border_color="#333333"
+        makeramen:round_background="true" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
+        android:layout_alignBottom="@+id/imageView1"
+        android:layout_alignLeft="@+id/imageView1"
         android:layout_marginBottom="36dp"
         android:layout_marginLeft="36dp"
         android:background="#7f000000"
