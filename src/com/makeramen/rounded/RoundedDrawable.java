@@ -90,7 +90,7 @@ public class RoundedDrawable extends Drawable {
 	public void draw(Canvas canvas) {
 		if (mBorder > 0) {
 			canvas.drawRoundRect(mBorderRect, mCornerRadius, mCornerRadius, mBorderPaint);
-			canvas.drawRoundRect(mDrawableRect, mCornerRadius - mBorder, mCornerRadius - mBorder, mBitmapPaint);
+			canvas.drawRoundRect(mDrawableRect, Math.max(mCornerRadius - mBorder, 0), Math.max(mCornerRadius - mBorder, 0), mBitmapPaint);
 		} else {
 			canvas.drawRoundRect(mDrawableRect, mCornerRadius, mCornerRadius, mBitmapPaint);
 		}
