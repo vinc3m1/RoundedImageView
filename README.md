@@ -8,6 +8,7 @@ Has proper support for:
 * Anti-aliasing
 * Transparent backgrounds
 * Hardware acceleration
+* Support for TransitionDrawables
 * (Coming Soon) proper ScaleType support
 
 
@@ -27,7 +28,17 @@ Define in xml:
         makeramen:round_background="true" />
 ```
 
-More programmatic hooks on the way.
+Or in code:
+
+```java
+RoundedImageView iv = new RoundedImageView(context);
+iv.setCornerRadius(10);
+iv.setBorderWidth(2);
+iv.setBorderColor(Color.DKGRAY);
+iv.setRoundedBackground(true);
+iv.setImageDrawable(drawable);
+iv.setBackground(backgroundDrawable);
+```
 
 
 To Do
