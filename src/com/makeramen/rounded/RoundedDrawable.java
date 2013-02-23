@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.ComposeShader;
 import android.graphics.Matrix;
+import android.graphics.Matrix.ScaleToFit;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
@@ -38,6 +39,8 @@ public class RoundedDrawable extends Drawable {
 	private int mBorderWidth;
 	private int mBorderColor;
 	
+	private ScaleToFit mScaleToFit;
+	
 	private final Matrix mShaderMatrix = new Matrix();
 	
 	RoundedDrawable(Bitmap bitmap, float cornerRadius, int border, int borderColor) {
@@ -61,6 +64,10 @@ public class RoundedDrawable extends Drawable {
 		mBorderPaint.setColor(mBorderColor);
 		mBorderPaint.setStrokeWidth(border);
 	}
+	
+	protected void setScaleToFit(ScaleToFit scaleToFit) {
+		mScaleToFit = scaleToFit;
+	}
 
 	@Override
 	protected void onBoundsChange(Rect bounds) {
@@ -82,7 +89,7 @@ public class RoundedDrawable extends Drawable {
 					new ComposeShader(mBitmapShader, vignette, PorterDuff.Mode.SRC_OVER));
 		}
 		
-		mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
+		mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.CENTER);
 		mBitmapShader.setLocalMatrix(mShaderMatrix);
 	}
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix.ScaleToFit;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -23,6 +24,8 @@ public class RoundedImageView extends ImageView {
 	private Drawable mDrawable;
 	private Drawable mBackgroundDrawable;
 	
+	private ScaleType mScaleType;
+	
 	public RoundedImageView(Context context) {
 		super(context);
 		mCornerRadius = DEFAULT_RADIUS;
@@ -36,6 +39,8 @@ public class RoundedImageView extends ImageView {
 
 	public RoundedImageView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		
+		setScaleType(super.getScaleType()); // use our special scaletype thing
 		
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundedImageView, defStyle, 0);
 		
@@ -52,6 +57,48 @@ public class RoundedImageView extends ImageView {
 		
 		a.recycle();
 	}
+	
+	/**
+     * Controls how the image should be resized or moved to match the size
+     * of this ImageView.
+     * 
+     * @param scaleType The desired scaling mode.
+     * 
+     * @attr ref android.R.styleable#ImageView_scaleType
+     */
+	@Override
+    public void setScaleType(ScaleType scaleType) {
+        if (scaleType == null) {
+            throw new NullPointerException();
+        }
+
+        if (mScaleType != scaleType) {
+            mScaleType = scaleType;
+            
+            if (mDrawable instanceof RoundedDrawable) {
+	            if (mScaleType == ScaleType.CENTER || mScaleType == ScaleType.CENTER_CROP) {
+		            ((RoundedDrawable) mDrawable).setScaleToFit(ScaleToFit.CENTER);
+		            super.setScaleType(ScaleType.FIT_XY);
+	            } else {
+	            	((RoundedDrawable) mDrawable).setScaleToFit(ScaleToFit.FILL);
+	            	super.setScaleType(mScaleType);
+	            }
+            }
+        }
+    }
+	
+	/**
+     * Return the current scale type in use by this ImageView.
+     *
+     * @see ImageView.ScaleType
+     *
+     * @attr ref android.R.styleable#ImageView_scaleType
+     */
+	@Override
+    public ScaleType getScaleType() {
+        return mScaleType;
+    }
+	
 	
 	@Override
 	public void setImageDrawable(Drawable drawable) {
