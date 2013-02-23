@@ -19,15 +19,26 @@
         makeramen:corner_radius="30dip"
         makeramen:border_width="2dip"
         makeramen:border_color="#333333" />
+	<TextView
+	    android:id="@+id/textView3"
+	    android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_alignBottom="@+id/imageView1"
+        android:layout_alignLeft="@+id/imageView1"
+        android:background="#7f000000"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textAppearance="?android:attr/textAppearanceSmallInverse" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView1"
-        android:layout_alignLeft="@+id/imageView1"
-        android:layout_marginBottom="36dp"
-        android:layout_marginLeft="36dp"
+        android:layout_above="@+id/textView3"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_marginBottom="4dp"
         android:background="#7f000000"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
