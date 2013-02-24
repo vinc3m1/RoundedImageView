@@ -25,6 +25,8 @@ public class RoundedDrawable extends Drawable {
 	public static final String TAG = "RoundedDrawable";
 	private static final boolean USE_VIGNETTE = false;
 
+	private final Rect mBounds = new Rect();
+	
 	private final RectF mDrawableRect = new RectF();
 	private float mCornerRadius;
 	
@@ -44,6 +46,7 @@ public class RoundedDrawable extends Drawable {
 	private final Matrix mShaderMatrix = new Matrix();
 	
 	RoundedDrawable(Bitmap bitmap, float cornerRadius, int border, int borderColor) {
+		
 		mBorderWidth = border;
 		mBorderColor = borderColor; 
 		
@@ -79,58 +82,100 @@ public class RoundedDrawable extends Drawable {
 	
 	private void setMatrix() {
 		Log.i(TAG, "setMatrix: w: " + mDrawableRect.width() + "h:" + mDrawableRect.height() + " scaleType:" + mScaleType.toString());
-		if (mDrawableRect.width() > 0 && mDrawableRect.height() > 0 && (mScaleType == ScaleType.CENTER || mScaleType == ScaleType.CENTER_CROP)) {
-			if (mScaleType == ScaleType.CENTER) {
-				Log.d(TAG, "CENTER");
-				mShaderMatrix.set(null);
-				mShaderMatrix.setTranslate((int) ((mDrawableRect.width() - mBitmapWidth) * 0.5f + 0.5f), (int) ((mDrawableRect.height() - mBitmapHeight) * 0.5f + 0.5f));
-			} else if (mScaleType == ScaleType.CENTER_CROP) {
-				Log.d(TAG, "CENTER_CROP");
-				mShaderMatrix.set(null);
+		
+		mBorderRect.set(mBounds);
+		mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
+		
+		float scale;
+        float dx;
+        float dy;
+        
+		switch(mScaleType) {
+		case CENTER:
+			Log.d(TAG, "CENTER");
+			mBorderRect.set(mBounds);
+			mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
+			
+			mShaderMatrix.set(null);
+			mShaderMatrix.setTranslate((int) ((mDrawableRect.width() - mBitmapWidth) * 0.5f + 0.5f), (int) ((mDrawableRect.height() - mBitmapHeight) * 0.5f + 0.5f));
+			break;
+		case CENTER_CROP:
+			Log.d(TAG, "CENTER_CROP");
+			mBorderRect.set(mBounds);
+			mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
+			
+			mShaderMatrix.set(null);
 
-                float scale;
-                float dx = 0, dy = 0;
+            dx = 0;
+            dy = 0;
 
-                if (mBitmapWidth * mDrawableRect.height() > mDrawableRect.width() * mBitmapHeight) {
-                    scale = (float) mDrawableRect.height() / (float) mBitmapHeight; 
-                    dx = (mDrawableRect.width() - mBitmapWidth * scale) * 0.5f;
-                } else {
-                    scale = (float) mDrawableRect.width() / (float) mBitmapWidth;
-                    dy = (mDrawableRect.height() - mBitmapHeight * scale) * 0.5f;
-                }
+            if (mBitmapWidth * mDrawableRect.height() > mDrawableRect.width() * mBitmapHeight) {
+                scale = (float) mDrawableRect.height() / (float) mBitmapHeight; 
+                dx = (mDrawableRect.width() - mBitmapWidth * scale) * 0.5f;
+            } else {
+                scale = (float) mDrawableRect.width() / (float) mBitmapWidth;
+                dy = (mDrawableRect.height() - mBitmapHeight * scale) * 0.5f;
+            }
 
-                mShaderMatrix.setScale(scale, scale);
-                mShaderMatrix.postTranslate((int) (dx + 0.5f), (int) (dy + 0.5f));
-			}
-		} else {
+            mShaderMatrix.setScale(scale, scale);
+            mShaderMatrix.postTranslate((int) (dx + 0.5f), (int) (dy + 0.5f));
+			break;
+		case CENTER_INSIDE:
+			Log.d(TAG, "CENTER_INSIDE");
+			mShaderMatrix.set(null);
+            
+            if (mBitmapWidth <= mBounds.width() && mBitmapHeight <= mBounds.height()) {
+                scale = 1.0f;
+            } else {
+                scale = Math.min((float) mBounds.width() / (float) mBitmapWidth,
+                        (float) mBounds.height() / (float) mBitmapHeight);
+            }
+            
+            dx = (int) ((mBounds.width() - mBitmapWidth * scale) * 0.5f + 0.5f);
+            dy = (int) ((mBounds.height() - mBitmapHeight * scale) * 0.5f + 0.5f);
+
+            mShaderMatrix.setScale(scale, scale);
+            mShaderMatrix.postTranslate(dx, dy);
+            
+    		mBorderRect.set(mBitmapRect);
+            mShaderMatrix.mapRect(mBorderRect);
+            mDrawableRect.set(mBorderRect.left + mBorderWidth, mBorderRect.top + mBorderWidth, mBorderRect.right - mBorderWidth, mBorderRect.bottom - mBorderWidth);
+            mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
+            break;
+		default:
+			Log.d(TAG, "DEFAULT TO FILL");
+			mBorderRect.set(mBounds);
+			mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
+			
 			mShaderMatrix.set(null);
 			mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
+			break;
 		}
+		mBitmapShader.setLocalMatrix(mShaderMatrix);
 	}
 
 	@Override
 	protected void onBoundsChange(Rect bounds) {
 		Log.i(TAG, "onboundschange: w: " + bounds.width() + "h:" + bounds.height());
 		super.onBoundsChange(bounds);
-		mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, bounds.width() - mBorderWidth, bounds.height() - mBorderWidth);
-		mBorderRect.set(0, 0, bounds.width(), bounds.height());
+		
+		mBounds.set(bounds);
 
-		if (USE_VIGNETTE) {
-			RadialGradient vignette = new RadialGradient(
-					mDrawableRect.centerX(), mDrawableRect.centerY() * 1.0f / 0.7f, mDrawableRect.centerX() * 1.3f,
-					new int[] { 0, 0, 0x7f000000 }, new float[] { 0.0f, 0.7f, 1.0f },
-					Shader.TileMode.CLAMP);
-
-			Matrix oval = new Matrix();
-			oval.setScale(1.0f, 0.7f);
-			vignette.setLocalMatrix(oval);
-
-			mBitmapPaint.setShader(
-					new ComposeShader(mBitmapShader, vignette, PorterDuff.Mode.SRC_OVER));
-		}
+//		if (USE_VIGNETTE) {
+//			RadialGradient vignette = new RadialGradient(
+//					mDrawableRect.centerX(), mDrawableRect.centerY() * 1.0f / 0.7f, mDrawableRect.centerX() * 1.3f,
+//					new int[] { 0, 0, 0x7f000000 }, new float[] { 0.0f, 0.7f, 1.0f },
+//					Shader.TileMode.CLAMP);
+//
+//			Matrix oval = new Matrix();
+//			oval.setScale(1.0f, 0.7f);
+//			vignette.setLocalMatrix(oval);
+//
+//			mBitmapPaint.setShader(
+//					new ComposeShader(mBitmapShader, vignette, PorterDuff.Mode.SRC_OVER));
+//		}
 		
 		setMatrix();
-		mBitmapShader.setLocalMatrix(mShaderMatrix);
 	}
 
 	@Override

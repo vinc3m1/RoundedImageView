@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix.ScaleToFit;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
 public class RoundedImageView extends ImageView {
@@ -76,14 +78,22 @@ public class RoundedImageView extends ImageView {
         }
         
         if (mDrawable instanceof RoundedDrawable) {
-            if (scaleType == ScaleType.CENTER || scaleType == ScaleType.CENTER_CROP) {
-	            super.setScaleType(ScaleType.FIT_XY);
-            } else {
-            	super.setScaleType(scaleType);
-            }
-        	if (((RoundedDrawable) mDrawable).getScaleType() != scaleType) {
+        	
+        	switch(scaleType) {
+        	case CENTER:
+        	case CENTER_CROP:
+        	case CENTER_INSIDE:
+        		Log.d(TAG, "Let drawable handle scale: " + scaleType.toString());
+        		super.setScaleType(ScaleType.FIT_XY);
+        		break;
+        	default:
+        		Log.d(TAG, "default scale behavior: " + scaleType.toString());
+        		super.setScaleType(scaleType);
+        		break;
+        	}
+        	if (true || ((RoundedDrawable) mDrawable).getScaleType() != scaleType) {
 	        	((RoundedDrawable) mDrawable).setScaleType(scaleType);
-	        	setWillNotCacheDrawing(mScaleType == ScaleType.CENTER);
+	        	setWillNotCacheDrawing(true);
 	        	requestLayout();
 	        	invalidate();
         	}
