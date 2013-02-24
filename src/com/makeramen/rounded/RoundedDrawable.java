@@ -1,3 +1,7 @@
+/*
+	Copyright (C) 2013 Make Ramen, LLC
+*/
+
 package com.makeramen.rounded;
 
 import android.graphics.Bitmap;
