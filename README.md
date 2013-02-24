@@ -16,7 +16,7 @@ Also has proper support for:
 * Anti-aliasing
 * Transparent backgrounds
 * Hardware acceleration
-* Support for TransitionDrawables
+* Support for TransitionDrawables (XML attrs only)
 
 
 Usage
@@ -48,12 +48,8 @@ iv.setImageDrawable(drawable);
 iv.setBackground(backgroundDrawable);
 ```
 
-
-To Do
------
-* Fix border width when resized with FIT_* and CENTER_INSIDE scaletypes
-* Better support for ColorDrawables
-
 Known Issues
 --------------------------------------
 * Does not round images set by ```.setImageResource(int resId)```. Use ```BitmapFactory``` and ```setImageBitmap()``` instead.
+* Programmatically setting attributes with TransitionDrawables not yet supported.
+* Only tested support for BitmapDrawables and TransitionDrawables (with BitmapDrawables in them). Other types might work but may have unexpected behavior.
