@@ -3,13 +3,20 @@ RoundedImageView
 
 A fast ImageView (and Drawable) that supports rounded corners based on the original [example from Romain Guy](http://www.curious-creature.org/2012/12/11/android-recipe-1-image-with-rounded-corners/)
 
-Has proper support for:
+There are many ways to create rounded corners, this is the fastest and best one that I know of because it:
+* does **not** create a copy of the original bitmap
+* does **not** use a clipPath which is not hardware accelerated and not anti-aliased.
+* does **not** use setXfermode to clip the bitmap and draw twice to the canvas.
+
+If you know of a better method, let me know and I'll implement it!
+
+Also has proper support for:
+* CENTER and CENTER_CROP ScaleType (borders are drawn at view edge, not bitmap edge).
 * Borders
 * Anti-aliasing
 * Transparent backgrounds
 * Hardware acceleration
 * Support for TransitionDrawables
-* (Coming Soon) proper ScaleType support
 
 
 Usage
@@ -21,7 +28,7 @@ Define in xml:
         xmlns:makeramen="http://schemas.android.com/apk/res/com.makeramen.rounded"
         android:id="@+id/imageView1"
         android:src="@drawable/photo1"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         makeramen:corner_radius="30dip"
         makeramen:border="2dip"
         makeramen:border_color="#333333"
@@ -32,6 +39,7 @@ Or in code:
 
 ```java
 RoundedImageView iv = new RoundedImageView(context);
+iv.setScaleType(ScaleType.CENTER_CROP);
 iv.setCornerRadius(10);
 iv.setBorderWidth(2);
 iv.setBorderColor(Color.DKGRAY);
@@ -43,12 +51,9 @@ iv.setBackground(backgroundDrawable);
 
 To Do
 -----
+* Fix border width when resized with FIT_* and CENTER_INSIDE scaletypes
+* Better support for ColorDrawables
 
-* Add different ScaleTypes
-* Support for ColorDrawables
-* Add programmatic hooks to XML properties
-
-Known Issues (no  quick fix available)
+Known Issues
 --------------------------------------
-
 * Does not round images set by ```.setImageResource(int resId)```. Use ```BitmapFactory``` and ```setImageBitmap()``` instead.
