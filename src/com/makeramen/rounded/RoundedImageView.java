@@ -4,12 +4,13 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Matrix.ScaleToFit;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
 public class RoundedImageView extends ImageView {
+	
+	public static final String TAG = "RoundedImageView";
 	
 	public static final int DEFAULT_RADIUS = 0;
 	public static final int DEFAULT_BORDER = 0;
@@ -24,7 +25,7 @@ public class RoundedImageView extends ImageView {
 	private Drawable mDrawable;
 	private Drawable mBackgroundDrawable;
 	
-	private ScaleType mScaleType;
+	private ScaleType mScaleType = ScaleType.FIT_CENTER;
 	
 	public RoundedImageView(Context context) {
 		super(context);
@@ -39,8 +40,6 @@ public class RoundedImageView extends ImageView {
 
 	public RoundedImageView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		
-		setScaleType(super.getScaleType()); // use our special scaletype thing
 		
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundedImageView, defStyle, 0);
 		
@@ -71,19 +70,23 @@ public class RoundedImageView extends ImageView {
         if (scaleType == null) {
             throw new NullPointerException();
         }
-
+        
         if (mScaleType != scaleType) {
-            mScaleType = scaleType;
-            
-            if (mDrawable instanceof RoundedDrawable) {
-	            if (mScaleType == ScaleType.CENTER || mScaleType == ScaleType.CENTER_CROP) {
-		            ((RoundedDrawable) mDrawable).setScaleToFit(ScaleToFit.CENTER);
-		            super.setScaleType(ScaleType.FIT_XY);
-	            } else {
-	            	((RoundedDrawable) mDrawable).setScaleToFit(ScaleToFit.FILL);
-	            	super.setScaleType(mScaleType);
-	            }
+	        mScaleType = scaleType;
+        }
+        
+        if (mDrawable instanceof RoundedDrawable) {
+            if (scaleType == ScaleType.CENTER || scaleType == ScaleType.CENTER_CROP) {
+	            super.setScaleType(ScaleType.FIT_XY);
+            } else {
+            	super.setScaleType(scaleType);
             }
+        	if (((RoundedDrawable) mDrawable).getScaleType() != scaleType) {
+	        	((RoundedDrawable) mDrawable).setScaleType(scaleType);
+	        	setWillNotCacheDrawing(mScaleType == ScaleType.CENTER);
+	        	requestLayout();
+	        	invalidate();
+        	}
         }
     }
 	
@@ -102,12 +105,16 @@ public class RoundedImageView extends ImageView {
 	
 	@Override
 	public void setImageDrawable(Drawable drawable) {
-		mDrawable = RoundedDrawable.fromDrawable(drawable, mCornerRadius, mBorderWidth, mBorderColor);
+		if (mDrawable != null) {
+			mDrawable = RoundedDrawable.fromDrawable(drawable, mCornerRadius, mBorderWidth, mBorderColor);
+			((RoundedDrawable) mDrawable).setScaleType(mScaleType); 
+		 };
 		super.setImageDrawable(mDrawable);
 	}
 	
 	public void setImageBitmap(Bitmap bm) {
 		mDrawable = new RoundedDrawable(bm, mCornerRadius, mBorderWidth, mBorderColor);
+		((RoundedDrawable) mDrawable).setScaleType(mScaleType);
 		super.setImageDrawable(mDrawable);
     }
 
@@ -121,6 +128,7 @@ public class RoundedImageView extends ImageView {
 	public void setBackgroundDrawable(Drawable background) {
 		if (roundBackground) {
 			mBackgroundDrawable = RoundedDrawable.fromDrawable(background, mCornerRadius, mBorderWidth, mBorderColor);
+			((RoundedDrawable) mDrawable).setScaleType(mScaleType);
 		} else {
 			mBackgroundDrawable = background;
 		}

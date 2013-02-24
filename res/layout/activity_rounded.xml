@@ -5,4 +5,8 @@
     android:layout_height="match_parent"
     android:divider="@null"
     android:dividerHeight="0px"
+    android:persistentDrawingCache="none"
+    android:scrollingCache="false"
+    android:animationCache="false"
+    android:alwaysDrawnWithCache="false"
     tools:context=".RoundedActivity" />

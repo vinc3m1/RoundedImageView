@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.ComposeShader;
 import android.graphics.Matrix;
-import android.graphics.Matrix.ScaleToFit;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
@@ -20,6 +19,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.util.Log;
+import android.widget.ImageView.ScaleType;
 
 public class RoundedDrawable extends Drawable {
 	public static final String TAG = "RoundedDrawable";
@@ -39,7 +39,7 @@ public class RoundedDrawable extends Drawable {
 	private int mBorderWidth;
 	private int mBorderColor;
 	
-	private ScaleToFit mScaleToFit;
+	private ScaleType mScaleType = ScaleType.FIT_XY;
 	
 	private final Matrix mShaderMatrix = new Matrix();
 	
@@ -65,12 +65,52 @@ public class RoundedDrawable extends Drawable {
 		mBorderPaint.setStrokeWidth(border);
 	}
 	
-	protected void setScaleToFit(ScaleToFit scaleToFit) {
-		mScaleToFit = scaleToFit;
+	protected void setScaleType(ScaleType scaleType) {
+		Log.i(TAG, "setScaleType" + scaleType.toString());
+		if (mScaleType != scaleType) {
+			mScaleType = scaleType;
+			setMatrix();
+		}
+	}
+	
+	protected ScaleType getScaleType() {
+		return mScaleType;
+	}
+	
+	private void setMatrix() {
+		Log.i(TAG, "setMatrix: w: " + mDrawableRect.width() + "h:" + mDrawableRect.height() + " scaleType:" + mScaleType.toString());
+		if (mDrawableRect.width() > 0 && mDrawableRect.height() > 0 && (mScaleType == ScaleType.CENTER || mScaleType == ScaleType.CENTER_CROP)) {
+			if (mScaleType == ScaleType.CENTER) {
+				Log.d(TAG, "CENTER");
+				mShaderMatrix.set(null);
+				mShaderMatrix.setTranslate((int) ((mDrawableRect.width() - mBitmapWidth) * 0.5f + 0.5f), (int) ((mDrawableRect.height() - mBitmapHeight) * 0.5f + 0.5f));
+			} else if (mScaleType == ScaleType.CENTER_CROP) {
+				Log.d(TAG, "CENTER_CROP");
+				mShaderMatrix.set(null);
+
+                float scale;
+                float dx = 0, dy = 0;
+
+                if (mBitmapWidth * mDrawableRect.height() > mDrawableRect.width() * mBitmapHeight) {
+                    scale = (float) mDrawableRect.height() / (float) mBitmapHeight; 
+                    dx = (mDrawableRect.width() - mBitmapWidth * scale) * 0.5f;
+                } else {
+                    scale = (float) mDrawableRect.width() / (float) mBitmapWidth;
+                    dy = (mDrawableRect.height() - mBitmapHeight * scale) * 0.5f;
+                }
+
+                mShaderMatrix.setScale(scale, scale);
+                mShaderMatrix.postTranslate((int) (dx + 0.5f), (int) (dy + 0.5f));
+			}
+		} else {
+			mShaderMatrix.set(null);
+			mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
+		}
 	}
 
 	@Override
 	protected void onBoundsChange(Rect bounds) {
+		Log.i(TAG, "onboundschange: w: " + bounds.width() + "h:" + bounds.height());
 		super.onBoundsChange(bounds);
 		mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, bounds.width() - mBorderWidth, bounds.height() - mBorderWidth);
 		mBorderRect.set(0, 0, bounds.width(), bounds.height());
@@ -89,12 +129,13 @@ public class RoundedDrawable extends Drawable {
 					new ComposeShader(mBitmapShader, vignette, PorterDuff.Mode.SRC_OVER));
 		}
 		
-		mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.CENTER);
+		setMatrix();
 		mBitmapShader.setLocalMatrix(mShaderMatrix);
 	}
 
 	@Override
 	public void draw(Canvas canvas) {
+		Log.w(TAG, "Draw: " + mScaleType.toString());
 		if (mBorderWidth > 0) {
 			canvas.drawRoundRect(mBorderRect, mCornerRadius, mCornerRadius, mBorderPaint);
 			canvas.drawRoundRect(mDrawableRect, Math.max(mCornerRadius - mBorderWidth, 0), Math.max(mCornerRadius - mBorderWidth, 0), mBitmapPaint);
