@@ -5,12 +5,9 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
-import android.graphics.ComposeShader;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
-import android.graphics.RadialGradient;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
@@ -23,9 +20,8 @@ import android.widget.ImageView.ScaleType;
 
 public class RoundedDrawable extends Drawable {
 	public static final String TAG = "RoundedDrawable";
-	private static final boolean USE_VIGNETTE = false;
 
-	private final Rect mBounds = new Rect();
+	private final RectF mBounds = new RectF();
 	
 	private final RectF mDrawableRect = new RectF();
 	private float mCornerRadius;
@@ -142,11 +138,32 @@ public class RoundedDrawable extends Drawable {
             mDrawableRect.set(mBorderRect.left + mBorderWidth, mBorderRect.top + mBorderWidth, mBorderRect.right - mBorderWidth, mBorderRect.bottom - mBorderWidth);
             mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
             break;
+		case FIT_CENTER:
+			mBorderRect.set(mBitmapRect);
+			mShaderMatrix.setRectToRect(mBitmapRect, mBounds, Matrix.ScaleToFit.CENTER);
+			mShaderMatrix.mapRect(mBorderRect);
+			mDrawableRect.set(mBorderRect.left + mBorderWidth, mBorderRect.top + mBorderWidth, mBorderRect.right - mBorderWidth, mBorderRect.bottom - mBorderWidth);
+			mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
+			break;
+		case FIT_END:
+			mBorderRect.set(mBitmapRect);
+			mShaderMatrix.setRectToRect(mBitmapRect, mBounds, Matrix.ScaleToFit.END);
+			mShaderMatrix.mapRect(mBorderRect);
+			mDrawableRect.set(mBorderRect.left + mBorderWidth, mBorderRect.top + mBorderWidth, mBorderRect.right - mBorderWidth, mBorderRect.bottom - mBorderWidth);
+			mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
+			break;
+		case FIT_START:
+			mBorderRect.set(mBitmapRect);
+			mShaderMatrix.setRectToRect(mBitmapRect, mBounds, Matrix.ScaleToFit.START);
+			mShaderMatrix.mapRect(mBorderRect);
+			mDrawableRect.set(mBorderRect.left + mBorderWidth, mBorderRect.top + mBorderWidth, mBorderRect.right - mBorderWidth, mBorderRect.bottom - mBorderWidth);
+			mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
+			break;
+		case FIT_XY:
 		default:
 			Log.d(TAG, "DEFAULT TO FILL");
 			mBorderRect.set(mBounds);
 			mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
-			
 			mShaderMatrix.set(null);
 			mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
 			break;
