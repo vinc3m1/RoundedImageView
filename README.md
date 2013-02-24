@@ -11,7 +11,7 @@ There are many ways to create rounded corners, this is the fastest and best one 
 If you know of a better method, let me know and I'll implement it!
 
 Also has proper support for:
-* CENTER and CENTER_CROP ScaleType (borders are drawn at view edge, not bitmap edge).
+* All ScaleTypes (borders are drawn at view edge, not bitmap edge).
 * Borders
 * Anti-aliasing
 * Transparent backgrounds
