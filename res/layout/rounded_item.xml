@@ -4,7 +4,7 @@
 -->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:makeramen="http://schemas.android.com/apk/res/com.makeramen.rounded"
+    xmlns:makeramen="http://schemas.android.com/apk/res/com.makeramen.rounded.example"
     android:layout_width="match_parent"
     android:layout_height="200dip">
     

@@ -9,10 +9,10 @@
 *.class
 
 # generated files
-bin/*
-tests/bin/*
-gen/*
-tests/gen/*
+bin/
+libs/libray/bin/
+gen/
+libs/library/gen/
 
 # Local configuration file (sdk path, etc)
 local.properties

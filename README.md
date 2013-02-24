@@ -21,11 +21,14 @@ Also has proper support for:
 
 Usage
 -----
+
+Import Library: `RoundedImageView/libs/library/`
+
 Define in xml:
 
 ```xml
 <com.makeramen.rounded.RoundedImageView
-        xmlns:makeramen="http://schemas.android.com/apk/res/com.makeramen.rounded"
+        xmlns:makeramen="http://schemas.android.com/apk/res/YOUR_PACKAGE_NAME"
         android:id="@+id/imageView1"
         android:src="@drawable/photo1"
         android:scaleType="centerCrop"
