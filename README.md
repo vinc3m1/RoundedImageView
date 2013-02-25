@@ -3,7 +3,9 @@ RoundedImageView
 
 A fast ImageView (and Drawable) that supports rounded corners based on the original [example from Romain Guy](http://www.curious-creature.org/2012/12/11/android-recipe-1-image-with-rounded-corners/)
 
-There are many ways to create rounded corners, this is the fastest and best one that I know of because it:
+![RoundedImageView screenshot](https://raw.github.com/makeramen/RoundedImageView/master/screenshot.png)
+
+There are many ways to create rounded corners in android, but this is the fastest and best one that I know of because it:
 * does **not** create a copy of the original bitmap
 * does **not** use a clipPath which is not hardware accelerated and not anti-aliased.
 * does **not** use setXfermode to clip the bitmap and draw twice to the canvas.
