@@ -11,8 +11,11 @@ There are many ways to create rounded corners, this is the fastest and best one 
 If you know of a better method, let me know and I'll implement it!
 
 Also has proper support for:
-* All ScaleTypes (borders are drawn at view edge, not bitmap edge).
 * Borders
+* All `ScaleType`s
+  * Borders are drawn at view edge, not bitmap edge.
+  * Except on edges where the bitmap is smaller than the view
+  * Borders are **not** scaled up/down with the image (correct width and radius are maintained)
 * Anti-aliasing
 * Transparent backgrounds
 * Hardware acceleration
