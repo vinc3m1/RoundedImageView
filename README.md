@@ -27,7 +27,7 @@ Also has proper support for:
 Usage
 -----
 
-Import Library: `RoundedImageView/libs/library/`
+Import Library: `RoundedImageView/library/`
 
 Define in xml:
 
