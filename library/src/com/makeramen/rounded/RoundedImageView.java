@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 
 public class RoundedImageView extends ImageView {
@@ -93,7 +92,6 @@ public class RoundedImageView extends ImageView {
         		super.setScaleType(ScaleType.FIT_XY);
         		break;
         	default:
-        		Log.d(TAG, "default scale behavior: " + scaleType.toString());
         		super.setScaleType(scaleType);
         		break;
         	}
@@ -124,13 +122,19 @@ public class RoundedImageView extends ImageView {
 		if (mDrawable != null) {
 			mDrawable = RoundedDrawable.fromDrawable(drawable, mCornerRadius, mBorderWidth, mBorderColor);
 			((RoundedDrawable) mDrawable).setScaleType(mScaleType); 
-		 };
+		 } else {
+			 mDrawable = null;
+		 }
 		super.setImageDrawable(mDrawable);
 	}
 	
 	public void setImageBitmap(Bitmap bm) {
-		mDrawable = new RoundedDrawable(bm, mCornerRadius, mBorderWidth, mBorderColor);
-		((RoundedDrawable) mDrawable).setScaleType(mScaleType);
+		if (bm != null) {
+			mDrawable = new RoundedDrawable(bm, mCornerRadius, mBorderWidth, mBorderColor);
+			((RoundedDrawable) mDrawable).setScaleType(mScaleType);
+		} else {
+			mDrawable = null;
+		}
 		super.setImageDrawable(mDrawable);
     }
 
@@ -185,7 +189,6 @@ public class RoundedImageView extends ImageView {
 		if (roundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
 			((RoundedDrawable) mBackgroundDrawable).setBorderWidth(width);
 		}
-		
 		invalidate();
 	}
 
@@ -199,7 +202,6 @@ public class RoundedImageView extends ImageView {
 		if (roundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
 			((RoundedDrawable) mBackgroundDrawable).setBorderColor(color);
 		}
-		
 		if (mBorderWidth > 0) { invalidate(); }
 	}
 
