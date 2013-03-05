@@ -146,7 +146,7 @@ public class RoundedImageView extends ImageView {
 	@Override
 	@Deprecated
 	public void setBackgroundDrawable(Drawable background) {
-		if (roundBackground) {
+		if (roundBackground && background != null) {
 			mBackgroundDrawable = RoundedDrawable.fromDrawable(background, mCornerRadius, mBorderWidth, mBorderColor);
 			((RoundedDrawable) mDrawable).setScaleType(mScaleType);
 		} else {
