@@ -102,6 +102,30 @@ public class RoundedImageView extends ImageView {
 	        	invalidate();
         	}
         }
+        
+        if (mBackgroundDrawable instanceof RoundedDrawable) {
+        	
+        	switch(scaleType) {
+        	case CENTER:
+        	case CENTER_CROP:
+        	case CENTER_INSIDE:
+        	case FIT_CENTER:
+        	case FIT_START:
+        	case FIT_END:
+        	case FIT_XY:
+        		super.setScaleType(ScaleType.FIT_XY);
+        		break;
+        	default:
+        		super.setScaleType(scaleType);
+        		break;
+        	}
+        	if (((RoundedDrawable) mBackgroundDrawable).getScaleType() != scaleType) {
+	        	((RoundedDrawable) mBackgroundDrawable).setScaleType(scaleType);
+	        	setWillNotCacheDrawing(true);
+	        	requestLayout();
+	        	invalidate();
+        	}
+        }
     }
 	
 	/**
@@ -121,7 +145,10 @@ public class RoundedImageView extends ImageView {
 	public void setImageDrawable(Drawable drawable) {
 		if (drawable != null) {
 			mDrawable = RoundedDrawable.fromDrawable(drawable, mCornerRadius, mBorderWidth, mBorderColor);
-			((RoundedDrawable) mDrawable).setScaleType(mScaleType); 
+			((RoundedDrawable) mDrawable).setScaleType(mScaleType);
+			((RoundedDrawable) mDrawable).setCornerRadius(mCornerRadius);
+			((RoundedDrawable) mDrawable).setBorderWidth(mBorderWidth);
+			((RoundedDrawable) mDrawable).setBorderColor(mBorderColor);
 		} else {
 			 mDrawable = null;
 		}
@@ -132,6 +159,9 @@ public class RoundedImageView extends ImageView {
 		if (bm != null) {
 			mDrawable = new RoundedDrawable(bm, mCornerRadius, mBorderWidth, mBorderColor);
 			((RoundedDrawable) mDrawable).setScaleType(mScaleType);
+			((RoundedDrawable) mDrawable).setCornerRadius(mCornerRadius);
+			((RoundedDrawable) mDrawable).setBorderWidth(mBorderWidth);
+			((RoundedDrawable) mDrawable).setBorderColor(mBorderColor);
 		} else {
 			mDrawable = null;
 		}
@@ -148,7 +178,10 @@ public class RoundedImageView extends ImageView {
 	public void setBackgroundDrawable(Drawable background) {
 		if (roundBackground && background != null) {
 			mBackgroundDrawable = RoundedDrawable.fromDrawable(background, mCornerRadius, mBorderWidth, mBorderColor);
-			((RoundedDrawable) mDrawable).setScaleType(mScaleType);
+			((RoundedDrawable) mBackgroundDrawable).setScaleType(mScaleType);
+			((RoundedDrawable) mBackgroundDrawable).setCornerRadius(mCornerRadius);
+			((RoundedDrawable) mBackgroundDrawable).setBorderWidth(mBorderWidth);
+			((RoundedDrawable) mBackgroundDrawable).setBorderColor(mBorderColor);
 		} else {
 			mBackgroundDrawable = background;
 		}
@@ -215,6 +248,7 @@ public class RoundedImageView extends ImageView {
 		this.roundBackground = roundBackground;
 		if (roundBackground) {
 			if (mBackgroundDrawable instanceof RoundedDrawable) {
+				((RoundedDrawable) mBackgroundDrawable).setScaleType(mScaleType);
 				((RoundedDrawable) mBackgroundDrawable).setCornerRadius(mCornerRadius);
 				((RoundedDrawable) mBackgroundDrawable).setBorderWidth(mBorderWidth);
 				((RoundedDrawable) mBackgroundDrawable).setBorderColor(mBorderColor);
