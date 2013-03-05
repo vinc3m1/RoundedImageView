@@ -69,7 +69,7 @@ public class RoundedDrawable extends Drawable {
 	}
 	
 	protected void setScaleType(ScaleType scaleType) {
-		Log.i(TAG, "setScaleType" + scaleType.toString());
+		if (scaleType == null) { scaleType = ScaleType.FIT_XY; }
 		if (mScaleType != scaleType) {
 			mScaleType = scaleType;
 			setMatrix();
@@ -81,8 +81,6 @@ public class RoundedDrawable extends Drawable {
 	}
 	
 	private void setMatrix() {
-		Log.i(TAG, "setMatrix: w: " + mDrawableRect.width() + "h:" + mDrawableRect.height() + " scaleType:" + mScaleType.toString());
-		
 		mBorderRect.set(mBounds);
 		mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
 		
