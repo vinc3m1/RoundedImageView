@@ -119,12 +119,12 @@ public class RoundedImageView extends ImageView {
 	
 	@Override
 	public void setImageDrawable(Drawable drawable) {
-		if (mDrawable != null) {
+		if (drawable != null) {
 			mDrawable = RoundedDrawable.fromDrawable(drawable, mCornerRadius, mBorderWidth, mBorderColor);
 			((RoundedDrawable) mDrawable).setScaleType(mScaleType); 
-		 } else {
+		} else {
 			 mDrawable = null;
-		 }
+		}
 		super.setImageDrawable(mDrawable);
 	}
 	
