@@ -93,38 +93,35 @@ public class RoundedImageView extends ImageView {
         
         if (mScaleType != scaleType) {
 	        mScaleType = scaleType;
+        
+	        switch(scaleType) {
+		    	case CENTER:
+		    	case CENTER_CROP:
+		    	case CENTER_INSIDE:
+		    	case FIT_CENTER:
+		    	case FIT_START:
+		    	case FIT_END:
+		    	case FIT_XY:
+		    		super.setScaleType(ScaleType.FIT_XY);
+		    		break;
+		    	default:
+		    		super.setScaleType(scaleType);
+		    		break;
+	    	}
+	        
+			if (mDrawable instanceof RoundedDrawable
+					&& ((RoundedDrawable) mDrawable).getScaleType() != scaleType) {
+				((RoundedDrawable) mDrawable).setScaleType(scaleType);
+			}
+	        
+			if (mBackgroundDrawable instanceof RoundedDrawable
+					&& ((RoundedDrawable) mBackgroundDrawable).getScaleType() != scaleType) {
+				((RoundedDrawable) mBackgroundDrawable).setScaleType(scaleType);
+			}
+			setWillNotCacheDrawing(true);
+			requestLayout();
+			invalidate();
         }
-        
-        switch(scaleType) {
-	    	case CENTER:
-	    	case CENTER_CROP:
-	    	case CENTER_INSIDE:
-	    	case FIT_CENTER:
-	    	case FIT_START:
-	    	case FIT_END:
-	    	case FIT_XY:
-	    		super.setScaleType(ScaleType.FIT_XY);
-	    		break;
-	    	default:
-	    		super.setScaleType(scaleType);
-	    		break;
-    	}
-        
-		if (mDrawable instanceof RoundedDrawable
-				&& ((RoundedDrawable) mDrawable).getScaleType() != scaleType) {
-			((RoundedDrawable) mDrawable).setScaleType(scaleType);
-			setWillNotCacheDrawing(true);
-			requestLayout();
-			invalidate();
-		}
-        
-		if (mBackgroundDrawable instanceof RoundedDrawable
-				&& ((RoundedDrawable) mBackgroundDrawable).getScaleType() != scaleType) {
-			((RoundedDrawable) mBackgroundDrawable).setScaleType(scaleType);
-			setWillNotCacheDrawing(true);
-			requestLayout();
-			invalidate();
-		}
     }
 	
 	/**
