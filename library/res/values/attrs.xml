@@ -2,19 +2,9 @@
 <resources>
     <declare-styleable name="RoundedImageView">
         <attr name="corner_radius" format="dimension" />
-    </declare-styleable>
-    <declare-styleable name="RoundedImageView">
         <attr name="border_width" format="dimension" />
-    </declare-styleable>
-    <declare-styleable name="RoundedImageView">
         <attr name="border_color" format="color" />
-    </declare-styleable>
-    <declare-styleable name="RoundedImageView">
         <attr name="round_background" format="boolean" />
-    </declare-styleable>
-    <declare-styleable name="RoundedImageView">
         <attr name="android:scaleType" />
     </declare-styleable>
-
-
 </resources>
