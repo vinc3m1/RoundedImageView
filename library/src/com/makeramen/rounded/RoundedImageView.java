@@ -29,7 +29,18 @@ public class RoundedImageView extends ImageView {
 	private Drawable mDrawable;
 	private Drawable mBackgroundDrawable;
 	
-	private ScaleType mScaleType = ScaleType.FIT_CENTER;
+	private ScaleType mScaleType;
+
+    private static final ScaleType[] sScaleTypeArray = {
+            ScaleType.MATRIX,
+            ScaleType.FIT_XY,
+            ScaleType.FIT_START,
+            ScaleType.FIT_CENTER,
+            ScaleType.FIT_END,
+            ScaleType.CENTER,
+            ScaleType.CENTER_CROP,
+            ScaleType.CENTER_INSIDE
+    };
 	
 	public RoundedImageView(Context context) {
 		super(context);
@@ -46,6 +57,13 @@ public class RoundedImageView extends ImageView {
 		super(context, attrs, defStyle);
 		
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundedImageView, defStyle, 0);
+
+        int index = a.getInt(R.styleable.RoundedImageView_android_scaleType, -1);
+        if (index >= 0) {
+            setScaleType(sScaleTypeArray[index]);
+            if (mScaleType != ScaleType.MATRIX)
+                super.setScaleType(ScaleType.FIT_XY);
+        }
 		
 		mCornerRadius = a.getDimensionPixelSize(R.styleable.RoundedImageView_corner_radius, -1);
 		mBorderWidth = a.getDimensionPixelSize(R.styleable.RoundedImageView_border_width, -1);
