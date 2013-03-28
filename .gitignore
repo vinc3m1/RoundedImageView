@@ -18,3 +18,13 @@ libs/library/gen/
 local.properties
 
 *.DS_Store
+
+# IDE
+
+## eclipse
+*.metadata
+*.settings
+
+## idea
+*.idea
+*.iml
