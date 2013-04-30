@@ -90,7 +90,7 @@ public class RoundedDrawable extends Drawable {
         
 		switch(mScaleType) {
 		case CENTER:
-			Log.d(TAG, "CENTER");
+//			Log.d(TAG, "CENTER");
 			mBorderRect.set(mBounds);
 			mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
 			
@@ -98,7 +98,7 @@ public class RoundedDrawable extends Drawable {
 			mShaderMatrix.setTranslate((int) ((mDrawableRect.width() - mBitmapWidth) * 0.5f + 0.5f), (int) ((mDrawableRect.height() - mBitmapHeight) * 0.5f + 0.5f));
 			break;
 		case CENTER_CROP:
-			Log.d(TAG, "CENTER_CROP");
+//			Log.d(TAG, "CENTER_CROP");
 			mBorderRect.set(mBounds);
 			mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
 			
@@ -119,7 +119,7 @@ public class RoundedDrawable extends Drawable {
             mShaderMatrix.postTranslate((int) (dx + 0.5f) + mBorderWidth, (int) (dy + 0.5f) + mBorderWidth);
 			break;
 		case CENTER_INSIDE:
-			Log.d(TAG, "CENTER_INSIDE");
+//			Log.d(TAG, "CENTER_INSIDE");
 			mShaderMatrix.set(null);
             
             if (mBitmapWidth <= mBounds.width() && mBitmapHeight <= mBounds.height()) {
@@ -163,7 +163,7 @@ public class RoundedDrawable extends Drawable {
 			break;
 		case FIT_XY:
 		default:
-			Log.d(TAG, "DEFAULT TO FILL");
+//			Log.d(TAG, "DEFAULT TO FILL");
 			mBorderRect.set(mBounds);
 			mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
 			mShaderMatrix.set(null);
@@ -175,7 +175,7 @@ public class RoundedDrawable extends Drawable {
 
 	@Override
 	protected void onBoundsChange(Rect bounds) {
-		Log.i(TAG, "onboundschange: w: " + bounds.width() + "h:" + bounds.height());
+//		Log.i(TAG, "onboundschange: w: " + bounds.width() + "h:" + bounds.height());
 		super.onBoundsChange(bounds);
 		
 		mBounds.set(bounds);
@@ -199,7 +199,7 @@ public class RoundedDrawable extends Drawable {
 
 	@Override
 	public void draw(Canvas canvas) {
-		Log.w(TAG, "Draw: " + mScaleType.toString());
+//		Log.w(TAG, "Draw: " + mScaleType.toString());
 		if (mBorderWidth > 0) {
 			canvas.drawRoundRect(mBorderRect, mCornerRadius, mCornerRadius, mBorderPaint);
 			canvas.drawRoundRect(mDrawableRect, Math.max(mCornerRadius - mBorderWidth, 0), Math.max(mCornerRadius - mBorderWidth, 0), mBitmapPaint);
