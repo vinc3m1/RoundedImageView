@@ -33,9 +33,9 @@ Maven
 ----
 Execute this in your workspace:
 ```
-  git clone https://github.com/kolipass/RoundedImageView.git
-  cd ./RoundedImageView/
-  mvn clean install
+git clone https://github.com/kolipass/RoundedImageView.git
+cd ./RoundedImageView/
+mvn clean install
 ```
 To run example:
 ````
@@ -44,12 +44,12 @@ mvn android:deploy android:run
 ````
 Add this dependency:
 ```
-        <dependency>
-            <groupId>com.makeramen.rounded</groupId>
-            <artifactId>library</artifactId>
-            <version>0.1</version>
-            <type>apklib</type>
-        </dependency>
+<dependency>
+    <groupId>com.makeramen.rounded</groupId>
+    <artifactId>library</artifactId>
+    <version>0.1</version>
+    <type>apklib</type>
+</dependency>
 ```
 
 Use Library
