@@ -24,16 +24,41 @@ Also has proper support for:
 * Support for TransitionDrawables (XML attrs only)
 
 
-Usage
------
+Import Library
+----
 
 Import Library: `RoundedImageView/library/`
 
+Maven
+----
+Execute this in your workspace:
+```
+  git clone https://github.com/kolipass/RoundedImageView.git
+  cd ./RoundedImageView/
+  mvn clean install
+```
+To run example:
+````
+cd ./example
+mvn android:deploy android:run
+````
+Add this dependency:
+```
+        <dependency>
+            <groupId>com.makeramen.rounded</groupId>
+            <artifactId>library</artifactId>
+            <version>0.1</version>
+            <type>apklib</type>
+        </dependency>
+```
+
+Use Library
+----
 Define in xml:
 
 ```xml
 <com.makeramen.rounded.RoundedImageView
-        xmlns:makeramen="http://schemas.android.com/apk/res/YOUR_PACKAGE_NAME"
+        xmlns:makeramen="http://schemas.android.com/apk/res/com.makeramen.rounded.RoundedImageView"
         android:id="@+id/imageView1"
         android:src="@drawable/photo1"
         android:scaleType="centerCrop"
