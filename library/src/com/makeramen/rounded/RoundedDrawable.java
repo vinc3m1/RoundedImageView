@@ -29,6 +29,7 @@ public class RoundedDrawable extends Drawable {
 
     private final RectF mBorderRect = new RectF();
     private final Paint mBorderPaint;
+    private boolean mOval = false;
     private int mBorderWidth;
     private int mBorderColor;
 
@@ -37,6 +38,10 @@ public class RoundedDrawable extends Drawable {
     private final Matrix mShaderMatrix = new Matrix();
 
     RoundedDrawable(Bitmap bitmap, float cornerRadius, int border, int borderColor) {
+        this(bitmap, cornerRadius, border, borderColor, false);
+    }
+
+    RoundedDrawable(Bitmap bitmap, float cornerRadius, int border, int borderColor, boolean oval) {
 
         mBorderWidth = border;
         mBorderColor = borderColor;
@@ -179,11 +184,21 @@ public class RoundedDrawable extends Drawable {
     @Override
     public void draw(Canvas canvas) {
 //        Log.w(TAG, "Draw: " + mScaleType.toString());
-        if (mBorderWidth > 0) {
-            canvas.drawRoundRect(mBorderRect, mCornerRadius, mCornerRadius, mBorderPaint);
-            canvas.drawRoundRect(mDrawableRect, Math.max(mCornerRadius - mBorderWidth, 0), Math.max(mCornerRadius - mBorderWidth, 0), mBitmapPaint);
+
+        if (mOval) {
+            if (mBorderWidth > 0) {
+                canvas.drawOval(mBorderRect, mBorderPaint);
+                canvas.drawOval(mDrawableRect, mBitmapPaint);
+            } else {
+                canvas.drawOval(mDrawableRect, mBitmapPaint);
+            }
         } else {
-            canvas.drawRoundRect(mDrawableRect, mCornerRadius, mCornerRadius, mBitmapPaint);
+            if (mBorderWidth > 0) {
+                canvas.drawRoundRect(mBorderRect, mCornerRadius, mCornerRadius, mBorderPaint);
+                canvas.drawRoundRect(mDrawableRect, Math.max(mCornerRadius - mBorderWidth, 0), Math.max(mCornerRadius - mBorderWidth, 0), mBitmapPaint);
+            } else {
+                canvas.drawRoundRect(mDrawableRect, mCornerRadius, mCornerRadius, mBitmapPaint);
+            }
         }
     }
 
@@ -233,10 +248,10 @@ public class RoundedDrawable extends Drawable {
     }
 
     public static Drawable fromDrawable(Drawable drawable, float radius) {
-        return fromDrawable(drawable, radius, 0, 0);
+        return fromDrawable(drawable, radius, 0, 0, false);
     }
 
-    public static Drawable fromDrawable(Drawable drawable, float radius, int border, int borderColor) {
+    public static Drawable fromDrawable(Drawable drawable, float radius, int border, int borderColor, boolean isOval) {
         if (drawable != null) {
             if (drawable instanceof TransitionDrawable) {
                 TransitionDrawable td = (TransitionDrawable) drawable;
@@ -249,7 +264,7 @@ public class RoundedDrawable extends Drawable {
                         // TODO skip colordrawables for now
                         drawableList[i] = d;
                     } else {
-                        drawableList[i] = new RoundedDrawable(drawableToBitmap(td.getDrawable(i)), radius, border, borderColor);
+                        drawableList[i] = new RoundedDrawable(drawableToBitmap(td.getDrawable(i)), radius, border, borderColor, isOval);
                     }
                 }
                 return new TransitionDrawable(drawableList);
@@ -257,7 +272,7 @@ public class RoundedDrawable extends Drawable {
 
             Bitmap bm = drawableToBitmap(drawable);
             if (bm != null) {
-                return new RoundedDrawable(bm, radius, border, borderColor);
+                return new RoundedDrawable(bm, radius, border, borderColor, isOval);
             } else {
                 Log.w(TAG, "Failed to create bitmap from drawable!");
             }
@@ -277,6 +292,10 @@ public class RoundedDrawable extends Drawable {
         return mBorderColor;
     }
 
+    public boolean isOval() {
+        return mOval;
+    }
+
     public void setCornerRadius(float radius) {
         this.mCornerRadius = radius;
     }
@@ -289,5 +308,9 @@ public class RoundedDrawable extends Drawable {
     public void setBorderColor(int color) {
         this.mBorderColor = color;
         mBorderPaint.setColor(color);
+    }
+
+    public void setOval(boolean oval) {
+        mOval = oval;
     }
 }

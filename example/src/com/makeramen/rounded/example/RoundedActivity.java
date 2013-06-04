@@ -75,6 +75,7 @@ public class RoundedActivity extends Activity {
 
             ((RoundedImageView) view.findViewById(R.id.imageView1)).setImageBitmap(item.mBitmap);
             ((RoundedImageView) view.findViewById(R.id.imageView1)).setScaleType(item.mScaleType);
+            ((RoundedImageView) view.findViewById(R.id.imageView1)).setOval(true);
             ((TextView) view.findViewById(R.id.textView1)).setText(item.mLine1);
             ((TextView) view.findViewById(R.id.textView2)).setText(item.mLine2);
             ((TextView) view.findViewById(R.id.textView3)).setText(item.mScaleType.toString());

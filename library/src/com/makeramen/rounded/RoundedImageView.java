@@ -24,7 +24,8 @@ public class RoundedImageView extends ImageView {
     private int mBorderWidth;
     private int mBorderColor;
 
-    private boolean roundBackground;
+    private boolean roundBackground = false;
+    private boolean mOval = false;
 
     private Drawable mDrawable;
     private Drawable mBackgroundDrawable;
@@ -77,6 +78,7 @@ public class RoundedImageView extends ImageView {
         mBorderColor = a.getColor(R.styleable.RoundedImageView_border_color, DEFAULT_BORDER_COLOR);
 
         roundBackground = a.getBoolean(R.styleable.RoundedImageView_round_background, false);
+        mOval = a.getBoolean(R.styleable.RoundedImageView_is_oval, false);
 
         a.recycle();
     }
@@ -142,7 +144,7 @@ public class RoundedImageView extends ImageView {
     @Override
     public void setImageDrawable(Drawable drawable) {
         if (drawable != null) {
-            mDrawable = RoundedDrawable.fromDrawable(drawable, mCornerRadius, mBorderWidth, mBorderColor);
+            mDrawable = RoundedDrawable.fromDrawable(drawable, mCornerRadius, mBorderWidth, mBorderColor, mOval);
             ((RoundedDrawable) mDrawable).setScaleType(mScaleType);
             ((RoundedDrawable) mDrawable).setCornerRadius(mCornerRadius);
             ((RoundedDrawable) mDrawable).setBorderWidth(mBorderWidth);
@@ -155,7 +157,7 @@ public class RoundedImageView extends ImageView {
 
     public void setImageBitmap(Bitmap bm) {
         if (bm != null) {
-            mDrawable = new RoundedDrawable(bm, mCornerRadius, mBorderWidth, mBorderColor);
+            mDrawable = new RoundedDrawable(bm, mCornerRadius, mBorderWidth, mBorderColor, mOval);
             ((RoundedDrawable) mDrawable).setScaleType(mScaleType);
             ((RoundedDrawable) mDrawable).setCornerRadius(mCornerRadius);
             ((RoundedDrawable) mDrawable).setBorderWidth(mBorderWidth);
@@ -175,7 +177,7 @@ public class RoundedImageView extends ImageView {
     @Deprecated
     public void setBackgroundDrawable(Drawable background) {
         if (roundBackground && background != null) {
-            mBackgroundDrawable = RoundedDrawable.fromDrawable(background, mCornerRadius, mBorderWidth, mBorderColor);
+            mBackgroundDrawable = RoundedDrawable.fromDrawable(background, mCornerRadius, mBorderWidth, mBorderColor, mOval);
             ((RoundedDrawable) mBackgroundDrawable).setScaleType(mScaleType);
             ((RoundedDrawable) mBackgroundDrawable).setCornerRadius(mCornerRadius);
             ((RoundedDrawable) mBackgroundDrawable).setBorderWidth(mBorderWidth);
@@ -242,6 +244,21 @@ public class RoundedImageView extends ImageView {
         if (mBorderWidth > 0) {
             invalidate();
         }
+    }
+
+    public void setOval(boolean oval) {
+        this.mOval = oval;
+        if (mDrawable instanceof RoundedDrawable) {
+            ((RoundedDrawable) mDrawable).setOval(oval);
+        }
+        if (roundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
+            ((RoundedDrawable) mBackgroundDrawable).setOval(oval);
+        }
+        invalidate();
+    }
+
+    public boolean isOval() {
+        return mOval;
     }
 
     public boolean isRoundBackground() {
