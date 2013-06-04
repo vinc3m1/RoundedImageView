@@ -29,6 +29,14 @@ Import Library
 
 Import Library: `RoundedImageView/library/`
 
+Gradle
+----
+If you just want the .aar file to put into your project: `./gradlew assembleRelease`  
+Then find the `libary.aar` file in `library/build/libs/library/library.aar`
+
+If you want to run the sample:
+`./gradlew installDebug`
+
 Maven
 ----
 Execute this in your workspace:
