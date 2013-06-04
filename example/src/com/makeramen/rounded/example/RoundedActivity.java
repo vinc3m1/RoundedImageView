@@ -20,65 +20,65 @@ import android.widget.TextView;
 import com.makeramen.rounded.RoundedImageView;
 
 public class RoundedActivity extends Activity {
-	@Override
-	
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		setContentView(R.layout.activity_rounded);
+    @Override
 
-		StreamAdapter adapter = new StreamAdapter(this);
-		((ListView) findViewById(R.id.main_list)).setAdapter(adapter);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		adapter.add(new StreamItem(this, R.drawable.photo1, "Tufa at night", "Mono Lake, CA", ScaleType.CENTER));
-		adapter.add(new StreamItem(this, R.drawable.photo2, "Starry night", "Lake Powell, AZ", ScaleType.CENTER_CROP));
-		adapter.add(new StreamItem(this, R.drawable.photo3, "Racetrack playa", "Death Valley, CA", ScaleType.CENTER_INSIDE));
-		adapter.add(new StreamItem(this, R.drawable.photo4, "Napali coast", "Kauai, HI", ScaleType.FIT_CENTER));
-		adapter.add(new StreamItem(this, R.drawable.photo5, "Delicate Arch", "Arches, UT", ScaleType.FIT_END));
-		adapter.add(new StreamItem(this, R.drawable.photo6, "Sierra sunset", "Lone Pine, CA", ScaleType.FIT_START));
-		adapter.add(new StreamItem(this, R.drawable.photo7, "Majestic", "Grand Teton, WY", ScaleType.FIT_XY));
-	}
+        setContentView(R.layout.activity_rounded);
 
-	class StreamItem {
-		final Bitmap mBitmap;
-		final String mLine1;
-		final String mLine2;
-		final ScaleType mScaleType;
+        StreamAdapter adapter = new StreamAdapter(this);
+        ((ListView) findViewById(R.id.main_list)).setAdapter(adapter);
 
-		StreamItem(Context c, int resid, String line1, String line2, ScaleType scaleType) {
-			mBitmap = BitmapFactory.decodeResource(c.getResources(), resid);
-			mLine1 = line1;
-			mLine2 = line2;
-			mScaleType = scaleType;
-		}
-	}
+        adapter.add(new StreamItem(this, R.drawable.photo1, "Tufa at night", "Mono Lake, CA", ScaleType.CENTER));
+        adapter.add(new StreamItem(this, R.drawable.photo2, "Starry night", "Lake Powell, AZ", ScaleType.CENTER_CROP));
+        adapter.add(new StreamItem(this, R.drawable.photo3, "Racetrack playa", "Death Valley, CA", ScaleType.CENTER_INSIDE));
+        adapter.add(new StreamItem(this, R.drawable.photo4, "Napali coast", "Kauai, HI", ScaleType.FIT_CENTER));
+        adapter.add(new StreamItem(this, R.drawable.photo5, "Delicate Arch", "Arches, UT", ScaleType.FIT_END));
+        adapter.add(new StreamItem(this, R.drawable.photo6, "Sierra sunset", "Lone Pine, CA", ScaleType.FIT_START));
+        adapter.add(new StreamItem(this, R.drawable.photo7, "Majestic", "Grand Teton, WY", ScaleType.FIT_XY));
+    }
 
-	class StreamAdapter extends ArrayAdapter<StreamItem> {
-		private final LayoutInflater mInflater;
+    class StreamItem {
+        final Bitmap mBitmap;
+        final String mLine1;
+        final String mLine2;
+        final ScaleType mScaleType;
 
-		public StreamAdapter(Context context) {
-			super(context, 0);
-			mInflater = LayoutInflater.from(getContext());
-		}
+        StreamItem(Context c, int resid, String line1, String line2, ScaleType scaleType) {
+            mBitmap = BitmapFactory.decodeResource(c.getResources(), resid);
+            mLine1 = line1;
+            mLine2 = line2;
+            mScaleType = scaleType;
+        }
+    }
 
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewGroup view = null;
-			
-			if (convertView == null) {
-				view = (ViewGroup) mInflater.inflate(R.layout.rounded_item, parent, false);
-			} else {
-				view = (ViewGroup) convertView;
-			}
+    class StreamAdapter extends ArrayAdapter<StreamItem> {
+        private final LayoutInflater mInflater;
 
-			StreamItem item = getItem(position);
+        public StreamAdapter(Context context) {
+            super(context, 0);
+            mInflater = LayoutInflater.from(getContext());
+        }
 
-			((RoundedImageView) view.findViewById(R.id.imageView1)).setImageBitmap(item.mBitmap);
-			((RoundedImageView) view.findViewById(R.id.imageView1)).setScaleType(item.mScaleType);
-			((TextView) view.findViewById(R.id.textView1)).setText(item.mLine1);
-			((TextView) view.findViewById(R.id.textView2)).setText(item.mLine2);
-			((TextView) view.findViewById(R.id.textView3)).setText(item.mScaleType.toString());
-			return view;
-		}
-	}
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewGroup view = null;
+
+            if (convertView == null) {
+                view = (ViewGroup) mInflater.inflate(R.layout.rounded_item, parent, false);
+            } else {
+                view = (ViewGroup) convertView;
+            }
+
+            StreamItem item = getItem(position);
+
+            ((RoundedImageView) view.findViewById(R.id.imageView1)).setImageBitmap(item.mBitmap);
+            ((RoundedImageView) view.findViewById(R.id.imageView1)).setScaleType(item.mScaleType);
+            ((TextView) view.findViewById(R.id.textView1)).setText(item.mLine1);
+            ((TextView) view.findViewById(R.id.textView2)).setText(item.mLine2);
+            ((TextView) view.findViewById(R.id.textView3)).setText(item.mScaleType.toString());
+            return view;
+        }
+    }
 }
