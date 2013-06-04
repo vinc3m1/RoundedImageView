@@ -168,7 +168,7 @@ public class RoundedDrawable extends Drawable {
 
     @Override
     protected void onBoundsChange(Rect bounds) {
-//		Log.i(TAG, "onboundschange: w: " + bounds.width() + "h:" + bounds.height());
+//        Log.i(TAG, "onboundschange: w: " + bounds.width() + "h:" + bounds.height());
         super.onBoundsChange(bounds);
 
         mBounds.set(bounds);
@@ -178,7 +178,7 @@ public class RoundedDrawable extends Drawable {
 
     @Override
     public void draw(Canvas canvas) {
-//		Log.w(TAG, "Draw: " + mScaleType.toString());
+//        Log.w(TAG, "Draw: " + mScaleType.toString());
         if (mBorderWidth > 0) {
             canvas.drawRoundRect(mBorderRect, mCornerRadius, mCornerRadius, mBorderPaint);
             canvas.drawRoundRect(mDrawableRect, Math.max(mCornerRadius - mBorderWidth, 0), Math.max(mCornerRadius - mBorderWidth, 0), mBitmapPaint);
