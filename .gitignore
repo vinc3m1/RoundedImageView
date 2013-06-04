@@ -8,15 +8,18 @@
 # Java class files
 *.class
 
+# Gradle files
+.gradle
+
 # generated files
 bin/
 libs/libray/bin/
 gen/
 libs/library/gen/
+build/
 
 # Local configuration file (sdk path, etc)
 local.properties
-
 *.DS_Store
 
 # IDE
