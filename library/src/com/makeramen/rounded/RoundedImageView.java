@@ -80,6 +80,14 @@ public class RoundedImageView extends ImageView {
         roundBackground = a.getBoolean(R.styleable.RoundedImageView_round_background, false);
         mOval = a.getBoolean(R.styleable.RoundedImageView_is_oval, false);
 
+        if (mDrawable instanceof RoundedDrawable) {
+            updateDrawableAttrs((RoundedDrawable) mDrawable);
+        }
+
+        if (roundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
+            updateDrawableAttrs((RoundedDrawable) mBackgroundDrawable);
+        }
+
         a.recycle();
     }
 
@@ -133,7 +141,7 @@ public class RoundedImageView extends ImageView {
      * Return the current scale type in use by this ImageView.
      *
      * @attr ref android.R.styleable#ImageView_scaleType
-     * @see ImageView.ScaleType
+     * @see android.widget.ImageView.ScaleType
      */
     @Override
     public ScaleType getScaleType() {
@@ -145,10 +153,7 @@ public class RoundedImageView extends ImageView {
     public void setImageDrawable(Drawable drawable) {
         if (drawable != null) {
             mDrawable = RoundedDrawable.fromDrawable(drawable, mCornerRadius, mBorderWidth, mBorderColor, mOval);
-            ((RoundedDrawable) mDrawable).setScaleType(mScaleType);
-            ((RoundedDrawable) mDrawable).setCornerRadius(mCornerRadius);
-            ((RoundedDrawable) mDrawable).setBorderWidth(mBorderWidth);
-            ((RoundedDrawable) mDrawable).setBorderColor(mBorderColor);
+            updateDrawableAttrs((RoundedDrawable) mDrawable);
         } else {
             mDrawable = null;
         }
@@ -158,10 +163,7 @@ public class RoundedImageView extends ImageView {
     public void setImageBitmap(Bitmap bm) {
         if (bm != null) {
             mDrawable = new RoundedDrawable(bm, mCornerRadius, mBorderWidth, mBorderColor, mOval);
-            ((RoundedDrawable) mDrawable).setScaleType(mScaleType);
-            ((RoundedDrawable) mDrawable).setCornerRadius(mCornerRadius);
-            ((RoundedDrawable) mDrawable).setBorderWidth(mBorderWidth);
-            ((RoundedDrawable) mDrawable).setBorderColor(mBorderColor);
+            updateDrawableAttrs((RoundedDrawable) mDrawable);
         } else {
             mDrawable = null;
         }
@@ -173,15 +175,20 @@ public class RoundedImageView extends ImageView {
         setBackgroundDrawable(background);
     }
 
+    private void updateDrawableAttrs(RoundedDrawable drawable) {
+        drawable.setScaleType(mScaleType);
+        drawable.setCornerRadius(mCornerRadius);
+        drawable.setBorderWidth(mBorderWidth);
+        drawable.setBorderColor(mBorderColor);
+        drawable.setOval(mOval);
+    }
+
     @Override
     @Deprecated
     public void setBackgroundDrawable(Drawable background) {
         if (roundBackground && background != null) {
             mBackgroundDrawable = RoundedDrawable.fromDrawable(background, mCornerRadius, mBorderWidth, mBorderColor, mOval);
-            ((RoundedDrawable) mBackgroundDrawable).setScaleType(mScaleType);
-            ((RoundedDrawable) mBackgroundDrawable).setCornerRadius(mCornerRadius);
-            ((RoundedDrawable) mBackgroundDrawable).setBorderWidth(mBorderWidth);
-            ((RoundedDrawable) mBackgroundDrawable).setBorderColor(mBorderColor);
+            updateDrawableAttrs((RoundedDrawable) mBackgroundDrawable);
         } else {
             mBackgroundDrawable = background;
         }
@@ -273,10 +280,7 @@ public class RoundedImageView extends ImageView {
         this.roundBackground = roundBackground;
         if (roundBackground) {
             if (mBackgroundDrawable instanceof RoundedDrawable) {
-                ((RoundedDrawable) mBackgroundDrawable).setScaleType(mScaleType);
-                ((RoundedDrawable) mBackgroundDrawable).setCornerRadius(mCornerRadius);
-                ((RoundedDrawable) mBackgroundDrawable).setBorderWidth(mBorderWidth);
-                ((RoundedDrawable) mBackgroundDrawable).setBorderColor(mBorderColor);
+                updateDrawableAttrs((RoundedDrawable) mBackgroundDrawable);
             } else {
                 setBackgroundDrawable(mBackgroundDrawable);
             }
