@@ -91,6 +91,5 @@ iv.setBackground(backgroundDrawable);
 
 Known Issues
 --------------------------------------
-* Does not round images set by `setImageResource(int resId)`. This causes bitmaps to be inflated on the UI thread anyway, so you should use `setImageDrawable` or `BitmapFactory` and `setImageBitmap()` instead.
 * Programmatically setting attributes with TransitionDrawables not yet supported.
 * Only tested support for BitmapDrawables and TransitionDrawables (with BitmapDrawables in them). Other types might work but may have unexpected behavior.
