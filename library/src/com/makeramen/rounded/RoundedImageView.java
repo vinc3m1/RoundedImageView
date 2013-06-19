@@ -274,6 +274,12 @@ public class RoundedImageView extends ImageView {
         return mOval;
     }
 
+    @Override
+    public void setImageResource(int resId) {
+        super.setImageResource(resId);
+        setImageDrawable(getDrawable());
+    }
+
     public boolean isRoundBackground() {
         return roundBackground;
     }
