@@ -84,8 +84,14 @@ public class RoundedImageView extends ImageView {
             updateDrawableAttrs((RoundedDrawable) mDrawable);
         }
 
-        if (roundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
-            updateDrawableAttrs((RoundedDrawable) mBackgroundDrawable);
+        if (roundBackground) {
+            if (!(mBackgroundDrawable instanceof RoundedDrawable)) {
+                // try setting background drawable now that we got the roundBackground param
+                setBackgroundDrawable(mBackgroundDrawable);
+            }
+            if (mBackgroundDrawable instanceof RoundedDrawable) {
+                updateDrawableAttrs((RoundedDrawable) mBackgroundDrawable);
+            }
         }
 
         a.recycle();
