@@ -13,7 +13,7 @@ There are many ways to create rounded corners in android, but this is the fastes
 If you know of a better method, let me know and I'll implement it!
 
 Also has proper support for:
-* Borders
+* Borders (with Colors and ColorStateLists)
 * All `ScaleType`s
   * Borders are drawn at view edge, not bitmap edge.
   * Except on edges where the bitmap is smaller than the view
