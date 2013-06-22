@@ -5,9 +5,9 @@
 package com.makeramen.rounded;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -18,11 +18,10 @@ public class RoundedImageView extends ImageView {
 
     public static final int DEFAULT_RADIUS = 0;
     public static final int DEFAULT_BORDER = 0;
-    public static final int DEFAULT_BORDER_COLOR = Color.BLACK;
 
     private int mCornerRadius;
     private int mBorderWidth;
-    private int mBorderColor;
+    private ColorStateList mBorderColor;
 
     private boolean roundBackground = false;
     private boolean mOval = false;
@@ -47,7 +46,7 @@ public class RoundedImageView extends ImageView {
         super(context);
         mCornerRadius = DEFAULT_RADIUS;
         mBorderWidth = DEFAULT_BORDER;
-        mBorderColor = DEFAULT_BORDER_COLOR;
+        mBorderColor = ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
     }
 
     public RoundedImageView(Context context, AttributeSet attrs) {
@@ -75,7 +74,10 @@ public class RoundedImageView extends ImageView {
             mBorderWidth = DEFAULT_BORDER;
         }
 
-        mBorderColor = a.getColor(R.styleable.RoundedImageView_border_color, DEFAULT_BORDER_COLOR);
+        mBorderColor = a.getColorStateList(R.styleable.RoundedImageView_border_color);
+        if (mBorderColor == null) {
+            mBorderColor = ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
+        }
 
         roundBackground = a.getBoolean(R.styleable.RoundedImageView_round_background, false);
         mOval = a.getBoolean(R.styleable.RoundedImageView_is_oval, false);
@@ -95,6 +97,12 @@ public class RoundedImageView extends ImageView {
         }
 
         a.recycle();
+    }
+
+    @Override
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+        invalidate();
     }
 
     /**
@@ -185,7 +193,7 @@ public class RoundedImageView extends ImageView {
         drawable.setScaleType(mScaleType);
         drawable.setCornerRadius(mCornerRadius);
         drawable.setBorderWidth(mBorderWidth);
-        drawable.setBorderColor(mBorderColor);
+        drawable.setBorderColors(mBorderColor);
         drawable.setOval(mOval);
     }
 
@@ -210,6 +218,10 @@ public class RoundedImageView extends ImageView {
     }
 
     public int getBorderColor() {
+        return mBorderColor.getDefaultColor();
+    }
+
+    public ColorStateList getBorderColors() {
         return mBorderColor;
     }
 
@@ -243,16 +255,20 @@ public class RoundedImageView extends ImageView {
     }
 
     public void setBorderColor(int color) {
-        if (mBorderColor == color) {
+        setBorderColors(ColorStateList.valueOf(color));
+    }
+
+    public void setBorderColors(ColorStateList colors) {
+        if (mBorderColor.equals(colors)) {
             return;
         }
 
-        this.mBorderColor = color;
+        mBorderColor = colors != null ? colors : ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
         if (mDrawable instanceof RoundedDrawable) {
-            ((RoundedDrawable) mDrawable).setBorderColor(color);
+            ((RoundedDrawable) mDrawable).setBorderColors(colors);
         }
         if (roundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
-            ((RoundedDrawable) mBackgroundDrawable).setBorderColor(color);
+            ((RoundedDrawable) mBackgroundDrawable).setBorderColors(colors);
         }
         if (mBorderWidth > 0) {
             invalidate();

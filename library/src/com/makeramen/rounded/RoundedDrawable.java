@@ -4,6 +4,7 @@
 
 package com.makeramen.rounded;
 
+import android.content.res.ColorStateList;
 import android.graphics.*;
 import android.graphics.Bitmap.Config;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,6 +16,8 @@ import android.widget.ImageView.ScaleType;
 
 public class RoundedDrawable extends Drawable {
     public static final String TAG = "RoundedDrawable";
+
+    public static final int DEFAULT_BORDER_COLOR = Color.BLACK;
 
     private final RectF mBounds = new RectF();
 
@@ -31,20 +34,20 @@ public class RoundedDrawable extends Drawable {
     private final Paint mBorderPaint;
     private boolean mOval = false;
     private int mBorderWidth;
-    private int mBorderColor;
+    private ColorStateList mBorderColor;
 
     private ScaleType mScaleType = ScaleType.FIT_XY;
 
     private final Matrix mShaderMatrix = new Matrix();
 
-    RoundedDrawable(Bitmap bitmap, float cornerRadius, int border, int borderColor) {
+    RoundedDrawable(Bitmap bitmap, float cornerRadius, int border, ColorStateList borderColor) {
         this(bitmap, cornerRadius, border, borderColor, false);
     }
 
-    RoundedDrawable(Bitmap bitmap, float cornerRadius, int border, int borderColor, boolean oval) {
+    RoundedDrawable(Bitmap bitmap, float cornerRadius, int border, ColorStateList borderColor, boolean oval) {
 
         mBorderWidth = border;
-        mBorderColor = borderColor;
+        mBorderColor = borderColor != null ? borderColor : ColorStateList.valueOf(DEFAULT_BORDER_COLOR);
 
         mBitmapWidth = bitmap.getWidth();
         mBitmapHeight = bitmap.getHeight();
@@ -60,8 +63,24 @@ public class RoundedDrawable extends Drawable {
 
         mBorderPaint = new Paint();
         mBorderPaint.setAntiAlias(true);
-        mBorderPaint.setColor(mBorderColor);
+        mBorderPaint.setColor(mBorderColor.getColorForState(getState(), DEFAULT_BORDER_COLOR));
         mBorderPaint.setStrokeWidth(border);
+    }
+
+    @Override
+    public boolean isStateful() {
+        return mBorderColor.isStateful();
+    }
+
+    @Override
+    protected boolean onStateChange(int[] state) {
+        int newColor = mBorderColor.getColorForState(state, 0);
+        if (mBorderPaint.getColor() != newColor) {
+            mBorderPaint.setColor(newColor);
+            return true;
+        } else {
+            return super.onStateChange(state);
+        }
     }
 
     protected void setScaleType(ScaleType scaleType) {
@@ -248,10 +267,10 @@ public class RoundedDrawable extends Drawable {
     }
 
     public static Drawable fromDrawable(Drawable drawable, float radius) {
-        return fromDrawable(drawable, radius, 0, 0, false);
+        return fromDrawable(drawable, radius, 0, ColorStateList.valueOf(DEFAULT_BORDER_COLOR), false);
     }
 
-    public static Drawable fromDrawable(Drawable drawable, float radius, int border, int borderColor, boolean isOval) {
+    public static Drawable fromDrawable(Drawable drawable, float radius, int border, ColorStateList borderColor, boolean isOval) {
         if (drawable != null) {
             if (drawable instanceof TransitionDrawable) {
                 TransitionDrawable td = (TransitionDrawable) drawable;
@@ -289,6 +308,10 @@ public class RoundedDrawable extends Drawable {
     }
 
     public int getBorderColor() {
+        return mBorderColor.getDefaultColor();
+    }
+
+    public ColorStateList getBorderColors() {
         return mBorderColor;
     }
 
@@ -297,17 +320,21 @@ public class RoundedDrawable extends Drawable {
     }
 
     public void setCornerRadius(float radius) {
-        this.mCornerRadius = radius;
+        mCornerRadius = radius;
     }
 
     public void setBorderWidth(int width) {
-        this.mBorderWidth = width;
+        mBorderWidth = width;
         mBorderPaint.setStrokeWidth(mBorderWidth);
     }
 
     public void setBorderColor(int color) {
-        this.mBorderColor = color;
-        mBorderPaint.setColor(color);
+        setBorderColors(ColorStateList.valueOf(color));
+    }
+
+    public void setBorderColors(ColorStateList colors) {
+        mBorderColor = colors != null ? colors : ColorStateList.valueOf(0);
+        mBorderPaint.setColor(mBorderColor.getColorForState(getState(), DEFAULT_BORDER_COLOR));
     }
 
     public void setOval(boolean oval) {

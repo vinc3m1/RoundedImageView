@@ -4,7 +4,7 @@
 -->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:makeramen="http://schemas.android.com/apk/res/com.makeramen.rounded.example"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="200dip">
     
@@ -19,9 +19,9 @@
         android:padding="10dip"
         android:src="@drawable/photo1"
         android:scaleType="center"
-        makeramen:corner_radius="30dip"
-        makeramen:border_width="2dip"
-        makeramen:border_color="#333333" />
+        app:corner_radius="30dip"
+        app:border_width="2dip"
+        app:border_color="@color/border" />
 	<TextView
 	    android:id="@+id/textView3"
 	    android:layout_width="wrap_content"
