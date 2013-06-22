@@ -23,7 +23,7 @@ public class RoundedImageView extends ImageView {
     private int mBorderWidth;
     private ColorStateList mBorderColor;
 
-    private boolean roundBackground = false;
+    private boolean mRoundBackground = false;
     private boolean mOval = false;
 
     private Drawable mDrawable;
@@ -79,16 +79,16 @@ public class RoundedImageView extends ImageView {
             mBorderColor = ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
         }
 
-        roundBackground = a.getBoolean(R.styleable.RoundedImageView_round_background, false);
+        mRoundBackground = a.getBoolean(R.styleable.RoundedImageView_round_background, false);
         mOval = a.getBoolean(R.styleable.RoundedImageView_is_oval, false);
 
         if (mDrawable instanceof RoundedDrawable) {
             updateDrawableAttrs((RoundedDrawable) mDrawable);
         }
 
-        if (roundBackground) {
+        if (mRoundBackground) {
             if (!(mBackgroundDrawable instanceof RoundedDrawable)) {
-                // try setting background drawable now that we got the roundBackground param
+                // try setting background drawable now that we got the mRoundBackground param
                 setBackgroundDrawable(mBackgroundDrawable);
             }
             if (mBackgroundDrawable instanceof RoundedDrawable) {
@@ -200,7 +200,7 @@ public class RoundedImageView extends ImageView {
     @Override
     @Deprecated
     public void setBackgroundDrawable(Drawable background) {
-        if (roundBackground && background != null) {
+        if (mRoundBackground && background != null) {
             mBackgroundDrawable = RoundedDrawable.fromDrawable(background, mCornerRadius, mBorderWidth, mBorderColor, mOval);
             updateDrawableAttrs((RoundedDrawable) mBackgroundDrawable);
         } else {
@@ -230,11 +230,11 @@ public class RoundedImageView extends ImageView {
             return;
         }
 
-        this.mCornerRadius = radius;
+        mCornerRadius = radius;
         if (mDrawable instanceof RoundedDrawable) {
             ((RoundedDrawable) mDrawable).setCornerRadius(radius);
         }
-        if (roundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
+        if (mRoundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
             ((RoundedDrawable) mBackgroundDrawable).setCornerRadius(radius);
         }
     }
@@ -244,11 +244,11 @@ public class RoundedImageView extends ImageView {
             return;
         }
 
-        this.mBorderWidth = width;
+        mBorderWidth = width;
         if (mDrawable instanceof RoundedDrawable) {
             ((RoundedDrawable) mDrawable).setBorderWidth(width);
         }
-        if (roundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
+        if (mRoundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
             ((RoundedDrawable) mBackgroundDrawable).setBorderWidth(width);
         }
         invalidate();
@@ -267,7 +267,7 @@ public class RoundedImageView extends ImageView {
         if (mDrawable instanceof RoundedDrawable) {
             ((RoundedDrawable) mDrawable).setBorderColors(colors);
         }
-        if (roundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
+        if (mRoundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
             ((RoundedDrawable) mBackgroundDrawable).setBorderColors(colors);
         }
         if (mBorderWidth > 0) {
@@ -276,11 +276,11 @@ public class RoundedImageView extends ImageView {
     }
 
     public void setOval(boolean oval) {
-        this.mOval = oval;
+        mOval = oval;
         if (mDrawable instanceof RoundedDrawable) {
             ((RoundedDrawable) mDrawable).setOval(oval);
         }
-        if (roundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
+        if (mRoundBackground && mBackgroundDrawable instanceof RoundedDrawable) {
             ((RoundedDrawable) mBackgroundDrawable).setOval(oval);
         }
         invalidate();
@@ -297,15 +297,15 @@ public class RoundedImageView extends ImageView {
     }
 
     public boolean isRoundBackground() {
-        return roundBackground;
+        return mRoundBackground;
     }
 
     public void setRoundBackground(boolean roundBackground) {
-        if (this.roundBackground == roundBackground) {
+        if (mRoundBackground == roundBackground) {
             return;
         }
 
-        this.roundBackground = roundBackground;
+        mRoundBackground = roundBackground;
         if (roundBackground) {
             if (mBackgroundDrawable instanceof RoundedDrawable) {
                 updateDrawableAttrs((RoundedDrawable) mBackgroundDrawable);
