@@ -33,7 +33,7 @@ public class RoundedDrawable extends Drawable {
     private final RectF mBorderRect = new RectF();
     private final Paint mBorderPaint;
     private boolean mOval = false;
-    private int mBorderWidth;
+    private float mBorderWidth;
     private ColorStateList mBorderColor;
 
     private ScaleType mScaleType = ScaleType.FIT_XY;
@@ -58,10 +58,12 @@ public class RoundedDrawable extends Drawable {
         mBitmapShader.setLocalMatrix(mShaderMatrix);
 
         mBitmapPaint = new Paint();
+        mBitmapPaint.setStyle(Paint.Style.FILL);
         mBitmapPaint.setAntiAlias(true);
         mBitmapPaint.setShader(mBitmapShader);
 
         mBorderPaint = new Paint();
+        mBorderPaint.setStyle(Paint.Style.STROKE);
         mBorderPaint.setAntiAlias(true);
         mBorderPaint.setColor(mBorderColor.getColorForState(getState(), DEFAULT_BORDER_COLOR));
         mBorderPaint.setStrokeWidth(border);
@@ -99,7 +101,7 @@ public class RoundedDrawable extends Drawable {
 
     private void setMatrix() {
         mBorderRect.set(mBounds);
-        mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
+        mDrawableRect.set(mBorderWidth, mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
 
         float scale;
         float dx;
@@ -107,17 +109,15 @@ public class RoundedDrawable extends Drawable {
 
         switch (mScaleType) {
             case CENTER:
-//                Log.d(TAG, "CENTER");
                 mBorderRect.set(mBounds);
-                mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
+                mDrawableRect.set(mBorderWidth, mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
 
                 mShaderMatrix.set(null);
                 mShaderMatrix.setTranslate((int) ((mDrawableRect.width() - mBitmapWidth) * 0.5f + 0.5f), (int) ((mDrawableRect.height() - mBitmapHeight) * 0.5f + 0.5f));
                 break;
             case CENTER_CROP:
-//                Log.d(TAG, "CENTER_CROP");
                 mBorderRect.set(mBounds);
-                mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
+                mDrawableRect.set(mBorderWidth, mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
 
                 mShaderMatrix.set(null);
 
@@ -125,10 +125,10 @@ public class RoundedDrawable extends Drawable {
                 dy = 0;
 
                 if (mBitmapWidth * mDrawableRect.height() > mDrawableRect.width() * mBitmapHeight) {
-                    scale = (float) mDrawableRect.height() / (float) mBitmapHeight;
+                    scale = mDrawableRect.height() / (float) mBitmapHeight;
                     dx = (mDrawableRect.width() - mBitmapWidth * scale) * 0.5f;
                 } else {
-                    scale = (float) mDrawableRect.width() / (float) mBitmapWidth;
+                    scale = mDrawableRect.width() / (float) mBitmapWidth;
                     dy = (mDrawableRect.height() - mBitmapHeight * scale) * 0.5f;
                 }
 
@@ -136,14 +136,13 @@ public class RoundedDrawable extends Drawable {
                 mShaderMatrix.postTranslate((int) (dx + 0.5f) + mBorderWidth, (int) (dy + 0.5f) + mBorderWidth);
                 break;
             case CENTER_INSIDE:
-//                Log.d(TAG, "CENTER_INSIDE");
                 mShaderMatrix.set(null);
 
                 if (mBitmapWidth <= mBounds.width() && mBitmapHeight <= mBounds.height()) {
                     scale = 1.0f;
                 } else {
-                    scale = Math.min((float) mBounds.width() / (float) mBitmapWidth,
-                            (float) mBounds.height() / (float) mBitmapHeight);
+                    scale = Math.min(mBounds.width() / (float) mBitmapWidth,
+                            mBounds.height() / (float) mBitmapHeight);
                 }
 
                 dx = (int) ((mBounds.width() - mBitmapWidth * scale) * 0.5f + 0.5f);
@@ -180,19 +179,20 @@ public class RoundedDrawable extends Drawable {
                 break;
             case FIT_XY:
             default:
-//                Log.d(TAG, "DEFAULT TO FILL");
                 mBorderRect.set(mBounds);
                 mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
                 mShaderMatrix.set(null);
                 mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
                 break;
         }
+
+        mBorderRect.inset(mBorderWidth/2, mBorderWidth/2);
+
         mBitmapShader.setLocalMatrix(mShaderMatrix);
     }
 
     @Override
     protected void onBoundsChange(Rect bounds) {
-//        Log.i(TAG, "onboundschange: w: " + bounds.width() + "h:" + bounds.height());
         super.onBoundsChange(bounds);
 
         mBounds.set(bounds);
@@ -202,7 +202,6 @@ public class RoundedDrawable extends Drawable {
 
     @Override
     public void draw(Canvas canvas) {
-//        Log.w(TAG, "Draw: " + mScaleType.toString());
 
         if (mOval) {
             if (mBorderWidth > 0) {
@@ -303,7 +302,7 @@ public class RoundedDrawable extends Drawable {
         return mCornerRadius;
     }
 
-    public int getBorderWidth() {
+    public float getBorderWidth() {
         return mBorderWidth;
     }
 
