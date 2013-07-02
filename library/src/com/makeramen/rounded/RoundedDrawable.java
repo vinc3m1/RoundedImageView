@@ -228,11 +228,13 @@ public class RoundedDrawable extends Drawable {
     @Override
     public void setAlpha(int alpha) {
         mBitmapPaint.setAlpha(alpha);
+        invalidateSelf();
     }
 
     @Override
     public void setColorFilter(ColorFilter cf) {
         mBitmapPaint.setColorFilter(cf);
+        invalidateSelf();
     }
 
     @Override
