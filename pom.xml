@@ -21,9 +21,9 @@
     </modules>
 
     <scm>
-        <url>https://github.com/makeramen/RoundedImageView</url>
-        <connection>scm:git:git://github.com/makeramen/RoundedImageView.git</connection>
-        <developerConnection>scm:git:git@github.com:makeramen/RoundedImageView.git</developerConnection>
+        <url>https://github.com/vinc3m1/RoundedImageView</url>
+        <connection>scm:git:git://github.com/vinc3m1/RoundedImageView.git</connection>
+        <developerConnection>scm:git:git@github.com:vinc3m1/RoundedImageView.git</developerConnection>
     </scm>
 
     <licenses>
