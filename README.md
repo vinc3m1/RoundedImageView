@@ -31,17 +31,13 @@ Import Library: `RoundedImageView/library/`
 
 Gradle
 ----
-If you just want the .aar file to put into your project: `./gradlew assembleRelease`  
-Then find the `libary.aar` file in `library/build/libs/library/library.aar`
-
-If you want to run the sample:
-`./gradlew installDebug`
+Development for the library is done with the new Gradle build tool and Android Studio. I will be uploading the aar to Sonatype shortly.
 
 Maven
 ----
 Execute this in your workspace:
 ```
-git clone https://github.com/kolipass/RoundedImageView.git
+git clone https://github.com/vinc3m1/RoundedImageView.git
 cd ./RoundedImageView/
 mvn clean install
 ```
