@@ -72,7 +72,7 @@ Use Library
 Define in xml:
 
 ```xml
-<com.makeramen.rounded.RoundedImageView
+<com.makeramen.RoundedImageView
         xmlns:makeramen="http://schemas.android.com/apk/res/com.makeramen.rounded.RoundedImageView"
         android:id="@+id/imageView1"
         android:src="@drawable/photo1"
