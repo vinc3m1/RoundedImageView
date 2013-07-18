@@ -10,9 +10,9 @@
     <packaging>apk</packaging>
 
     <parent>
-        <groupId>com.makeramen.rounded</groupId>
+        <groupId>com.makeramen</groupId>
         <artifactId>parent</artifactId>
-        <version>0.1</version>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -31,8 +31,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.makeramen.rounded</groupId>
-            <artifactId>library</artifactId>
+            <groupId>com.makeramen</groupId>
+            <artifactId>roundedimageview</artifactId>
             <version>${project.version}</version>
             <type>apklib</type>
         </dependency>
