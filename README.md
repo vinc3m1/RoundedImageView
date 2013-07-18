@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.actionbarsherlock:actionbarsherlock:4.3.1'
+    compile 'com.makeramen:roundedimageview:1.0.0'
 }
 ```
 
