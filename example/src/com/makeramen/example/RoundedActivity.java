@@ -2,7 +2,7 @@
 	Copyright (C) 2013 Make Ramen, LLC
 */
 
-package com.makeramen.rounded.example;
+package com.makeramen.example;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,7 +17,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.makeramen.rounded.RoundedImageView;
+import com.makeramen.RoundedImageView;
 
 public class RoundedActivity extends Activity {
     @Override

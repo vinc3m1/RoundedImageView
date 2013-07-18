@@ -2,7 +2,7 @@
 	Copyright (C) 2013 Make Ramen, LLC
 */
 
-package com.makeramen.rounded;
+package com.makeramen;
 
 import android.content.res.ColorStateList;
 import android.graphics.*;

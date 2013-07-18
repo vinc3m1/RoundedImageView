@@ -1,7 +1,7 @@
 apply plugin: 'android'
 
 dependencies {
-    compile project(':library')
+    compile project(':roundedimageview')
 }
 
 android {
