@@ -24,14 +24,21 @@ Also has proper support for:
 * Support for TransitionDrawables (XML attrs only)
 
 
-Import Library
-----
-
-Import Library: `RoundedImageView/library/`
-
 Gradle
 ----
-Development for the library is done with the new Gradle build tool and Android Studio. I will be uploading the aar to Sonatype shortly.
+RoundedImageView is available on [Ark](https://github.com/ark/ark)
+Add the following to your `build.gradle` to use:
+```
+repositories {
+    maven {
+        url 'https://raw.github.com/ark/ark/master/releases/'
+    }
+}
+
+dependencies {
+    compile 'com.actionbarsherlock:actionbarsherlock:4.3.1'
+}
+```
 
 Maven
 ----
