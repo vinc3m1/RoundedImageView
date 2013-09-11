@@ -1,7 +1,3 @@
-/*
-	Copyright (C) 2013 Make Ramen, LLC
-*/
-
 package com.makeramen.example;
 
 import android.app.Activity;

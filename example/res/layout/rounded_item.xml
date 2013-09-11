@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 
-	Copyright (C) 2013 Make Ramen, LLC
--->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="200dip">
-    
+
     <com.makeramen.RoundedImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
@@ -21,10 +18,11 @@
         android:scaleType="center"
         app:corner_radius="30dip"
         app:border_width="2dip"
-        app:border_color="@color/border" />
-	<TextView
-	    android:id="@+id/textView3"
-	    android:layout_width="wrap_content"
+        app:border_color="@color/border"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
         android:layout_marginLeft="36dp"
@@ -33,7 +31,7 @@
         android:background="#7f000000"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+        android:textAppearance="?android:attr/textAppearanceSmallInverse"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -45,7 +43,7 @@
         android:background="#7f000000"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:textAppearance="?android:attr/textAppearanceMediumInverse" />
+        android:textAppearance="?android:attr/textAppearanceMediumInverse"/>
 
     <TextView
         android:id="@+id/textView1"
@@ -57,6 +55,6 @@
         android:background="#7f000000"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:textAppearance="?android:attr/textAppearanceLargeInverse" />
+        android:textAppearance="?android:attr/textAppearanceLargeInverse"/>
 
 </RelativeLayout>
