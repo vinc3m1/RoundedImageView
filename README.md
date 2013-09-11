@@ -98,3 +98,7 @@ Known Issues
 --------------------------------------
 * Programmatically setting attributes with TransitionDrawables not yet supported.
 * Only tested support for BitmapDrawables and TransitionDrawables (with BitmapDrawables in them). Other types might work but may have unexpected behavior.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vinc3m1/roundedimageview/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
