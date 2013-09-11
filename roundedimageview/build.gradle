@@ -1,5 +1,10 @@
 apply plugin: 'android-library'
-// apply plugin: 'maven-publish'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+group = 'com.makeramen'
+archivesBaseName = 'roundedimageview'
+version = '1.0.0'
 
 android {
     compileSdkVersion 18
@@ -14,25 +19,22 @@ android {
     }
 }
 
-// android.libraryVariants
-// publishing {
-//     publications {
-//         maven(MavenPublication) {
-//            artifact bundleRelease
-//         }
-//     }
-//     repositories {
-//         maven {
-//             url "file://$buildDir/../../../ark/releases"
-//         }
-//     }
-// }
+task apklib(type: Zip) {
+    dependsOn 'packageReleaseJar'
+    appendix = extension = 'apklib'
 
-apply plugin: 'maven'
-apply plugin: 'signing'
+    from 'AndroidManifest.xml'
+    into('res') {
+        from 'res'
+    }
+    into('src') {
+        from 'src'
+    }
+}
 
-group = 'com.makeramen'
-version = '1.0.0'
+artifacts {
+    archives apklib
+}
 
 configurations {
     archives {
@@ -54,32 +56,51 @@ uploadArchives {
             authentication(userName: sonatypeUsername, password: sonatypePassword)
         }
 
-        pom.project {
-            name 'RoundedImageView'
-            packaging 'aar'
-            description 'Fast ImageView with support for rounded corners and borders'
-            url 'https://github.com/vinc3m1/RoundedImageView'
+        snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+            authentication(userName: sonatypeUsername, password: sonatypePassword)
+        }
 
-            scm {
-                url 'scm:git@github.com:vinc3m1/RoundedImageView.git'
-                connection 'scm:git@github.com:vinc3m1/RoundedImageView.git'
-                developerConnection 'scm:git@github.com:vinc3m1/RoundedImageView.git'
+        modifyPom(addFilter('aar') { artifact, file ->
+            artifact.name == archivesBaseName
+        })
+
+        modifyPom(addFilter('apklib') { artifact, file ->
+            artifact.name == archivesBaseName + '-apklib'
+        })
+
+        // There's no official apklib for Google Play services, so we
+        // can't really maintain that dependency for the apklib packaging.
+        pom('apklib').whenConfigured { pom ->
+            pom.dependencies = []
+        }
+    }
+}
+
+def modifyPom(pom) {
+    pom.project {
+        name 'RoundedImageView'
+        description 'Fast ImageView with support for rounded corners and borders'
+        url 'https://github.com/vinc3m1/RoundedImageView'
+
+        scm {
+            url 'scm:git@github.com:vinc3m1/RoundedImageView.git'
+            connection 'scm:git@github.com:vinc3m1/RoundedImageView.git'
+            developerConnection 'scm:git@github.com:vinc3m1/RoundedImageView.git'
+        }
+
+        licenses {
+            license {
+                name 'The Apache Software License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution 'repo'
             }
+        }
 
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
-                }
-            }
-
-            developers {
-                developer {
-                    id 'vinc3m1'
-                    name 'Vince Mi'
-                    email 'vince@makeramen.com'
-                }
+        developers {
+            developer {
+                id 'vinc3m1'
+                name 'Vince Mi'
+                email 'vince@makeramen.com'
             }
         }
     }

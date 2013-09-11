@@ -58,8 +58,8 @@ mvn android:deploy android:run
 If you want to use the library, add this dependency:
 ```
 <dependency>
-    <groupId>com.makeramen.rounded</groupId>
-    <artifactId>library</artifactId>
+    <groupId>com.makeramen</groupId>
+    <artifactId>roundedimageview-apklib</artifactId>
     <version>1.0.0</version>
     <type>apklib</type>
 </dependency>
