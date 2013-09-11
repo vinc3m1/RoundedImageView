@@ -1,9 +1,9 @@
 apply plugin: 'android-library'
-apply plugin: 'maven-publish'
+// apply plugin: 'maven-publish'
 
 android {
-    compileSdkVersion 17
-    buildToolsVersion '17.0.0'
+    compileSdkVersion 18
+    buildToolsVersion '18.0.1'
 
     sourceSets {
         main {
@@ -14,16 +14,73 @@ android {
     }
 }
 
-android.libraryVariants
-publishing {
-    publications {
-        maven(MavenPublication) {
-           artifact bundleRelease
-        }
+// android.libraryVariants
+// publishing {
+//     publications {
+//         maven(MavenPublication) {
+//            artifact bundleRelease
+//         }
+//     }
+//     repositories {
+//         maven {
+//             url "file://$buildDir/../../../ark/releases"
+//         }
+//     }
+// }
+
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+group = 'com.makeramen'
+version = '1.0.0'
+
+configurations {
+    archives {
+        extendsFrom configurations.default
     }
-    repositories {
-        maven {
-            url "file://$buildDir/../../../ark/releases"
+}
+
+signing {
+    required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+        repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
+            authentication(userName: sonatypeUsername, password: sonatypePassword)
+        }
+
+        pom.project {
+            name 'RoundedImageView'
+            packaging 'aar'
+            description 'Fast ImageView with support for rounded corners and borders'
+            url 'https://github.com/vinc3m1/RoundedImageView'
+
+            scm {
+                url 'scm:git@github.com:vinc3m1/RoundedImageView.git'
+                connection 'scm:git@github.com:vinc3m1/RoundedImageView.git'
+                developerConnection 'scm:git@github.com:vinc3m1/RoundedImageView.git'
+            }
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+
+            developers {
+                developer {
+                    id 'vinc3m1'
+                    name 'Vince Mi'
+                    email 'vince@makeramen.com'
+                }
+            }
         }
     }
 }

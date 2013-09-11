@@ -26,14 +26,12 @@ Also has proper support for:
 
 Gradle
 ----
-RoundedImageView is available on [Ark](https://github.com/ark/ark).
+RoundedImageView is available on Maven Central as well as [Ark](https://github.com/ark/ark).
 
 Add the following to your `build.gradle` to use:
 ```
 repositories {
-    maven {
-        url 'https://raw.github.com/ark/ark/master/releases/'
-    }
+    mavenCentral()
 }
 
 dependencies {
@@ -62,7 +60,7 @@ If you want to use the library, add this dependency:
 <dependency>
     <groupId>com.makeramen.rounded</groupId>
     <artifactId>library</artifactId>
-    <version>0.1</version>
+    <version>1.0.0</version>
     <type>apklib</type>
 </dependency>
 ```
