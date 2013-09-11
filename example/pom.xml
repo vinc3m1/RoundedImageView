@@ -32,7 +32,7 @@
 
         <dependency>
             <groupId>com.makeramen</groupId>
-            <artifactId>roundedimageview</artifactId>
+            <artifactId>roundedimageview-apklib</artifactId>
             <version>${project.version}</version>
             <type>apklib</type>
         </dependency>

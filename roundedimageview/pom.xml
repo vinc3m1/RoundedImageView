@@ -5,7 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>roundedimageview</artifactId>
+    <artifactId>roundedimageview-apklib</artifactId>
     <name>RoundedImageView</name>
     <packaging>apklib</packaging>
 

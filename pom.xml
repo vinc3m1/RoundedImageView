@@ -16,7 +16,7 @@
     <inceptionYear>2013</inceptionYear>
 
     <modules>
-        <module>roundedimageview</module>
+        <module>roundedimageview-apklib</module>
         <module>example</module>
     </modules>
 
