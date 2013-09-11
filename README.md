@@ -65,20 +65,20 @@ If you want to use the library, add this dependency:
 </dependency>
 ```
 
-Use Library
+Usage
 ----
 Define in xml:
 
 ```xml
 <com.makeramen.RoundedImageView
-        xmlns:makeramen="http://schemas.android.com/apk/res/com.makeramen.rounded.RoundedImageView"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView1"
         android:src="@drawable/photo1"
         android:scaleType="centerCrop"
-        makeramen:corner_radius="30dip"
-        makeramen:border="2dip"
-        makeramen:border_color="#333333"
-        makeramen:round_background="true" />
+        app:corner_radius="30dip"
+        app:border_width="2dip"
+        app:border_color="#333333"
+        app:round_background="true" />
 ```
 
 Or in code:
