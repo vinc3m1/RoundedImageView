@@ -28,7 +28,7 @@ public class RoundedImageView extends ImageView {
 
     private Drawable mDrawable;
     private Drawable mBackgroundDrawable;
-
+    private Bitmap.Config mConfig;
     private ScaleType mScaleType;
 
     private static final ScaleType[] sScaleTypeArray = {
@@ -175,8 +175,12 @@ public class RoundedImageView extends ImageView {
     }
 
     public void setImageBitmap(Bitmap bm) {
+        setImageBitmap(bm, mConfig);
+    }
+
+    public void setImageBitmap(Bitmap bm, Bitmap.Config config) {
         if (bm != null) {
-            mDrawable = new RoundedDrawable(bm, mCornerRadius, mBorderWidth, mBorderColor, mOval);
+            mDrawable = new RoundedDrawable(bm, mCornerRadius, mBorderWidth, mBorderColor, config, mOval);
             updateDrawableAttrs((RoundedDrawable) mDrawable);
         } else {
             mDrawable = null;
@@ -318,5 +322,13 @@ public class RoundedImageView extends ImageView {
         }
 
         invalidate();
+    }
+
+    public Bitmap.Config getBitmapConfig() {
+        return mConfig;
+    }
+
+    public void setBitmapConfig(Bitmap.Config config) {
+        this.mConfig = mConfig;
     }
 }

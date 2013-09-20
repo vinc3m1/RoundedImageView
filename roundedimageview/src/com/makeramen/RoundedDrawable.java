@@ -19,9 +19,12 @@ public class RoundedDrawable extends Drawable {
 
     public static final int DEFAULT_BORDER_COLOR = Color.BLACK;
 
+    private static Config sConfig;
+
     private final RectF mBounds = new RectF();
 
     private final RectF mDrawableRect = new RectF();
+
     private float mCornerRadius;
 
     private final RectF mBitmapRect = new RectF();
@@ -41,11 +44,11 @@ public class RoundedDrawable extends Drawable {
     private final Matrix mShaderMatrix = new Matrix();
 
     RoundedDrawable(Bitmap bitmap, float cornerRadius, int border, ColorStateList borderColor) {
-        this(bitmap, cornerRadius, border, borderColor, false);
+        this(bitmap, cornerRadius, border, borderColor, null, false);
     }
 
-    RoundedDrawable(Bitmap bitmap, float cornerRadius, int border, ColorStateList borderColor, boolean oval) {
-
+    RoundedDrawable(Bitmap bitmap, float cornerRadius, int border, ColorStateList borderColor, Config config, boolean oval) {
+        sConfig = config;
         mBorderWidth = border;
         mBorderColor = borderColor != null ? borderColor : ColorStateList.valueOf(DEFAULT_BORDER_COLOR);
 
@@ -54,6 +57,9 @@ public class RoundedDrawable extends Drawable {
         mBitmapRect.set(0, 0, mBitmapWidth, mBitmapHeight);
 
         mCornerRadius = cornerRadius;
+        if(config!=null){
+            bitmap = bitmap.copy(config, true);
+        }
         mBitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
         mBitmapShader.setLocalMatrix(mShaderMatrix);
 
@@ -284,7 +290,7 @@ public class RoundedDrawable extends Drawable {
                         // TODO skip colordrawables for now
                         drawableList[i] = d;
                     } else {
-                        drawableList[i] = new RoundedDrawable(drawableToBitmap(td.getDrawable(i)), radius, border, borderColor, isOval);
+                        drawableList[i] = new RoundedDrawable(drawableToBitmap(td.getDrawable(i)), radius, border, borderColor, sConfig, isOval);
                     }
                 }
                 return new TransitionDrawable(drawableList);
@@ -292,7 +298,7 @@ public class RoundedDrawable extends Drawable {
 
             Bitmap bm = drawableToBitmap(drawable);
             if (bm != null) {
-                return new RoundedDrawable(bm, radius, border, borderColor, isOval);
+                return new RoundedDrawable(bm, radius, border, borderColor, sConfig, isOval);
             } else {
                 Log.w(TAG, "Failed to create bitmap from drawable!");
             }
