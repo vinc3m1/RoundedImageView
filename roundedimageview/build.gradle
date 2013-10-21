@@ -2,13 +2,11 @@ apply plugin: 'android-library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-group = 'com.makeramen'
 archivesBaseName = 'roundedimageview'
-version = '1.0.0'
 
 android {
     compileSdkVersion 18
-    buildToolsVersion '18.0.1'
+    buildToolsVersion '18.1'
 
     sourceSets {
         main {
