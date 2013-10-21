@@ -63,6 +63,8 @@ public class RoundedDrawable extends Drawable {
         mBorderPaint.setAntiAlias(true);
         mBorderPaint.setColor(mBorderColor.getColorForState(getState(), DEFAULT_BORDER_COLOR));
         mBorderPaint.setStrokeWidth(border);
+    
+        mOval = oval;
     }
 
     @Override
