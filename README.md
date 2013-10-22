@@ -94,10 +94,16 @@ iv.setImageDrawable(drawable);
 iv.setBackground(backgroundDrawable);
 ```
 
-Known Issues
---------------------------------------
-* Programmatically setting attributes with TransitionDrawables not yet supported.
-* Only tested support for BitmapDrawables and TransitionDrawables (with BitmapDrawables in them). Other types might work but may have unexpected behavior.
+
+ChangeLog
+----------
+* **1.1.0**
+	* LayerDrawable support (needs testing!)
+	* Refactored api to support chaining and remove repetitive code
+* **1.0.0**
+	* Initial release to maven central
+	* Programmatically setting attributes with TransitionDrawables not supported.
+
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vinc3m1/roundedimageview/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
