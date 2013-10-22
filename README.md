@@ -21,7 +21,7 @@ Also has proper support for:
 * Anti-aliasing
 * Transparent backgrounds
 * Hardware acceleration
-* Support for TransitionDrawables (XML attrs only)
+* Support for LayerDrawables (including TransitionDrawables)
 
 
 Gradle
