@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.makeramen:roundedimageview:1.0.0'
+    compile 'com.makeramen:roundedimageview:1.1.0'
 }
 ```
 
@@ -60,7 +60,7 @@ If you want to use the library, add this dependency:
 <dependency>
     <groupId>com.makeramen</groupId>
     <artifactId>roundedimageview-apklib</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <type>apklib</type>
 </dependency>
 ```
