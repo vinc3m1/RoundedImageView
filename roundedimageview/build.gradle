@@ -5,8 +5,8 @@ apply plugin: 'signing'
 archivesBaseName = 'roundedimageview'
 
 android {
-    compileSdkVersion 18
-    buildToolsVersion '18.1'
+    compileSdkVersion 19
+    buildToolsVersion '19.0.0'
 
     sourceSets {
         main {
@@ -17,21 +17,25 @@ android {
     }
 }
 
-task apklib(type: Zip) {
-    dependsOn 'packageReleaseJar'
-    appendix = extension = 'apklib'
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.allJava
+}
 
-    from 'AndroidManifest.xml'
-    into('res') {
-        from 'res'
-    }
-    into('src') {
-        from 'src'
-    }
+task androidJavadocsJar(type: Jar) {
+    classifier = 'javadoc'
+    //basename = artifact_id
+    from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    //basename = artifact_id
+    from android.sourceSets.main.allSource
 }
 
 artifacts {
-    archives apklib
+    archives androidSourcesJar
+    archives androidJavadocsJar
 }
 
 configurations {
@@ -58,47 +62,35 @@ uploadArchives {
             authentication(userName: sonatypeUsername, password: sonatypePassword)
         }
 
-        modifyPom(addFilter('aar') { artifact, file ->
-            artifact.name == archivesBaseName
-        })
+        pom {
+            project {
+                name 'RoundedImageView'
+                packaging 'aar'
+                
+                description 'Fast ImageView with support for rounded corners and borders'
+                url 'https://github.com/vinc3m1/RoundedImageView'
 
-        modifyPom(addFilter('apklib') { artifact, file ->
-            artifact.name == archivesBaseName + '-apklib'
-        })
+                scm {
+                    url 'scm:git@github.com:vinc3m1/RoundedImageView.git'
+                    connection 'scm:git@github.com:vinc3m1/RoundedImageView.git'
+                    developerConnection 'scm:git@github.com:vinc3m1/RoundedImageView.git'
+                }
 
-        // There's no official apklib for Google Play services, so we
-        // can't really maintain that dependency for the apklib packaging.
-        pom('apklib').whenConfigured { pom ->
-            pom.dependencies = []
-        }
-    }
-}
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
 
-def modifyPom(pom) {
-    pom.project {
-        name 'RoundedImageView'
-        description 'Fast ImageView with support for rounded corners and borders'
-        url 'https://github.com/vinc3m1/RoundedImageView'
-
-        scm {
-            url 'scm:git@github.com:vinc3m1/RoundedImageView.git'
-            connection 'scm:git@github.com:vinc3m1/RoundedImageView.git'
-            developerConnection 'scm:git@github.com:vinc3m1/RoundedImageView.git'
-        }
-
-        licenses {
-            license {
-                name 'The Apache Software License, Version 2.0'
-                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                distribution 'repo'
-            }
-        }
-
-        developers {
-            developer {
-                id 'vinc3m1'
-                name 'Vince Mi'
-                email 'vince@makeramen.com'
+                developers {
+                    developer {
+                        id 'vinc3m1'
+                        name 'Vince Mi'
+                        email 'vince@makeramen.com'
+                    }
+                }
             }
         }
     }
