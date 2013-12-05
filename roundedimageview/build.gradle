@@ -38,19 +38,12 @@ artifacts {
     archives androidJavadocsJar
 }
 
-configurations {
-    archives {
-        extendsFrom configurations.default
-    }
-}
-
 signing {
     required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
 }
 
 uploadArchives {
-    configuration = configurations.archives
     repositories.mavenDeployer {
         beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
