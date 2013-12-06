@@ -95,8 +95,6 @@ public class RoundedDrawable extends Drawable {
             Bitmap bm = drawableToBitmap(drawable);
             if (bm != null) {
                 return new RoundedDrawable(bm);
-            } else {
-                Log.w(TAG, "Failed to create bitmap from drawable!");
             }
         }
         return drawable;
