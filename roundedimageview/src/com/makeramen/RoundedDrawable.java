@@ -4,7 +4,6 @@ import android.content.res.ColorStateList;
 import android.graphics.*;
 import android.graphics.Bitmap.Config;
 import android.graphics.drawable.*;
-import android.util.Log;
 import android.widget.ImageView.ScaleType;
 
 public class RoundedDrawable extends Drawable {

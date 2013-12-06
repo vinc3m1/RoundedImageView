@@ -6,6 +6,9 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -14,6 +17,7 @@ public class RoundedImageView extends ImageView {
     public static final String TAG = "RoundedImageView";
     public static final int DEFAULT_RADIUS = 0;
     public static final int DEFAULT_BORDER_WIDTH = 0;
+    private static final int MESSAGE_INVALIDATE_WRAPPED_DRAWABLE = 1;
     private static final ScaleType[] sScaleTypeArray = {
             ScaleType.MATRIX,
             ScaleType.FIT_XY,
@@ -33,6 +37,7 @@ public class RoundedImageView extends ImageView {
     private Drawable mWrappedDrawable;
     private Drawable mBackgroundDrawable;
     private ScaleType mScaleType;
+    private final AnimationHandler mAnimationHandler = new AnimationHandler();
 
     public RoundedImageView(Context context) {
         super(context);
@@ -141,25 +146,66 @@ public class RoundedImageView extends ImageView {
 
     @Override
     public void setImageDrawable(Drawable drawable) {
-        if (drawable != null) {
-            mDrawable = RoundedDrawable.fromDrawable(drawable);
-            mWrappedDrawable = drawable;
-            updateDrawableAttrs();
-        } else {
-            mDrawable = null;
+        if (mWrappedDrawable != null) {
+            mWrappedDrawable.setCallback(null);
             mWrappedDrawable = null;
         }
-        super.setImageDrawable(mDrawable);
+
+        if (drawable != null) {
+            mWrappedDrawable = drawable;
+            mWrappedDrawable.setCallback(new Drawable.Callback() {
+                private int mInvalidateDepth = 0;
+
+                @Override
+                public void invalidateDrawable(Drawable who) {
+                    mInvalidateDepth++;
+                    if (mInvalidateDepth == 1) {
+                        mDrawable = RoundedDrawable.fromDrawable(who);
+                        // drawable may not be ready yet
+                        if (mDrawable != who) {
+                            updateDrawableAttrs();
+                            RoundedImageView.super.setImageDrawable(mDrawable);
+                        }
+                    } else if (mInvalidateDepth == 2) {
+                        mAnimationHandler.removeMessages(MESSAGE_INVALIDATE_WRAPPED_DRAWABLE);
+                        mAnimationHandler.sendEmptyMessage(MESSAGE_INVALIDATE_WRAPPED_DRAWABLE);
+                    }
+                    mInvalidateDepth--;
+                }
+
+                @Override
+                public void scheduleDrawable(Drawable who, Runnable what, long when) {
+                    mAnimationHandler.postAtTime(what, when);
+                }
+
+                @Override
+                public void unscheduleDrawable(Drawable who, Runnable what) {
+                    mAnimationHandler.removeCallbacks(what);
+                }
+            });
+
+            mDrawable = RoundedDrawable.fromDrawable(drawable);
+            // drawable may not be ready yet
+            if (mDrawable != drawable) {
+                updateDrawableAttrs();
+                super.setImageDrawable(mDrawable);
+            }
+        } else {
+            mDrawable = null;
+            super.setImageDrawable(null);
+        }
     }
 
     public void setImageBitmap(Bitmap bm) {
+        if (mWrappedDrawable != null) {
+            setImageDrawable(null);
+        }
         if (bm != null) {
             mDrawable = new RoundedDrawable(bm);
             updateDrawableAttrs();
         } else {
             mDrawable = null;
         }
-        mWrappedDrawable = null;
         super.setImageDrawable(mDrawable);
     }
 
@@ -288,5 +334,22 @@ public class RoundedImageView extends ImageView {
         mRoundBackground = roundBackground;
         updateBackgroundDrawableAttrs();
         invalidate();
+    }
+
+    private class AnimationHandler extends Handler {
+        public AnimationHandler() {
+            super(Looper.myLooper());
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == MESSAGE_INVALIDATE_WRAPPED_DRAWABLE) {
+                if (mWrappedDrawable != null) {
+                    mWrappedDrawable.invalidateSelf();
+                }
+            } else {
+                super.handleMessage(msg);
+            }
+        }
     }
 }
