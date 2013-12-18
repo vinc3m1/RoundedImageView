@@ -2,11 +2,13 @@ package com.makeramen;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
 public class RoundedImageView extends ImageView {
@@ -24,13 +26,17 @@ public class RoundedImageView extends ImageView {
             ScaleType.CENTER_CROP,
             ScaleType.CENTER_INSIDE
     };
+
     private int mCornerRadius = DEFAULT_RADIUS;
     private int mBorderWidth = DEFAULT_BORDER_WIDTH;
     private ColorStateList mBorderColor = ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
-    private boolean mRoundBackground = false;
     private boolean mOval = false;
+    private boolean mRoundBackground = false;
+
+    private int mResource;
     private Drawable mDrawable;
     private Drawable mBackgroundDrawable;
+
     private ScaleType mScaleType;
 
     public RoundedImageView(Context context) {
@@ -132,23 +138,49 @@ public class RoundedImageView extends ImageView {
 
     @Override
     public void setImageDrawable(Drawable drawable) {
-        if (drawable != null) {
-            mDrawable = RoundedDrawable.fromDrawable(drawable);
-            updateDrawableAttrs();
-        } else {
-            mDrawable = null;
-        }
+        mResource = 0;
+        mDrawable = RoundedDrawable.fromDrawable(drawable);
+        updateDrawableAttrs();
         super.setImageDrawable(mDrawable);
     }
 
+    @Override
     public void setImageBitmap(Bitmap bm) {
-        if (bm != null) {
-            mDrawable = new RoundedDrawable(bm);
-            updateDrawableAttrs();
-        } else {
-            mDrawable = null;
-        }
+        mResource = 0;
+        mDrawable = RoundedDrawable.fromBitmap(bm);
+        updateDrawableAttrs();
         super.setImageDrawable(mDrawable);
+    }
+
+
+    @Override
+    public void setImageResource(int resId) {
+        if (mResource != resId) {
+            mResource = resId;
+            mDrawable = resolveResource();
+            updateDrawableAttrs();
+            super.setImageDrawable(mDrawable);
+        }
+    }
+
+    private Drawable resolveResource() {
+        Resources rsrc = getResources();
+        if (rsrc == null) {
+            return null;
+        }
+
+        Drawable d = null;
+
+        if (mResource != 0) {
+            try {
+                d = rsrc.getDrawable(mResource);
+            } catch (Exception e) {
+                Log.w(TAG, "Unable to find resource: " + mResource, e);
+                // Don't try again.
+                mResource = 0;
+            }
+        }
+        return RoundedDrawable.fromDrawable(d);
     }
 
     @Override
@@ -170,9 +202,10 @@ public class RoundedImageView extends ImageView {
         }
 
         if (drawable instanceof RoundedDrawable) {
-            ((RoundedDrawable) drawable).setScaleType(mScaleType)
-                    .setCornerRadius(!mRoundBackground && background ? 0 : mCornerRadius)
-                    .setBorderWidth(!mRoundBackground && background ? 0 : mBorderWidth)
+            ((RoundedDrawable) drawable)
+                    .setScaleType(mScaleType)
+                    .setCornerRadius(background && !mRoundBackground ? 0 : mCornerRadius)
+                    .setBorderWidth(background && !mRoundBackground ? 0 : mBorderWidth)
                     .setBorderColors(mBorderColor)
                     .setOval(mOval);
         } else if (drawable instanceof LayerDrawable) {
@@ -256,12 +289,6 @@ public class RoundedImageView extends ImageView {
         updateDrawableAttrs();
         updateBackgroundDrawableAttrs();
         invalidate();
-    }
-
-    @Override
-    public void setImageResource(int resId) {
-        super.setImageResource(resId);
-        setImageDrawable(getDrawable());
     }
 
     public boolean isRoundBackground() {
