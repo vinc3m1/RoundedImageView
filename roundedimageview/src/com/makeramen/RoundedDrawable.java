@@ -4,7 +4,6 @@ import android.content.res.ColorStateList;
 import android.graphics.*;
 import android.graphics.Bitmap.Config;
 import android.graphics.drawable.*;
-import android.util.Log;
 import android.widget.ImageView.ScaleType;
 
 public class RoundedDrawable extends Drawable {
@@ -95,8 +94,6 @@ public class RoundedDrawable extends Drawable {
             Bitmap bm = drawableToBitmap(drawable);
             if (bm != null) {
                 return new RoundedDrawable(bm);
-            } else {
-                Log.w(TAG, "Failed to create bitmap from drawable!");
             }
         }
         return drawable;
