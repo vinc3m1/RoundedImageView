@@ -30,6 +30,7 @@ public class RoundedImageView extends ImageView {
     private boolean mRoundBackground = false;
     private boolean mOval = false;
     private Drawable mDrawable;
+    private Drawable mWrappedDrawable;
     private Drawable mBackgroundDrawable;
     private ScaleType mScaleType;
 
@@ -131,12 +132,22 @@ public class RoundedImageView extends ImageView {
     }
 
     @Override
+    public Drawable getDrawable() {
+        if (mWrappedDrawable != null) {
+            return mWrappedDrawable;
+        }
+        return super.getDrawable();
+    }
+
+    @Override
     public void setImageDrawable(Drawable drawable) {
         if (drawable != null) {
             mDrawable = RoundedDrawable.fromDrawable(drawable);
+            mWrappedDrawable = drawable;
             updateDrawableAttrs();
         } else {
             mDrawable = null;
+            mWrappedDrawable = null;
         }
         super.setImageDrawable(mDrawable);
     }
@@ -148,6 +159,7 @@ public class RoundedImageView extends ImageView {
         } else {
             mDrawable = null;
         }
+        mWrappedDrawable = null;
         super.setImageDrawable(mDrawable);
     }
 
@@ -261,7 +273,7 @@ public class RoundedImageView extends ImageView {
     @Override
     public void setImageResource(int resId) {
         super.setImageResource(resId);
-        setImageDrawable(getDrawable());
+        setImageDrawable(super.getDrawable());
     }
 
     public boolean isRoundBackground() {
