@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.makeramen:roundedimageview:1.1.0@aar'
+    compile 'com.makeramen:roundedimageview:1.2.0@'
 }
 ```
 
@@ -97,12 +97,19 @@ iv.setBackground(backgroundDrawable);
 
 ChangeLog
 ----------
+* **1.2.0**
+    * add `setDither` and `setFilterBitmap` method support on RoundedDrawable for tuning bitmap scaling quality
+    * improved performance for `setImageResource`
+    * RoundedDrawable constructor is now public
+    * Fixed bug where artifact was downloading `aar.asc` file instead of aar. You no longer need to have `@aar` specified in the dependency
+
 * **1.1.0**
-	* LayerDrawable support (needs testing!)
-	* Refactored api to support chaining and remove repetitive code
+    * LayerDrawable support (needs testing!)
+    * Refactored api to support chaining and remove repetitive code
+
 * **1.0.0**
-	* Initial release to maven central
-	* Programmatically setting attributes with TransitionDrawables not supported.
+    * Initial release to maven central
+    * Programmatically setting attributes with TransitionDrawables not supported.
 
 
 
