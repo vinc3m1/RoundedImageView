@@ -30,7 +30,7 @@ public class RoundedDrawable extends Drawable {
     private ColorStateList mBorderColor = ColorStateList.valueOf(DEFAULT_BORDER_COLOR);
     private ScaleType mScaleType = ScaleType.FIT_XY;
 
-    RoundedDrawable(Bitmap bitmap) {
+    public RoundedDrawable(Bitmap bitmap) {
 
         mBitmapWidth = bitmap.getWidth();
         mBitmapHeight = bitmap.getHeight();
