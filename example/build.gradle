@@ -2,11 +2,15 @@ apply plugin: 'android'
 
 repositories {
     mavenCentral()
+//    maven {
+//        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+//        url 'https://oss.sonatype.org/content/repositories/releases/'
+//    }
 }
 
 dependencies {
-//    compile 'com.makeramen:roundedimageview:1.1.0'
-    compile project(':roundedimageview')
+    compile 'com.makeramen:roundedimageview:1.2.0'
+//    compile project(':roundedimageview')
 }
 
 android {
