@@ -59,26 +59,6 @@ public class RoundedDrawable extends Drawable {
         }
     }
 
-    public static Bitmap drawableToBitmap(Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-
-        Bitmap bitmap;
-        int width = drawable.getIntrinsicWidth();
-        int height = drawable.getIntrinsicHeight();
-        if (width > 0 && height > 0) {
-            bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            drawable.draw(canvas);
-        } else {
-            bitmap = null;
-        }
-
-        return bitmap;
-    }
-
     public static Drawable fromDrawable(Drawable drawable) {
         if (drawable != null) {
             if (drawable instanceof RoundedDrawable) {
@@ -108,6 +88,26 @@ public class RoundedDrawable extends Drawable {
             }
         }
         return drawable;
+    }
+
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+
+        Bitmap bitmap;
+        int width = drawable.getIntrinsicWidth();
+        int height = drawable.getIntrinsicHeight();
+        if (width > 0 && height > 0) {
+            bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+        } else {
+            bitmap = null;
+        }
+
+        return bitmap;
     }
 
     @Override
@@ -261,6 +261,16 @@ public class RoundedDrawable extends Drawable {
     @Override
     public void setColorFilter(ColorFilter cf) {
         mBitmapPaint.setColorFilter(cf);
+        invalidateSelf();
+    }
+
+    @Override public void setDither(boolean dither) {
+        mBitmapPaint.setDither(dither);
+        invalidateSelf();
+    }
+
+    @Override public void setFilterBitmap(boolean filter) {
+        mBitmapPaint.setFilterBitmap(filter);
         invalidateSelf();
     }
 
