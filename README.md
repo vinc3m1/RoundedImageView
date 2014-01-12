@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.makeramen:roundedimageview:1.2.0'
+    compile 'com.makeramen:roundedimageview:1.2.1'
 }
 ```
 
@@ -97,6 +97,8 @@ iv.setBackground(backgroundDrawable);
 
 ChangeLog
 ----------
+* **1.2.1**
+    * default scaleType now FIT_CENTER (and never null) to match Android ([#27](https://github.com/vinc3m1/RoundedImageView/issues/27))
 * **1.2.0**
     * add `setDither` and `setFilterBitmap` method support on RoundedDrawable for tuning bitmap scaling quality
     * improved performance for `setImageResource`
