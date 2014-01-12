@@ -2,7 +2,8 @@ apply plugin: 'android-library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-archivesBaseName = 'roundedimageview'
+sonatypeUsername = project.hasProperty('sonatypeUsername') ? sonatypeUsername : ""
+sonatypePassword = project.hasProperty('sonatypePassword') ? sonatypePassword : ""
 
 android {
     compileSdkVersion 19
