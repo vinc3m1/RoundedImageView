@@ -55,6 +55,9 @@ public class RoundedImageView extends ImageView {
         int index = a.getInt(R.styleable.RoundedImageView_android_scaleType, -1);
         if (index >= 0) {
             setScaleType(sScaleTypeArray[index]);
+        } else {
+            // default scaletype to FIT_CENTER
+            setScaleType(ScaleType.FIT_CENTER);
         }
 
         mCornerRadius = a.getDimensionPixelSize(R.styleable.RoundedImageView_corner_radius, -1);

@@ -28,7 +28,7 @@ public class RoundedDrawable extends Drawable {
     private boolean mOval = false;
     private float mBorderWidth = 0;
     private ColorStateList mBorderColor = ColorStateList.valueOf(DEFAULT_BORDER_COLOR);
-    private ScaleType mScaleType = ScaleType.FIT_XY;
+    private ScaleType mScaleType = ScaleType.FIT_CENTER;
 
     public RoundedDrawable(Bitmap bitmap) {
 
@@ -336,7 +336,7 @@ public class RoundedDrawable extends Drawable {
 
     public RoundedDrawable setScaleType(ScaleType scaleType) {
         if (scaleType == null) {
-            scaleType = ScaleType.FIT_XY;
+            scaleType = ScaleType.FIT_CENTER;
         }
         if (mScaleType != scaleType) {
             mScaleType = scaleType;
