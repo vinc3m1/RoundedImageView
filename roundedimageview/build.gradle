@@ -6,86 +6,86 @@ sonatypeUsername = project.hasProperty('sonatypeUsername') ? sonatypeUsername : 
 sonatypePassword = project.hasProperty('sonatypePassword') ? sonatypePassword : ""
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion '19.0.0'
+  compileSdkVersion 19
+  buildToolsVersion '19.0.0'
 
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            res.srcDirs = ['res']
-        }
+  sourceSets {
+    main {
+      manifest.srcFile 'AndroidManifest.xml'
+      java.srcDirs = ['src']
+      res.srcDirs = ['res']
     }
+  }
 }
 
 task androidJavadocs(type: Javadoc) {
-    source = android.sourceSets.main.allJava
+  source = android.sourceSets.main.allJava
 }
 
 task androidJavadocsJar(type: Jar) {
-    classifier = 'javadoc'
-    //basename = artifact_id
-    from androidJavadocs.destinationDir
+  classifier = 'javadoc'
+  //basename = artifact_id
+  from androidJavadocs.destinationDir
 }
 
 task androidSourcesJar(type: Jar) {
-    classifier = 'sources'
-    //basename = artifact_id
-    from android.sourceSets.main.allSource
+  classifier = 'sources'
+  //basename = artifact_id
+  from android.sourceSets.main.allSource
 }
 
 artifacts {
-    archives androidSourcesJar
-    archives androidJavadocsJar
+  archives androidSourcesJar
+  archives androidJavadocsJar
 }
 
 signing {
-    required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
-    sign configurations.archives
+  required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
+  sign configurations.archives
 }
 
 uploadArchives {
-    repositories.mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+  repositories.mavenDeployer {
+    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-        repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
-            authentication(userName: sonatypeUsername, password: sonatypePassword)
-        }
-
-        snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
-            authentication(userName: sonatypeUsername, password: sonatypePassword)
-        }
-
-        pom {
-            project {
-                name 'RoundedImageView'
-                packaging 'aar'
-                
-                description 'Fast ImageView with support for rounded corners and borders'
-                url 'https://github.com/vinc3m1/RoundedImageView'
-
-                scm {
-                    url 'scm:git@github.com:vinc3m1/RoundedImageView.git'
-                    connection 'scm:git@github.com:vinc3m1/RoundedImageView.git'
-                    developerConnection 'scm:git@github.com:vinc3m1/RoundedImageView.git'
-                }
-
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution 'repo'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id 'vinc3m1'
-                        name 'Vince Mi'
-                        email 'vince@makeramen.com'
-                    }
-                }
-            }
-        }
+    repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
+      authentication(userName: sonatypeUsername, password: sonatypePassword)
     }
+
+    snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+      authentication(userName: sonatypeUsername, password: sonatypePassword)
+    }
+
+    pom {
+      project {
+        name 'RoundedImageView'
+        packaging 'aar'
+
+        description 'Fast ImageView with support for rounded corners and borders'
+        url 'https://github.com/vinc3m1/RoundedImageView'
+
+        scm {
+          url 'scm:git@github.com:vinc3m1/RoundedImageView.git'
+          connection 'scm:git@github.com:vinc3m1/RoundedImageView.git'
+          developerConnection 'scm:git@github.com:vinc3m1/RoundedImageView.git'
+        }
+
+        licenses {
+          license {
+            name 'The Apache Software License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            distribution 'repo'
+          }
+        }
+
+        developers {
+          developer {
+            id 'vinc3m1'
+            name 'Vince Mi'
+            email 'vince@makeramen.com'
+          }
+        }
+      }
+    }
+  }
 }
