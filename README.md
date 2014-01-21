@@ -97,6 +97,10 @@ iv.setBackground(backgroundDrawable);
 
 ChangeLog
 ----------
+
+* **1.2.2**
+    * fix for incorrect radius on the image when there is a border
+    * add a `toBitmap()` function for easier Picasso and Ion compatibility
 * **1.2.1**
     * default scaleType now FIT_CENTER (and never null) to match Android ([#27](https://github.com/vinc3m1/RoundedImageView/issues/27))
 * **1.2.0**
