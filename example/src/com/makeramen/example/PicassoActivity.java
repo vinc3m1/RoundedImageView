@@ -49,6 +49,32 @@ public class PicassoActivity extends Activity {
 
   class PicassoAdapter extends ArrayAdapter<PicassoItem> {
     private final LayoutInflater mInflater;
+    private final Transformation mTransformation = new Transformation() {
+
+      final float radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30,
+          getResources().getDisplayMetrics());
+      final int border = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3,
+          getResources().getDisplayMetrics());
+      final boolean oval = false;
+      final int color = Color.BLACK;
+
+      @Override public Bitmap transform(Bitmap bitmap) {
+        Bitmap transformed = RoundedDrawable.fromBitmap(bitmap)
+            .setBorderColor(color)
+            .setBorderWidth(border)
+            .setCornerRadius(radius)
+            .setOval(oval)
+            .toBitmap();
+        if (!bitmap.equals(transformed)) {
+          bitmap.recycle();
+        }
+        return transformed;
+      }
+
+      @Override public String key() {
+        return "rounded_radius_" + radius + "_border_" + border + "_color_" + color +  "_oval_" + oval ;
+      }
+    };
 
     public PicassoAdapter(Context context) {
       super(context, 0);
@@ -70,31 +96,7 @@ public class PicassoActivity extends Activity {
       Picasso.with(PicassoActivity.this)
           .load(item.mUrl)
           .fit()
-          .transform(new Transformation() {
-            float radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30,
-                getResources().getDisplayMetrics());
-            int border = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3,
-                getResources().getDisplayMetrics());
-            boolean oval = false;
-            int color = Color.BLACK;
-
-            @Override public Bitmap transform(Bitmap bitmap) {
-              Bitmap transformed = RoundedDrawable.fromBitmap(bitmap)
-                      .setBorderColor(color)
-                      .setBorderWidth(border)
-                      .setCornerRadius(radius)
-                      .setOval(oval)
-                      .toBitmap();
-              if (!bitmap.equals(transformed)) {
-                bitmap.recycle();
-              }
-              return transformed;
-            }
-
-            @Override public String key() {
-              return "rounded_radius_" + radius + "_border_" + border + "_color_" + color +  "_oval_" + oval ;
-            }
-          })
+          .transform(mTransformation)
           .into(imageView);
 
       imageView.setScaleType(item.mScaleType);
