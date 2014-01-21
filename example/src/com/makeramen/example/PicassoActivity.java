@@ -2,6 +2,8 @@ package com.makeramen.example;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +13,9 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.makeramen.RoundedDrawable;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 public class PicassoActivity extends Activity {
 
@@ -53,7 +57,7 @@ public class PicassoActivity extends Activity {
     @Override public View getView(int position, View convertView, ViewGroup parent) {
       ViewGroup view;
       if (convertView == null) {
-        view = (ViewGroup) mInflater.inflate(R.layout.rounded_item, parent, false);
+        view = (ViewGroup) mInflater.inflate(R.layout.picasso_item, parent, false);
       } else {
         view = (ViewGroup) convertView;
       }
@@ -65,7 +69,29 @@ public class PicassoActivity extends Activity {
       Picasso.with(PicassoActivity.this)
           .load(item.mUrl)
           .fit()
-          .noFade()
+          .transform(new Transformation() {
+            float radius = 30;
+            int border = 10;
+            boolean oval = false;
+            int color = Color.BLACK;
+
+            @Override public Bitmap transform(Bitmap bitmap) {
+              Bitmap transformed = RoundedDrawable.drawableToBitmap(
+                  RoundedDrawable.fromBitmap(bitmap)
+                      .setBorderColor(color)
+                      .setBorderWidth(border)
+                      .setCornerRadius(radius)
+                      .setOval(oval));
+              if (!bitmap.equals(transformed)) {
+                bitmap.recycle();
+              }
+              return transformed;
+            }
+
+            @Override public String key() {
+              return "rounded_radius_" + radius + "_border_" + border + "_color_" + color +  "_oval_" + oval ;
+            }
+          })
           .into(imageView);
 
       imageView.setScaleType(item.mScaleType);

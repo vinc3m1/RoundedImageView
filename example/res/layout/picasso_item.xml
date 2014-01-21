@@ -5,7 +5,7 @@
     android:layout_height="200dip"
     >
 
-  <com.makeramen.RoundedImageView
+  <ImageView
       android:id="@+id/imageView1"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
@@ -16,10 +16,6 @@
       android:padding="10dip"
       android:src="@drawable/photo1"
       android:scaleType="center"
-      app:corner_radius="30dip"
-      app:border_width="10dip"
-      app:is_oval="false"
-      app:border_color="@color/border"
       />
 
   <TextView

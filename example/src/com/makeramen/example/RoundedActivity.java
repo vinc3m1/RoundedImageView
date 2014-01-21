@@ -9,10 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.makeramen.RoundedImageView;
 
 public class RoundedActivity extends Activity {
   @Override
@@ -75,9 +75,8 @@ public class RoundedActivity extends Activity {
 
       StreamItem item = getItem(position);
 
-      ((RoundedImageView) view.findViewById(R.id.imageView1)).setImageBitmap(item.mBitmap);
-      ((RoundedImageView) view.findViewById(R.id.imageView1)).setScaleType(item.mScaleType);
-      ((RoundedImageView) view.findViewById(R.id.imageView1)).setOval(true);
+      ((ImageView) view.findViewById(R.id.imageView1)).setImageBitmap(item.mBitmap);
+      ((ImageView) view.findViewById(R.id.imageView1)).setScaleType(item.mScaleType);
       ((TextView) view.findViewById(R.id.textView1)).setText(item.mLine1);
       ((TextView) view.findViewById(R.id.textView2)).setText(item.mLine2);
       ((TextView) view.findViewById(R.id.textView3)).setText(item.mScaleType.toString());
