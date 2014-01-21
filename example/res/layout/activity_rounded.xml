@@ -10,4 +10,5 @@
     android:scrollingCache="false"
     android:animationCache="false"
     android:alwaysDrawnWithCache="false"
-    tools:context=".RoundedActivity" />
+    tools:context=".RoundedActivity"
+    />
