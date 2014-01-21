@@ -65,8 +65,7 @@ public class RoundedActivity extends Activity {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-      ViewGroup view = null;
-
+      ViewGroup view;
       if (convertView == null) {
         view = (ViewGroup) mInflater.inflate(R.layout.rounded_item, parent, false);
       } else {
