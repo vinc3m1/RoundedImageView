@@ -249,8 +249,8 @@ public class RoundedDrawable extends Drawable {
 
     if (mOval) {
       if (mBorderWidth > 0) {
-        canvas.drawOval(mBorderRect, mBorderPaint);
         canvas.drawOval(mDrawableRect, mBitmapPaint);
+        canvas.drawOval(mBorderRect, mBorderPaint);
       } else {
         canvas.drawOval(mDrawableRect, mBitmapPaint);
       }
