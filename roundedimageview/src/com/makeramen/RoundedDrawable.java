@@ -262,8 +262,8 @@ public class RoundedDrawable extends Drawable {
     } else {
       if (mBorderWidth > 0) {
         canvas.drawRoundRect(mBorderRect, mCornerRadius, mCornerRadius, mBorderPaint);
-        canvas.drawRoundRect(mDrawableRect, Math.max(mCornerRadius - mBorderWidth, 0),
-            Math.max(mCornerRadius - mBorderWidth, 0), mBitmapPaint);
+        canvas.drawRoundRect(mDrawableRect, Math.max(mCornerRadius - mBorderWidth/2 - 0.5f, 0),
+            Math.max(mCornerRadius - mBorderWidth/2 - 0.5f, 0), mBitmapPaint);
       } else {
         canvas.drawRoundRect(mDrawableRect, mCornerRadius, mCornerRadius, mBitmapPaint);
       }
