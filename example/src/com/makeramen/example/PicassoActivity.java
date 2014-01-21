@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,18 +71,20 @@ public class PicassoActivity extends Activity {
           .load(item.mUrl)
           .fit()
           .transform(new Transformation() {
-            float radius = 30;
-            int border = 10;
+            float radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30,
+                getResources().getDisplayMetrics());
+            int border = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3,
+                getResources().getDisplayMetrics());
             boolean oval = false;
             int color = Color.BLACK;
 
             @Override public Bitmap transform(Bitmap bitmap) {
-              Bitmap transformed = RoundedDrawable.drawableToBitmap(
-                  RoundedDrawable.fromBitmap(bitmap)
+              Bitmap transformed = RoundedDrawable.fromBitmap(bitmap)
                       .setBorderColor(color)
                       .setBorderWidth(border)
                       .setCornerRadius(radius)
-                      .setOval(oval));
+                      .setOval(oval)
+                      .toBitmap();
               if (!bitmap.equals(transformed)) {
                 bitmap.recycle();
               }

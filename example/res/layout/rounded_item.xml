@@ -17,7 +17,7 @@
       android:src="@drawable/photo1"
       android:scaleType="center"
       app:corner_radius="30dip"
-      app:border_width="10dip"
+      app:border_width="3dip"
       app:is_oval="false"
       app:border_color="@color/border"
       />

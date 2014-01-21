@@ -362,4 +362,8 @@ public class RoundedDrawable extends Drawable {
     }
     return this;
   }
+
+  public Bitmap toBitmap() {
+    return drawableToBitmap(this);
+  }
 }
