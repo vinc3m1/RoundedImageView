@@ -20,6 +20,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.util.Log;
 import android.widget.ImageView.ScaleType;
 
+@SuppressWarnings("UnusedDeclaration")
 public class RoundedDrawable extends Drawable {
 
   public static final String TAG = "RoundedDrawable";
@@ -139,10 +140,6 @@ public class RoundedDrawable extends Drawable {
   }
 
   private void updateShaderMatrix() {
-    mBorderRect.set(mBounds);
-    mDrawableRect.set(mBorderWidth, mBorderWidth, mBorderRect.width() - mBorderWidth,
-        mBorderRect.height() - mBorderWidth);
-
     float scale;
     float dx;
     float dy;
@@ -150,35 +147,35 @@ public class RoundedDrawable extends Drawable {
     switch (mScaleType) {
       case CENTER:
         mBorderRect.set(mBounds);
-        mDrawableRect.set(mBorderWidth, mBorderWidth, mBorderRect.width() - mBorderWidth,
-            mBorderRect.height() - mBorderWidth);
+        mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
 
         mShaderMatrix.set(null);
-        mShaderMatrix.setTranslate((int) ((mDrawableRect.width() - mBitmapWidth) * 0.5f + 0.5f),
-            (int) ((mDrawableRect.height() - mBitmapHeight) * 0.5f + 0.5f));
+        mShaderMatrix.setTranslate((int) ((mBorderRect.width() - mBitmapWidth) * 0.5f + 0.5f),
+            (int) ((mBorderRect.height() - mBitmapHeight) * 0.5f + 0.5f));
         break;
+
       case CENTER_CROP:
         mBorderRect.set(mBounds);
-        mDrawableRect.set(mBorderWidth, mBorderWidth, mBorderRect.width() - mBorderWidth,
-            mBorderRect.height() - mBorderWidth);
+        mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
 
         mShaderMatrix.set(null);
 
         dx = 0;
         dy = 0;
 
-        if (mBitmapWidth * mDrawableRect.height() > mDrawableRect.width() * mBitmapHeight) {
-          scale = mDrawableRect.height() / (float) mBitmapHeight;
-          dx = (mDrawableRect.width() - mBitmapWidth * scale) * 0.5f;
+        if (mBitmapWidth * mBorderRect.height() > mBorderRect.width() * mBitmapHeight) {
+          scale = mBorderRect.height() / (float) mBitmapHeight;
+          dx = (mBorderRect.width() - mBitmapWidth * scale) * 0.5f;
         } else {
-          scale = mDrawableRect.width() / (float) mBitmapWidth;
-          dy = (mDrawableRect.height() - mBitmapHeight * scale) * 0.5f;
+          scale = mBorderRect.width() / (float) mBitmapWidth;
+          dy = (mBorderRect.height() - mBitmapHeight * scale) * 0.5f;
         }
 
         mShaderMatrix.setScale(scale, scale);
         mShaderMatrix.postTranslate((int) (dx + 0.5f) + mBorderWidth,
             (int) (dy + 0.5f) + mBorderWidth);
         break;
+
       case CENTER_INSIDE:
         mShaderMatrix.set(null);
 
@@ -197,46 +194,44 @@ public class RoundedDrawable extends Drawable {
 
         mBorderRect.set(mBitmapRect);
         mShaderMatrix.mapRect(mBorderRect);
-        mDrawableRect.set(mBorderRect.left + mBorderWidth, mBorderRect.top + mBorderWidth,
-            mBorderRect.right - mBorderWidth, mBorderRect.bottom - mBorderWidth);
-        mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
+        mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
+        mShaderMatrix.setRectToRect(mBitmapRect, mBorderRect, Matrix.ScaleToFit.FILL);
         break;
+
+      default:
       case FIT_CENTER:
         mBorderRect.set(mBitmapRect);
         mShaderMatrix.setRectToRect(mBitmapRect, mBounds, Matrix.ScaleToFit.CENTER);
         mShaderMatrix.mapRect(mBorderRect);
-        mDrawableRect.set(mBorderRect.left + mBorderWidth, mBorderRect.top + mBorderWidth,
-            mBorderRect.right - mBorderWidth, mBorderRect.bottom - mBorderWidth);
-        mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
+        mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
+        mShaderMatrix.setRectToRect(mBitmapRect, mBorderRect, Matrix.ScaleToFit.FILL);
         break;
+
       case FIT_END:
         mBorderRect.set(mBitmapRect);
         mShaderMatrix.setRectToRect(mBitmapRect, mBounds, Matrix.ScaleToFit.END);
         mShaderMatrix.mapRect(mBorderRect);
-        mDrawableRect.set(mBorderRect.left + mBorderWidth, mBorderRect.top + mBorderWidth,
-            mBorderRect.right - mBorderWidth, mBorderRect.bottom - mBorderWidth);
-        mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
+        mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
+        mShaderMatrix.setRectToRect(mBitmapRect, mBorderRect, Matrix.ScaleToFit.FILL);
         break;
+
       case FIT_START:
         mBorderRect.set(mBitmapRect);
         mShaderMatrix.setRectToRect(mBitmapRect, mBounds, Matrix.ScaleToFit.START);
         mShaderMatrix.mapRect(mBorderRect);
-        mDrawableRect.set(mBorderRect.left + mBorderWidth, mBorderRect.top + mBorderWidth,
-            mBorderRect.right - mBorderWidth, mBorderRect.bottom - mBorderWidth);
-        mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
+        mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
+        mShaderMatrix.setRectToRect(mBitmapRect, mBorderRect, Matrix.ScaleToFit.FILL);
         break;
+
       case FIT_XY:
-      default:
         mBorderRect.set(mBounds);
-        mDrawableRect.set(0 + mBorderWidth, 0 + mBorderWidth, mBorderRect.width() - mBorderWidth,
-            mBorderRect.height() - mBorderWidth);
+        mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
         mShaderMatrix.set(null);
-        mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
+        mShaderMatrix.setRectToRect(mBitmapRect, mBorderRect, Matrix.ScaleToFit.FILL);
         break;
     }
 
-    mBorderRect.inset(mBorderWidth / 2, mBorderWidth / 2);
-
+    mDrawableRect.set(mBorderRect);
     mBitmapShader.setLocalMatrix(mShaderMatrix);
   }
 
@@ -261,9 +256,9 @@ public class RoundedDrawable extends Drawable {
       }
     } else {
       if (mBorderWidth > 0) {
+        canvas.drawRoundRect(mDrawableRect, Math.max(mCornerRadius, 0),
+            Math.max(mCornerRadius, 0), mBitmapPaint);
         canvas.drawRoundRect(mBorderRect, mCornerRadius, mCornerRadius, mBorderPaint);
-        canvas.drawRoundRect(mDrawableRect, Math.max(mCornerRadius - mBorderWidth/2 - 0.5f, 0),
-            Math.max(mCornerRadius - mBorderWidth/2 - 0.5f, 0), mBitmapPaint);
       } else {
         canvas.drawRoundRect(mDrawableRect, mCornerRadius, mCornerRadius, mBitmapPaint);
       }

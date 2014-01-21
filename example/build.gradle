@@ -9,8 +9,8 @@ repositories {
 }
 
 dependencies {
-  compile 'com.makeramen:roundedimageview:1.2.0'
-  //    compile project(':roundedimageview')
+  //compile 'com.makeramen:roundedimageview:1.2.0'
+      compile project(':roundedimageview')
 }
 
 android {
