@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
@@ -165,6 +166,11 @@ public class RoundedImageView extends ImageView {
       updateDrawableAttrs();
       super.setImageDrawable(mDrawable);
     }
+  }
+
+  @Override public void setImageURI(Uri uri) {
+    super.setImageURI(uri);
+    setImageDrawable(getDrawable());
   }
 
   private Drawable resolveResource() {
