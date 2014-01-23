@@ -1,5 +1,6 @@
 package com.makeramen;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -7,9 +8,12 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
+import java.io.IOException;
+import java.io.InputStream;
 
 @SuppressWarnings("UnusedDeclaration")
 public class RoundedImageView extends ImageView {
@@ -35,6 +39,7 @@ public class RoundedImageView extends ImageView {
   private boolean mOval = false;
   private boolean mRoundBackground = false;
 
+  private Uri mUri;
   private int mResource;
   private Drawable mDrawable;
   private Drawable mBackgroundDrawable;
@@ -143,6 +148,7 @@ public class RoundedImageView extends ImageView {
 
   @Override
   public void setImageDrawable(Drawable drawable) {
+    mUri = null;
     mResource = 0;
     mDrawable = RoundedDrawable.fromDrawable(drawable);
     updateDrawableAttrs();
@@ -151,6 +157,7 @@ public class RoundedImageView extends ImageView {
 
   @Override
   public void setImageBitmap(Bitmap bm) {
+    mUri = null;
     mResource = 0;
     mDrawable = RoundedDrawable.fromBitmap(bm);
     updateDrawableAttrs();
@@ -160,14 +167,27 @@ public class RoundedImageView extends ImageView {
   @Override
   public void setImageResource(int resId) {
     if (mResource != resId) {
+      mUri = null;
       mResource = resId;
-      mDrawable = resolveResource();
+      mDrawable = resolveDrawable();
       updateDrawableAttrs();
       super.setImageDrawable(mDrawable);
     }
   }
 
-  private Drawable resolveResource() {
+  @Override public void setImageURI(Uri uri) {
+    if (mResource != 0 ||
+        (mUri != uri &&
+            (uri == null || mUri == null || !uri.equals(mUri)))) {
+      mUri = uri;
+      mResource = 0;
+      mDrawable = resolveDrawable();
+      updateDrawableAttrs();
+      super.setImageDrawable(mDrawable);
+    }
+  }
+
+  private Drawable resolveDrawable() {
     Resources rsrc = getResources();
     if (rsrc == null) {
       return null;
@@ -183,7 +203,46 @@ public class RoundedImageView extends ImageView {
         // Don't try again.
         mResource = 0;
       }
+    } else if (mUri != null) {
+      Context mContext = getContext();
+      String scheme = mUri.getScheme();
+      if (ContentResolver.SCHEME_ANDROID_RESOURCE.equals(scheme)) {
+        try {
+          // Load drawable through Resources, to get the source density information
+          ContentResolver.OpenResourceIdResult r =
+              mContext.getContentResolver().getResourceId(mUri);
+          d = r.r.getDrawable(r.id);
+        } catch (Exception e) {
+          Log.w("ImageView", "Unable to open content: " + mUri, e);
+        }
+      } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)
+          || ContentResolver.SCHEME_FILE.equals(scheme)) {
+        InputStream stream = null;
+        try {
+          stream = mContext.getContentResolver().openInputStream(mUri);
+          d = Drawable.createFromStream(stream, null);
+        } catch (Exception e) {
+          Log.w("ImageView", "Unable to open content: " + mUri, e);
+        } finally {
+          if (stream != null) {
+            try {
+              stream.close();
+            } catch (IOException e) {
+              Log.w("ImageView", "Unable to close content: " + mUri, e);
+            }
+          }
+        }
+      } else {
+        d = Drawable.createFromPath(mUri.toString());
+      }
+
+      if (d == null) {
+        System.out.println("resolveUri failed on bad bitmap uri: " + mUri);
+        // Don't try again.
+        mUri = null;
+      }
     }
+
     return RoundedDrawable.fromDrawable(d);
   }
 
