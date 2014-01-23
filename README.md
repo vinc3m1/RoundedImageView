@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.makeramen:roundedimageview:1.2.2'
+    compile 'com.makeramen:roundedimageview:1.2.3'
 }
 ```
 
@@ -98,11 +98,16 @@ iv.setBackground(backgroundDrawable);
 ChangeLog
 ----------
 
+* **1.2.3**
+    * added rudimentary support for `setImageUri`. Performance of the function is probably poor and users should be cautious when using it.
+
 * **1.2.2**
     * fix for incorrect radius on the image when there is a border
     * add a `toBitmap()` function for easier Picasso and Ion compatibility
+
 * **1.2.1**
     * default scaleType now FIT_CENTER (and never null) to match Android ([#27](https://github.com/vinc3m1/RoundedImageView/issues/27))
+
 * **1.2.0**
     * add `setDither` and `setFilterBitmap` method support on RoundedDrawable for tuning bitmap scaling quality
     * improved performance for `setImageResource`
