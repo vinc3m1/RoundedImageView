@@ -34,12 +34,15 @@ public class ExampleActivity extends Activity implements ActionBar.OnNavigationL
     switch (itemPosition) {
       default:
       case 0:
-        newFragment = new RoundedFragment();
+        newFragment = RoundedFragment.getInstance(false);
         break;
       case 1:
-        newFragment = new PicassoFragment();
+        newFragment = RoundedFragment.getInstance(true);
         break;
       case 2:
+        newFragment = new PicassoFragment();
+        break;
+      case 3:
         newFragment = new ColorFragment();
         break;
     }

@@ -9,12 +9,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.makeramen.RoundedImageView;
 
 public class RoundedFragment extends Fragment {
+
+  static final String ARG_IS_OVAL = "is_oval";
+
+  private boolean isOval = false;
+
+  public static RoundedFragment getInstance(boolean isOval) {
+    RoundedFragment f = new RoundedFragment();
+    Bundle args = new Bundle();
+    args.putBoolean(ARG_IS_OVAL, isOval);
+    f.setArguments(args);
+    return f;
+  }
+
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    if (getArguments() != null) {
+      isOval = getArguments().getBoolean(ARG_IS_OVAL);
+    }
+  }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -78,8 +98,10 @@ public class RoundedFragment extends Fragment {
 
       StreamItem item = getItem(position);
 
-      ((ImageView) view.findViewById(R.id.imageView1)).setImageBitmap(item.mBitmap);
-      ((ImageView) view.findViewById(R.id.imageView1)).setScaleType(item.mScaleType);
+      RoundedImageView iv = ((RoundedImageView) view.findViewById(R.id.imageView1));
+      iv.setOval(isOval);
+      iv.setImageBitmap(item.mBitmap);
+      iv.setScaleType(item.mScaleType);
       ((TextView) view.findViewById(R.id.textView1)).setText(item.mLine1);
       ((TextView) view.findViewById(R.id.textView2)).setText(item.mLine2);
       ((TextView) view.findViewById(R.id.textView3)).setText(item.mScaleType.toString());
