@@ -14,7 +14,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.util.Log;
@@ -77,9 +76,6 @@ public class RoundedDrawable extends Drawable {
       if (drawable instanceof RoundedDrawable) {
         // just return if it's already a RoundedDrawable
         return drawable;
-      } else if (drawable instanceof ColorDrawable) {
-        // FIXME we don't support ColorDrawables yet
-        return drawable;
       } else if (drawable instanceof LayerDrawable) {
         LayerDrawable ld = (LayerDrawable) drawable;
         int num = ld.getNumberOfLayers();
@@ -109,14 +105,15 @@ public class RoundedDrawable extends Drawable {
     }
 
     Bitmap bitmap;
-    int width = drawable.getIntrinsicWidth();
-    int height = drawable.getIntrinsicHeight();
-    if (width > 0 && height > 0) {
+    int width = Math.max(drawable.getIntrinsicWidth(), 1);
+    int height = Math.max(drawable.getIntrinsicHeight(), 1);
+    try {
       bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
       Canvas canvas = new Canvas(bitmap);
       drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
       drawable.draw(canvas);
-    } else {
+    } catch (Exception e) {
+      e.printStackTrace();
       bitmap = null;
     }
 
