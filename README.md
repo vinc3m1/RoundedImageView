@@ -1,9 +1,10 @@
 RoundedImageView
 ================
 
-A fast ImageView (and Drawable) that supports rounded corners based on the original [example from Romain Guy](http://www.curious-creature.org/2012/12/11/android-recipe-1-image-with-rounded-corners/)
+A fast ImageView (and Drawable) that supports rounded corners (and ovals or circles) based on the original [example from Romain Guy](http://www.curious-creature.org/2012/12/11/android-recipe-1-image-with-rounded-corners/)
 
 ![RoundedImageView screenshot](https://raw.github.com/makeramen/RoundedImageView/master/screenshot.png)
+![RoundedImageView screenshot with ovals](https://raw.github.com/makeramen/RoundedImageView/master/screenshot-oval.png)
 
 There are many ways to create rounded corners in android, but this is the fastest and best one that I know of because it:
 * does **not** create a copy of the original bitmap
@@ -14,6 +15,7 @@ If you know of a better method, let me know and I'll implement it!
 
 Also has proper support for:
 * Borders (with Colors and ColorStateLists)
+* Ovals and Circles
 * All `ScaleType`s
   * Borders are drawn at view edge, not bitmap edge.
   * Except on edges where the bitmap is smaller than the view
