@@ -2,4 +2,10 @@
 <resources>
   <string name="app_name">RoundedImageView</string>
   <string name="picasso_app_name">RoundedPicassoView</string>
+
+  <string-array name="action_list">
+    <item>Bitmap</item>
+    <item>Picasso</item>
+    <item>Color</item>
+  </string-array>
 </resources>

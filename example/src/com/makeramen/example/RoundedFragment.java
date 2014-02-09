@@ -1,6 +1,6 @@
 package com.makeramen.example;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,31 +14,35 @@ import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class RoundedActivity extends Activity {
-  @Override
+public class RoundedFragment extends Fragment {
 
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_rounded, container, false);
 
-    setContentView(R.layout.activity_rounded);
+    StreamAdapter adapter = new StreamAdapter(getActivity());
 
-    StreamAdapter adapter = new StreamAdapter(this);
-    ((ListView) findViewById(R.id.main_list)).setAdapter(adapter);
-
-    adapter.add(new StreamItem(this, R.drawable.photo1, "Tufa at night", "Mono Lake, CA",
+    adapter.add(new StreamItem(getActivity(), R.drawable.photo1, "Tufa at night", "Mono Lake, CA",
         ScaleType.CENTER));
-    adapter.add(new StreamItem(this, R.drawable.photo2, "Starry night", "Lake Powell, AZ",
+    adapter.add(new StreamItem(getActivity(), R.drawable.photo2, "Starry night", "Lake Powell, AZ",
         ScaleType.CENTER_CROP));
-    adapter.add(new StreamItem(this, R.drawable.photo3, "Racetrack playa", "Death Valley, CA",
-        ScaleType.CENTER_INSIDE));
     adapter.add(
-        new StreamItem(this, R.drawable.photo4, "Napali coast", "Kauai, HI", ScaleType.FIT_CENTER));
+        new StreamItem(getActivity(), R.drawable.photo3, "Racetrack playa", "Death Valley, CA",
+            ScaleType.CENTER_INSIDE));
     adapter.add(
-        new StreamItem(this, R.drawable.photo5, "Delicate Arch", "Arches, UT", ScaleType.FIT_END));
-    adapter.add(new StreamItem(this, R.drawable.photo6, "Sierra sunset", "Lone Pine, CA",
+        new StreamItem(getActivity(), R.drawable.photo4, "Napali coast", "Kauai, HI",
+            ScaleType.FIT_CENTER));
+    adapter.add(
+        new StreamItem(getActivity(), R.drawable.photo5, "Delicate Arch", "Arches, UT",
+            ScaleType.FIT_END));
+    adapter.add(new StreamItem(getActivity(), R.drawable.photo6, "Sierra sunset", "Lone Pine, CA",
         ScaleType.FIT_START));
     adapter.add(
-        new StreamItem(this, R.drawable.photo7, "Majestic", "Grand Teton, WY", ScaleType.FIT_XY));
+        new StreamItem(getActivity(), R.drawable.photo7, "Majestic", "Grand Teton, WY",
+            ScaleType.FIT_XY));
+
+    ((ListView) view.findViewById(R.id.main_list)).setAdapter(adapter);
+    return view;
   }
 
   class StreamItem {
