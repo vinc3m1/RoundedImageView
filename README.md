@@ -80,7 +80,8 @@ Define in xml:
         app:corner_radius="30dip"
         app:border_width="2dip"
         app:border_color="#333333"
-        app:round_background="true" />
+        app:round_background="true"
+        app:is_oval="true" />
 ```
 
 Or in code:
@@ -94,6 +95,7 @@ iv.setBorderColor(Color.DKGRAY);
 iv.setRoundedBackground(true);
 iv.setImageDrawable(drawable);
 iv.setBackground(backgroundDrawable);
+iv.isOval(true);
 ```
 
 
