@@ -28,7 +28,7 @@ Also has proper support for:
 
 Gradle
 ----
-RoundedImageView is available on Maven Central as well as [Ark](https://github.com/ark/ark).
+RoundedImageView is available on Maven Central.
 
 Add the following to your `build.gradle` to use:
 ```
@@ -37,11 +37,11 @@ repositories {
 }
 
 dependencies {
-    compile 'com.makeramen:roundedimageview:1.2.3'
+    compile 'com.makeramen:roundedimageview:1.2.4'
 }
 ```
 
-Maven
+Maven (Deprecated)
 ----
 
 Make sure you installed Android 4.2 from the [Android Maven Deployer](https://github.com/mosabua/maven-android-sdk-deployer)
