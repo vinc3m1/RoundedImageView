@@ -102,6 +102,10 @@ iv.isOval(true);
 ChangeLog
 ----------
 
+* **1.2.4**
+    * add basic support for ColorDrawable (and other drawables with -1 intrinsic dimens)
+    * implementation of the above is known to be buggy in many cases, pull requests welcome
+
 * **1.2.3**
     * added rudimentary support for `setImageUri`. Performance of the function is probably poor and users should be cautious when using it.
 
