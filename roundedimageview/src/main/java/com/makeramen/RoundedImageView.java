@@ -195,7 +195,7 @@ public class RoundedImageView extends ImageView {
   }
 
   private void updateDrawableAttrs() {
-    updateAttrs(mDrawable, false);
+    updateAttrs(mDrawable);
   }
 
   private void updateBackgroundDrawableAttrs(boolean convert) {
@@ -203,25 +203,25 @@ public class RoundedImageView extends ImageView {
       if (convert) {
         mBackgroundDrawable = RoundedDrawable.fromDrawable(mBackgroundDrawable);
       }
-      updateAttrs(mBackgroundDrawable, true);
+      updateAttrs(mBackgroundDrawable);
     }
   }
 
-  private void updateAttrs(Drawable drawable, boolean background) {
+  private void updateAttrs(Drawable drawable) {
     if (drawable == null) { return; }
 
     if (drawable instanceof RoundedDrawable) {
       ((RoundedDrawable) drawable)
           .setScaleType(mScaleType)
-          .setCornerRadius(background && !mMutateBackground ? 0 : mCornerRadius)
-          .setBorderWidth(background && !mMutateBackground ? 0 : mBorderWidth)
+          .setCornerRadius(mCornerRadius)
+          .setBorderWidth(mBorderWidth)
           .setBorderColors(mBorderColor)
           .setOval(mOval);
     } else if (drawable instanceof LayerDrawable) {
       // loop through layers to and set drawable attrs
       LayerDrawable ld = ((LayerDrawable) drawable);
       for (int i = 0, layers = ld.getNumberOfLayers(); i < layers; i++) {
-        updateAttrs(ld.getDrawable(i), background);
+        updateAttrs(ld.getDrawable(i));
       }
     }
   }
