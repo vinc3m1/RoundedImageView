@@ -28,7 +28,7 @@ Also has proper support for:
 
 Gradle
 ----
-RoundedImageView is available on Maven Central.
+RoundedImageView is available in [Maven Central](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.makeramen%22%20AND%20a%3A%22roundedimageview%22).
 
 Add the following to your `build.gradle` to use:
 ```

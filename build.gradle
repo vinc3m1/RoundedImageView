@@ -1,21 +1,21 @@
 buildscript {
-    repositories {
-        mavenCentral()
-    }
+  repositories {
+    mavenCentral()
+  }
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
-    }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:0.9.+'
+  }
 }
 
 allprojects {
-    group 'com.makeramen'
-    version '1.2.5-SNAPSHOT'
-    repositories {
-        mavenCentral()
-    }
+  group 'com.makeramen'
+  version '1.2.5-SNAPSHOT'
+  repositories {
+    mavenCentral()
+  }
 
-    tasks.withType(Compile) {
-        options.encoding = "UTF-8"
-    }
+  tasks.withType(Compile) {
+    options.encoding = "UTF-8"
+  }
 }
