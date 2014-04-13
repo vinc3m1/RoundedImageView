@@ -7,15 +7,7 @@ sonatypePassword = project.hasProperty('sonatypePassword') ? sonatypePassword : 
 
 android {
   compileSdkVersion 19
-  buildToolsVersion '19.0.1'
-
-  sourceSets {
-    main {
-      manifest.srcFile 'AndroidManifest.xml'
-      java.srcDirs = ['src']
-      res.srcDirs = ['res']
-    }
-  }
+  buildToolsVersion '19.0.3'
 }
 
 task androidJavadocs(type: Javadoc) {

@@ -41,32 +41,6 @@ dependencies {
 }
 ```
 
-Maven (Deprecated)
-----
-
-Make sure you installed Android 4.2 from the [Android Maven Deployer](https://github.com/mosabua/maven-android-sdk-deployer)
-
-Build the apk:
-```
-git clone https://github.com/vinc3m1/RoundedImageView.git
-cd ./RoundedImageView/
-mvn clean install
-```
-Install and run:
-````
-cd ./example
-mvn android:deploy android:run
-````
-If you want to use the library, add this dependency:
-```
-<dependency>
-    <groupId>com.makeramen</groupId>
-    <artifactId>roundedimageview-apklib</artifactId>
-    <version>1.2.0</version>
-    <type>apklib</type>
-</dependency>
-```
-
 Usage
 ----
 Define in xml:
