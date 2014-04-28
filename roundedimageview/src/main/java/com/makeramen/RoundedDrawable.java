@@ -312,7 +312,7 @@ public class RoundedDrawable extends Drawable {
     return mBorderWidth;
   }
 
-  public RoundedDrawable setBorderWidth(int width) {
+  public RoundedDrawable setBorderWidth(float width) {
     mBorderWidth = width;
     mBorderPaint.setStrokeWidth(mBorderWidth);
     return this;

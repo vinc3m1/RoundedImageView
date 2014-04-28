@@ -2,10 +2,8 @@ package com.makeramen.example;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.makeramen.RoundedDrawable;
+import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -52,32 +50,14 @@ public class PicassoFragment extends Fragment {
 
   class PicassoAdapter extends ArrayAdapter<PicassoItem> {
     private final LayoutInflater mInflater;
-    private final Transformation mTransformation = new Transformation() {
 
-      final float radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30,
-          getResources().getDisplayMetrics());
-      final int border = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3,
-          getResources().getDisplayMetrics());
-      final boolean oval = false;
-      final int color = Color.BLACK;
-
-      @Override public Bitmap transform(Bitmap bitmap) {
-        Bitmap transformed = RoundedDrawable.fromBitmap(bitmap)
-            .setBorderColor(color)
-            .setBorderWidth(border)
-            .setCornerRadius(radius)
-            .setOval(oval)
-            .toBitmap();
-        if (!bitmap.equals(transformed)) {
-          bitmap.recycle();
-        }
-        return transformed;
-      }
-
-      @Override public String key() {
-        return "rounded_radius_" + radius + "_border_" + border + "_color_" + color +  "_oval_" + oval ;
-      }
-    };
+    private final Transformation mTransformation = new RoundedTransformationBuilder(getActivity())
+        .oval(false)
+        .borderWidthDp(3)
+        .scaleType(ScaleType.CENTER)
+        .cornerRadiusDp(30)
+        .borderColor(Color.BLACK)
+        .build();
 
     public PicassoAdapter(Context context) {
       super(context, 0);

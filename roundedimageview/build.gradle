@@ -15,6 +15,10 @@ android {
   }
 }
 
+dependencies {
+  provided 'com.squareup.picasso:picasso:2.2.0'
+}
+
 task androidJavadocs(type: Javadoc) {
   source = android.sourceSets.main.allJava
 }
