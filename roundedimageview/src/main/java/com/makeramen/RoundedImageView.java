@@ -238,6 +238,10 @@ public class RoundedImageView extends ImageView {
     return mCornerRadius;
   }
 
+  public void setCornerRadiusDimension(int resId) {
+    setCornerRadius((int) getResources().getDimension(resId));
+  }
+
   public void setCornerRadius(int radius) {
     if (mCornerRadius == radius) { return; }
 
@@ -248,6 +252,10 @@ public class RoundedImageView extends ImageView {
 
   public int getBorderWidth() {
     return mBorderWidth;
+  }
+
+  public void setBorderWidthDimension(int resId) {
+    setBorderWidth((int) getResources().getDimension(resId));
   }
 
   public void setBorderWidth(int width) {
@@ -261,6 +269,10 @@ public class RoundedImageView extends ImageView {
 
   public int getBorderColor() {
     return mBorderColor.getDefaultColor();
+  }
+
+  public void setBorderColorResource(int resId) {
+    setBorderColor(getResources().getColor(resId));
   }
 
   public void setBorderColor(int color) {
