@@ -16,8 +16,8 @@ import android.widget.ImageView;
 public class RoundedImageView extends ImageView {
 
   public static final String TAG = "RoundedImageView";
-  public static final int DEFAULT_RADIUS = 0;
-  public static final int DEFAULT_BORDER_WIDTH = 0;
+  public static final float DEFAULT_RADIUS = 0f;
+  public static final float DEFAULT_BORDER_WIDTH = 0f;
   private static final ScaleType[] SCALE_TYPES = {
       ScaleType.MATRIX,
       ScaleType.FIT_XY,
@@ -29,8 +29,8 @@ public class RoundedImageView extends ImageView {
       ScaleType.CENTER_INSIDE
   };
 
-  private int mCornerRadius = DEFAULT_RADIUS;
-  private int mBorderWidth = DEFAULT_BORDER_WIDTH;
+  private float mCornerRadius = DEFAULT_RADIUS;
+  private float mBorderWidth = DEFAULT_BORDER_WIDTH;
   private ColorStateList mBorderColor =
       ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
   private boolean mOval = false;
@@ -234,7 +234,7 @@ public class RoundedImageView extends ImageView {
     super.setBackgroundDrawable(mBackgroundDrawable);
   }
 
-  public int getCornerRadius() {
+  public float getCornerRadius() {
     return mCornerRadius;
   }
 
@@ -246,7 +246,7 @@ public class RoundedImageView extends ImageView {
     updateBackgroundDrawableAttrs(false);
   }
 
-  public int getBorderWidth() {
+  public float getBorderWidth() {
     return mBorderWidth;
   }
 

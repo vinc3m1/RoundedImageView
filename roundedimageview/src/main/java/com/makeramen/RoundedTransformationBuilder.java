@@ -1,6 +1,5 @@
 package com.makeramen;
 
-import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -11,7 +10,7 @@ import com.squareup.picasso.Transformation;
 
 public final class RoundedTransformationBuilder {
 
-  private final Resources mResources;
+  //private final Resources mResources;
   private final DisplayMetrics mDisplayMetrics;
 
   private float mCornerRadius = 0;
@@ -21,9 +20,8 @@ public final class RoundedTransformationBuilder {
       ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
   private ImageView.ScaleType mScaleType = ImageView.ScaleType.FIT_CENTER;
 
-  public RoundedTransformationBuilder(Context context) {
-    mResources = context.getResources();
-    mDisplayMetrics = mResources.getDisplayMetrics();
+  public RoundedTransformationBuilder() {
+    mDisplayMetrics = Resources.getSystem().getDisplayMetrics();
   }
 
   public RoundedTransformationBuilder scaleType(ImageView.ScaleType scaleType) {
@@ -31,59 +29,49 @@ public final class RoundedTransformationBuilder {
     return this;
   }
 
-  public RoundedTransformationBuilder cornerRadiusPx(float radiusPx) {
+  /**
+   * set corner radius in px
+   */
+  public RoundedTransformationBuilder cornerRadius(float radiusPx) {
     mCornerRadius = radiusPx;
     return this;
   }
 
+  /**
+   * set corner radius in dip
+   */
   public RoundedTransformationBuilder cornerRadiusDp(float radiusDp) {
-    mCornerRadius =
-        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radiusDp, mDisplayMetrics);
+    mCornerRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radiusDp, mDisplayMetrics);
     return this;
   }
 
-  public RoundedTransformationBuilder cornerRadiusDimen(int radiusResId) {
-    mCornerRadius = mResources.getDimension(radiusResId);
-    return this;
-  }
-
-  public RoundedTransformationBuilder borderWidthDimen(int widthResId) {
-    mBorderWidth = mResources.getDimension(widthResId);
-    return this;
-  }
-
-  public RoundedTransformationBuilder borderWidthPx(float widthPx) {
+  /**
+   * set border width in px
+   */
+  public RoundedTransformationBuilder borderWidth(float widthPx) {
     mBorderWidth = widthPx;
     return this;
   }
 
+  /**
+   * set border width in dip
+   */
   public RoundedTransformationBuilder borderWidthDp(float widthDp) {
     mBorderWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthDp, mDisplayMetrics);
     return this;
   }
 
-  public RoundedTransformationBuilder borderColorResource(int colorResId) {
-    mBorderColor = ColorStateList.valueOf(mResources.getColor(colorResId));
-    return this;
-  }
 
+  /**
+   * set border color
+   */
   public RoundedTransformationBuilder borderColor(int color) {
     mBorderColor = ColorStateList.valueOf(color);
     return this;
   }
 
-  public RoundedTransformationBuilder borderColorsResource(int colorsResId) {
-    mBorderColor = mResources.getColorStateList(colorsResId);
-    return this;
-  }
-
-  public RoundedTransformationBuilder borderColors(ColorStateList colors) {
+  public RoundedTransformationBuilder borderColor(ColorStateList colors) {
     mBorderColor = colors;
-    return this;
-  }
-
-  public RoundedTransformationBuilder ovalResource(int ovalResId) {
-    mOval = mResources.getBoolean(ovalResId);
     return this;
   }
 
@@ -109,14 +97,10 @@ public final class RoundedTransformationBuilder {
       }
 
       @Override public String key() {
-        return "rounded_radius_"
-            + mCornerRadius
-            + "_border_"
-            + mBorderWidth
-            + "_color_"
-            + mBorderColor
-            + "_oval_"
-            + mOval;
+        return "r:" + mCornerRadius
+            + "b:" + mBorderWidth
+            + "c:" + mBorderColor
+            + "o:" + mOval;
       }
     };
   }

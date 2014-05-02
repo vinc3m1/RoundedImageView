@@ -15,10 +15,6 @@ android {
   }
 }
 
-configurations {
-  provided
-}
-
 dependencies {
   provided 'com.squareup.picasso:picasso:2.2.0'
 }

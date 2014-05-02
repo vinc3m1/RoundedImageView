@@ -55,7 +55,7 @@ public class PicassoFragment extends Fragment {
     public PicassoAdapter(Context context) {
       super(context, 0);
       mInflater = LayoutInflater.from(getContext());
-      mTransformation = new RoundedTransformationBuilder(context)
+      mTransformation = new RoundedTransformationBuilder()
           .borderColor(Color.BLACK)
           .borderWidthDp(3)
           .cornerRadiusDp(30)
