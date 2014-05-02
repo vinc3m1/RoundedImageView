@@ -87,7 +87,7 @@ public final class RoundedTransformationBuilder {
             .setScaleType(mScaleType)
             .setCornerRadius(mCornerRadius)
             .setBorderWidth(mBorderWidth)
-            .setBorderColors(mBorderColor)
+            .setBorderColor(mBorderColor)
             .setOval(mOval)
             .toBitmap();
         if (!source.equals(transformed)) {

@@ -323,14 +323,14 @@ public class RoundedDrawable extends Drawable {
   }
 
   public RoundedDrawable setBorderColor(int color) {
-    return setBorderColors(ColorStateList.valueOf(color));
+    return setBorderColor(ColorStateList.valueOf(color));
   }
 
   public ColorStateList getBorderColors() {
     return mBorderColor;
   }
 
-  public RoundedDrawable setBorderColors(ColorStateList colors) {
+  public RoundedDrawable setBorderColor(ColorStateList colors) {
     mBorderColor = colors != null ? colors : ColorStateList.valueOf(0);
     mBorderPaint.setColor(mBorderColor.getColorForState(getState(), DEFAULT_BORDER_COLOR));
     return this;
