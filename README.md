@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.makeramen:roundedimageview:1.2.4'
+    compile 'com.makeramen:roundedimageview:1.3.0'
 }
 ```
 
@@ -75,6 +75,12 @@ iv.isOval(true);
 
 ChangeLog
 ----------
+
+* **1.3.0**
+    * A new `RoundedTransformationBuilder` to help build Picasso `Transformation`s
+    * slight API changes:
+        * all dimensions are now set at `float`s. `int`s will be interpreted as dimension resource IDs
+        * `round_background` is now `mutate_background`, and a `RoundedDrawable` will no longer be created for the background if `mutate_background` is false.
 
 * **1.2.4**
     * add basic support for ColorDrawable (and other drawables with -1 intrinsic dimens)
