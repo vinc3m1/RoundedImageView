@@ -31,12 +31,12 @@ public final class RoundedTransformationBuilder {
     return this;
   }
 
-  public RoundedTransformationBuilder cornerRadiusPx(int radiusPx) {
+  public RoundedTransformationBuilder cornerRadiusPx(float radiusPx) {
     mCornerRadius = radiusPx;
     return this;
   }
 
-  public RoundedTransformationBuilder cornerRadiusDp(int radiusDp) {
+  public RoundedTransformationBuilder cornerRadiusDp(float radiusDp) {
     mCornerRadius =
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radiusDp, mDisplayMetrics);
     return this;
