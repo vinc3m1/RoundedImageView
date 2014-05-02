@@ -50,18 +50,17 @@ public class PicassoFragment extends Fragment {
 
   class PicassoAdapter extends ArrayAdapter<PicassoItem> {
     private final LayoutInflater mInflater;
-
-    private final Transformation mTransformation = new RoundedTransformationBuilder(getActivity())
-        .oval(false)
-        .borderWidthDp(3)
-        .scaleType(ScaleType.CENTER)
-        .cornerRadiusDp(30)
-        .borderColor(Color.BLACK)
-        .build();
+    private final Transformation mTransformation;
 
     public PicassoAdapter(Context context) {
       super(context, 0);
       mInflater = LayoutInflater.from(getContext());
+      mTransformation = new RoundedTransformationBuilder(context)
+          .borderColor(Color.BLACK)
+          .borderWidthDp(3)
+          .cornerRadiusDp(30)
+          .oval(false)
+          .build();
     }
 
     @Override public View getView(int position, View convertView, ViewGroup parent) {
