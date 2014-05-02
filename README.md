@@ -72,6 +72,22 @@ iv.setBackground(backgroundDrawable);
 iv.isOval(true);
 ```
 
+Or make a Transformation for Picasso:
+
+```java
+Transformation transformation = new RoundedTransformationBuilder()
+          .borderColor(Color.BLACK)
+          .borderWidthDp(3)
+          .cornerRadiusDp(30)
+          .oval(false)
+          .build();
+
+Picasso.with(context)
+    .load(url)
+    .fit()
+    .transform(transformation)
+    .into(imageView);
+```
 
 ChangeLog
 ----------
