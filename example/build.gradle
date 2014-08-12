@@ -1,4 +1,4 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 repositories {
   mavenCentral()
@@ -11,12 +11,12 @@ repositories {
 dependencies {
   //compile 'com.makeramen:roundedimageview:1.2.0'
   compile project(':roundedimageview')
-  compile 'com.squareup.picasso:picasso:2.2.+'
+  compile 'com.squareup.picasso:picasso:2.3.+'
 }
 
 android {
   compileSdkVersion 19
-  buildToolsVersion '19.0.3'
+  buildToolsVersion '20.0.0'
 
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_7
