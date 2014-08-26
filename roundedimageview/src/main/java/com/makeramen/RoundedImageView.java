@@ -302,11 +302,11 @@ public class RoundedImageView extends ImageView {
     invalidate();
   }
 
-  public boolean isMutateBackground() {
+  public boolean mutatesBackground() {
     return mutateBackground;
   }
 
-  public void setMutateBackground(boolean mutate) {
+  public void mutateBackground(boolean mutate) {
     if (mutateBackground == mutate) { return; }
 
     mutateBackground = mutate;

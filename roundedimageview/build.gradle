@@ -6,7 +6,7 @@ sonatypeUsername = project.hasProperty('sonatypeUsername') ? sonatypeUsername : 
 sonatypePassword = project.hasProperty('sonatypePassword') ? sonatypePassword : ""
 
 android {
-  compileSdkVersion 19
+  compileSdkVersion 20
   buildToolsVersion '20.0.0'
 
   compileOptions {

@@ -67,6 +67,7 @@ iv.setCornerRadius(10);
 iv.setBorderWidth(2);
 iv.setBorderColor(Color.DKGRAY);
 iv.setMutateBackground(true);
+iv.mutateBackground(true);
 iv.setImageDrawable(drawable);
 iv.setBackground(backgroundDrawable);
 iv.setOval(true);
