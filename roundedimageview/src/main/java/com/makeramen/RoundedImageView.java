@@ -216,8 +216,9 @@ public class RoundedImageView extends ImageView {
     if (drawable == null) { return; }
 
     if (drawable instanceof RoundedDrawable) {
-       ((RoundedDrawable) drawable)
+      ((RoundedDrawable) drawable)
           .setScaleType(mScaleType)
+          .setCornerRadius(cornerRadius)
           .setBorderWidth(borderWidth)
           .setBorderColor(borderColor)
           .setOnlyTopRounded(onlyTopRounded)
@@ -286,16 +287,16 @@ public class RoundedImageView extends ImageView {
   }
 
   public void setBorderColor(ColorStateList colors) {
-      if (borderColor.equals(colors)) {
-          return;
-      }
+    if (borderColor.equals(colors)) {
+      return;
+    }
 
     borderColor =
-            (colors != null) ? colors : ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
+        (colors != null) ? colors : ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
     updateDrawableAttrs();
     updateBackgroundDrawableAttrs(false);
     if (borderWidth > 0) {
-        invalidate();
+      invalidate();
     }
   }
   public boolean isOnlyTopRounded() {
@@ -323,6 +324,10 @@ public class RoundedImageView extends ImageView {
       onlyBottomRounded = Rounded;
       updateDrawableAttrs();
       updateBackgroundDrawableAttrs(false);
+  }
+
+  public boolean isOval() {
+    return isOval;
   }
 
   public void setOval(boolean oval) {
