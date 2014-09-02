@@ -286,7 +286,9 @@ public class RoundedImageView extends ImageView {
   }
 
   public void setBorderColor(ColorStateList colors) {
-    if (borderColor.equals(colors)) { return; }
+      if (borderColor.equals(colors)) {
+          return;
+      }
 
     borderColor =
             (colors != null) ? colors : ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
@@ -322,13 +324,6 @@ public class RoundedImageView extends ImageView {
       updateDrawableAttrs();
       updateBackgroundDrawableAttrs(false);
   }
-
-  public boolean isOval() {
-    return isOval;
-  }
-
-
-
 
   public void setOval(boolean oval) {
     isOval = oval;
