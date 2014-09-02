@@ -38,6 +38,8 @@ public class RoundedDrawable extends Drawable {
 
   private float mCornerRadius = 0;
   private boolean mOval = false;
+  private boolean onlyTopRounded = false;
+  private boolean onlyBottomRounded = false;
   private float mBorderWidth = 0;
   private ColorStateList mBorderColor = ColorStateList.valueOf(DEFAULT_BORDER_COLOR);
   private ScaleType mScaleType = ScaleType.FIT_CENTER;
@@ -252,6 +254,12 @@ public class RoundedDrawable extends Drawable {
         canvas.drawOval(mDrawableRect, mBitmapPaint);
       }
     } else {
+            if(onlyTopRounded) {
+                mDrawableRect.set(mDrawableRect.left, mDrawableRect.top - mCornerRadius, mDrawableRect.right, mDrawableRect.bottom);
+            } else if(onlyBottomRounded) {
+                mDrawableRect.set(mDrawableRect.left, mDrawableRect.top, mDrawableRect.right, mDrawableRect.bottom
+                        + mCornerRadius);
+            }
       if (mBorderWidth > 0) {
         canvas.drawRoundRect(mDrawableRect, Math.max(mCornerRadius, 0),
             Math.max(mCornerRadius, 0), mBitmapPaint);
@@ -345,6 +353,23 @@ public class RoundedDrawable extends Drawable {
     return this;
   }
 
+    public boolean isOnlyTopRounded() {
+        return onlyTopRounded;
+    }
+
+    public RoundedDrawable setOnlyTopRounded(boolean rounded) {
+        onlyTopRounded = rounded;
+        return this;
+    }
+
+    public boolean isOnlyBottomRounded() {
+        return  onlyBottomRounded;
+    }
+
+    public RoundedDrawable setOnlyBottomRounded(boolean rounded) {
+        onlyBottomRounded = rounded;
+        return this;
+    }
   public ScaleType getScaleType() {
     return mScaleType;
   }
