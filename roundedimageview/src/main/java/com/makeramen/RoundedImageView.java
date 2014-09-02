@@ -36,6 +36,9 @@ public class RoundedImageView extends ImageView {
   private boolean isOval = false;
   private boolean mutateBackground = false;
 
+  private boolean onlyBottomRounded = false;
+  private boolean onlyTopRounded = false;
+
   private int mResource;
   private Drawable mDrawable;
   private Drawable mBackgroundDrawable;
@@ -81,6 +84,8 @@ public class RoundedImageView extends ImageView {
 
     mutateBackground = a.getBoolean(R.styleable.RoundedImageView_mutate_background, false);
     isOval = a.getBoolean(R.styleable.RoundedImageView_oval, false);
+    onlyBottomRounded = a.getBoolean(R.styleable.RoundedImageView_onlyBottomRounded, false);
+    onlyTopRounded = a.getBoolean(R.styleable.RoundedImageView_onlyTopRounded, false);
 
     updateDrawableAttrs();
     updateBackgroundDrawableAttrs(true);
@@ -216,6 +221,8 @@ public class RoundedImageView extends ImageView {
           .setCornerRadius(cornerRadius)
           .setBorderWidth(borderWidth)
           .setBorderColor(borderColor)
+          .setOnlyTopRounded(onlyTopRounded)
+          .setOnlyBottomRounded(onlyBottomRounded)
           .setOval(isOval);
     } else if (drawable instanceof LayerDrawable) {
       // loop through layers to and set drawable attrs
@@ -280,7 +287,9 @@ public class RoundedImageView extends ImageView {
   }
 
   public void setBorderColor(ColorStateList colors) {
-    if (borderColor.equals(colors)) { return; }
+    if (borderColor.equals(colors)) {
+      return;
+    }
 
     borderColor =
         (colors != null) ? colors : ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
@@ -289,6 +298,32 @@ public class RoundedImageView extends ImageView {
     if (borderWidth > 0) {
       invalidate();
     }
+  }
+  public boolean isOnlyTopRounded() {
+      return onlyTopRounded;
+  }
+
+  public void setOnlyTopRounded(boolean Rounded) {
+      if(onlyTopRounded) {
+          return;
+      }
+      onlyTopRounded = Rounded;
+      updateDrawableAttrs();
+      updateBackgroundDrawableAttrs(false);
+      invalidate();
+  }
+
+  public boolean isOnlyBottomRounded() {
+      return  onlyBottomRounded;
+  }
+
+  public void setOnlyBottomRounded(boolean Rounded) {
+      if(onlyBottomRounded) {
+          return;
+      }
+      onlyBottomRounded = Rounded;
+      updateDrawableAttrs();
+      updateBackgroundDrawableAttrs(false);
   }
 
   public boolean isOval() {
