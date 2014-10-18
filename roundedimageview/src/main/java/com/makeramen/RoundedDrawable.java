@@ -146,7 +146,7 @@ public class RoundedDrawable extends Drawable {
         mBorderRect.set(mBounds);
         mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
 
-        mShaderMatrix.set(null);
+        mShaderMatrix.reset();
         mShaderMatrix.setTranslate((int) ((mBorderRect.width() - mBitmapWidth) * 0.5f + 0.5f),
             (int) ((mBorderRect.height() - mBitmapHeight) * 0.5f + 0.5f));
         break;
@@ -155,7 +155,7 @@ public class RoundedDrawable extends Drawable {
         mBorderRect.set(mBounds);
         mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
 
-        mShaderMatrix.set(null);
+        mShaderMatrix.reset();
 
         dx = 0;
         dy = 0;
@@ -174,7 +174,7 @@ public class RoundedDrawable extends Drawable {
         break;
 
       case CENTER_INSIDE:
-        mShaderMatrix.set(null);
+        mShaderMatrix.reset();
 
         if (mBitmapWidth <= mBounds.width() && mBitmapHeight <= mBounds.height()) {
           scale = 1.0f;
@@ -223,7 +223,7 @@ public class RoundedDrawable extends Drawable {
       case FIT_XY:
         mBorderRect.set(mBounds);
         mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
-        mShaderMatrix.set(null);
+        mShaderMatrix.reset();
         mShaderMatrix.setRectToRect(mBitmapRect, mBorderRect, Matrix.ScaleToFit.FILL);
         break;
     }
