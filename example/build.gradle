@@ -11,7 +11,7 @@ repositories {
 dependencies {
   //compile 'com.makeramen:roundedimageview:1.2.0'
   compile project(':roundedimageview')
-  compile 'com.squareup.picasso:picasso:2.3.+'
+  compile 'com.squareup.picasso:picasso:2.3.4'
 }
 
 android {
