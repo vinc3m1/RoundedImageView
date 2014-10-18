@@ -11,7 +11,7 @@ There are many ways to create rounded corners in android, but this is the fastes
 * does **not** use a clipPath which is not hardware accelerated and not anti-aliased.
 * does **not** use setXfermode to clip the bitmap and draw twice to the canvas.
 
-If you know of a better method, let me know and I'll implement it!
+If you know of a better method, let me know (or even better open a pull request)!
 
 Also has proper support for:
 * Borders (with Colors and ColorStateLists)
@@ -91,6 +91,10 @@ Picasso.with(context)
 
 ChangeLog
 ----------
+
+* **1.3.1**
+    * add support for About Libraries (#57)
+    * reset matrix for Robolectric support  (#56)
 
 * **1.3.0**
     * A new `RoundedTransformationBuilder` to help build Picasso `Transformation`s
