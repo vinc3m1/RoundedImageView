@@ -93,8 +93,8 @@ ChangeLog
 ----------
 
 * **1.3.1**
-    * add support for About Libraries (#57)
-    * reset matrix for Robolectric support  (#56)
+    * add support for About Libraries ([#57](https://github.com/vinc3m1/RoundedImageView/issues/57))
+    * reset matrix for Robolectric support  ([#56](https://github.com/vinc3m1/RoundedImageView/issues/56))
 
 * **1.3.0**
     * A new `RoundedTransformationBuilder` to help build Picasso `Transformation`s
