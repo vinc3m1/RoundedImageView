@@ -2,12 +2,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-sonatypeUsername = project.hasProperty('sonatypeUsername') ? sonatypeUsername : ""
-sonatypePassword = project.hasProperty('sonatypePassword') ? sonatypePassword : ""
+def sonatypeUsername = project.hasProperty('sonatypeUsername') ? sonatypeUsername : ""
+def sonatypePassword = project.hasProperty('sonatypePassword') ? sonatypePassword : ""
 
 android {
-  compileSdkVersion 20
-  buildToolsVersion '20.0.0'
+  compileSdkVersion 21
+  buildToolsVersion '21.0.1'
 
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_7
@@ -16,7 +16,7 @@ android {
 }
 
 dependencies {
-  provided 'com.squareup.picasso:picasso:2.3.+'
+  provided 'com.squareup.picasso:picasso:2.3.4'
 }
 
 task androidJavadocs(type: Javadoc) {
