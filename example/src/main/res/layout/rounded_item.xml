@@ -16,10 +16,10 @@
       android:padding="10dip"
       android:src="@drawable/photo1"
       android:scaleType="center"
-      app:corner_radius="30dip"
-      app:border_width="3dip"
-      app:oval="false"
-      app:border_color="@color/border"
+      app:riv_corner_radius="30dip"
+      app:riv_border_width="3dip"
+      app:riv_oval="false"
+      app:riv_border_color="@color/border"
       />
 
   <TextView
