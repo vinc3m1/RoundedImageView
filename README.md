@@ -61,16 +61,15 @@ Define in xml:
 Or in code:
 
 ```java
-RoundedImageView iv = new RoundedImageView(context);
-iv.setScaleType(ScaleType.CENTER_CROP);
-iv.setCornerRadius(10);
-iv.setBorderWidth(2);
-iv.setBorderColor(Color.DKGRAY);
-iv.setMutateBackground(true);
-iv.mutateBackground(true);
-iv.setImageDrawable(drawable);
-iv.setBackground(backgroundDrawable);
-iv.setOval(true);
+RoundedImageView riv = new RoundedImageView(context);
+riv.setScaleType(ScaleType.CENTER_CROP);
+riv.setCornerRadius(10);
+riv.setBorderWidth(2);
+riv.setBorderColor(Color.DKGRAY);
+riv.mutateBackground(true);
+riv.setImageDrawable(drawable);
+riv.setBackground(backgroundDrawable);
+riv.setOval(true);
 ```
 
 Or make a Transformation for Picasso:
@@ -92,6 +91,11 @@ Picasso.with(context)
 
 ChangeLog
 ----------
+
+* **1.4.0**
+    * initial ColorDrawable fix for Lollipop(5.0)
+    * xml attributes are now namespaced and start with `riv_`
+    * renamed methods `mutatesBackground()` and `mutateBackground(bool)`
 
 * **1.3.1**
     * add support for About Libraries ([#57](https://github.com/vinc3m1/RoundedImageView/issues/57))
