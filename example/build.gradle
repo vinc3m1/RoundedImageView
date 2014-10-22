@@ -15,8 +15,8 @@ dependencies {
 }
 
 android {
-  compileSdkVersion 20
-  buildToolsVersion '20.0.0'
+  compileSdkVersion 21g
+  buildToolsVersion '21.0.1'
 
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_7
