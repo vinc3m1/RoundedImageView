@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.makeramen:roundedimageview:1.3.0'
+    compile 'com.makeramen:roundedimageview:1.4.0'
 }
 ```
 
@@ -51,11 +51,11 @@ Define in xml:
         android:id="@+id/imageView1"
         android:src="@drawable/photo1"
         android:scaleType="centerCrop"
-        app:corner_radius="30dip"
-        app:border_width="2dip"
-        app:border_color="#333333"
-        app:mutate_background="true"
-        app:oval="true" />
+        app:riv_corner_radius="30dip"
+        app:riv_border_width="2dip"
+        app:riv_border_color="#333333"
+        app:riv_mutate_background="true"
+        app:riv_oval="true" />
 ```
 
 Or in code:
