@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
@@ -15,9 +16,16 @@ import android.widget.ImageView;
 @SuppressWarnings("UnusedDeclaration")
 public class RoundedImageView extends ImageView {
 
+  // Constants for tile mode attributes
+  private static final int TILE_MODE_UNDEFINED = -2;
+  private static final int TILE_MODE_CLAMP = 0;
+  private static final int TILE_MODE_REPEAT = 1;
+  private static final int TILE_MODE_MIRROR = 2;
+
   public static final String TAG = "RoundedImageView";
   public static final float DEFAULT_RADIUS = 0f;
   public static final float DEFAULT_BORDER_WIDTH = 0f;
+  public static final Shader.TileMode DEFAULT_TILE_MODE = Shader.TileMode.CLAMP;
   private static final ScaleType[] SCALE_TYPES = {
       ScaleType.MATRIX,
       ScaleType.FIT_XY,
@@ -35,6 +43,8 @@ public class RoundedImageView extends ImageView {
       ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
   private boolean isOval = false;
   private boolean mutateBackground = false;
+  private Shader.TileMode tileModeX = DEFAULT_TILE_MODE;
+  private Shader.TileMode tileModeY = DEFAULT_TILE_MODE;
 
   private int mResource;
   private Drawable mDrawable;
@@ -82,10 +92,39 @@ public class RoundedImageView extends ImageView {
     mutateBackground = a.getBoolean(R.styleable.RoundedImageView_riv_mutate_background, false);
     isOval = a.getBoolean(R.styleable.RoundedImageView_riv_oval, false);
 
+    final int tileMode = a.getInt(R.styleable.RoundedImageView_riv_tile_mode, TILE_MODE_UNDEFINED);
+    if (tileMode != TILE_MODE_UNDEFINED) {
+      setTileModeX(parseTileMode(tileMode));
+      setTileModeY(parseTileMode(tileMode));
+    }
+
+    final int tileModeX = a.getInt(R.styleable.RoundedImageView_riv_tile_mode_x, TILE_MODE_UNDEFINED);
+    if (tileModeX != TILE_MODE_UNDEFINED) {
+      setTileModeX(parseTileMode(tileModeX));
+    }
+
+    final int tileModeY = a.getInt(R.styleable.RoundedImageView_riv_tile_mode_y, TILE_MODE_UNDEFINED);
+    if (tileModeY != TILE_MODE_UNDEFINED) {
+      setTileModeY(parseTileMode(tileModeY));
+    }
+
     updateDrawableAttrs();
     updateBackgroundDrawableAttrs(true);
 
     a.recycle();
+  }
+
+  private static Shader.TileMode parseTileMode(int tileMode) {
+    switch (tileMode) {
+      case TILE_MODE_CLAMP:
+        return Shader.TileMode.CLAMP;
+      case TILE_MODE_REPEAT:
+        return Shader.TileMode.REPEAT;
+      case TILE_MODE_MIRROR:
+        return Shader.TileMode.MIRROR;
+      default:
+        return null;
+    }
   }
 
   @Override
@@ -216,7 +255,9 @@ public class RoundedImageView extends ImageView {
           .setCornerRadius(cornerRadius)
           .setBorderWidth(borderWidth)
           .setBorderColor(borderColor)
-          .setOval(isOval);
+          .setOval(isOval)
+          .setTileModeX(tileModeX)
+          .setTileModeY(tileModeY);
     } else if (drawable instanceof LayerDrawable) {
       // loop through layers to and set drawable attrs
       LayerDrawable ld = ((LayerDrawable) drawable);
@@ -297,6 +338,32 @@ public class RoundedImageView extends ImageView {
 
   public void setOval(boolean oval) {
     isOval = oval;
+    updateDrawableAttrs();
+    updateBackgroundDrawableAttrs(false);
+    invalidate();
+  }
+
+  public Shader.TileMode getTileModeX() {
+    return tileModeX;
+  }
+
+  public void setTileModeX(Shader.TileMode tileModeX) {
+    if (this.tileModeX == tileModeX) { return; }
+
+    this.tileModeX = tileModeX;
+    updateDrawableAttrs();
+    updateBackgroundDrawableAttrs(false);
+    invalidate();
+  }
+
+  public Shader.TileMode getTileModeY() {
+    return tileModeY;
+  }
+
+  public void setTileModeY(Shader.TileMode tileModeY) {
+    if (this.tileModeY == tileModeY) { return; }
+
+    this.tileModeY = tileModeY;
     updateDrawableAttrs();
     updateBackgroundDrawableAttrs(false);
     invalidate();
