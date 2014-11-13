@@ -17,13 +17,14 @@ Also has proper support for:
 * Borders (with Colors and ColorStateLists)
 * Ovals and Circles
 * All `ScaleType`s
-  * Borders are drawn at view edge, not bitmap edge.
+  * Borders are drawn at view edge, not bitmap edge
   * Except on edges where the bitmap is smaller than the view
   * Borders are **not** scaled up/down with the image (correct width and radius are maintained)
 * Anti-aliasing
 * Transparent backgrounds
 * Hardware acceleration
 * Support for LayerDrawables (including TransitionDrawables)
+* TileModes for repeating drawables
 
 
 Gradle
@@ -50,11 +51,12 @@ Define in xml:
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView1"
         android:src="@drawable/photo1"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         app:riv_corner_radius="30dip"
         app:riv_border_width="2dip"
         app:riv_border_color="#333333"
         app:riv_mutate_background="true"
+        app:riv_tile_mode="repeat"
         app:riv_oval="true" />
 ```
 
@@ -70,6 +72,8 @@ riv.mutateBackground(true);
 riv.setImageDrawable(drawable);
 riv.setBackground(backgroundDrawable);
 riv.setOval(true);
+riv.setTileModeX(Shader.TileMode.REPEAT);
+riv.setTileModeY(Shader.TileMode.REPEAT);
 ```
 
 Or make a Transformation for Picasso:
@@ -91,6 +95,9 @@ Picasso.with(context)
 
 ChangeLog
 ----------
+
+* **1.5.0**
+    * [`Shader.TileMode`](http://developer.android.com/reference/android/graphics/Shader.TileMode.html) support
 
 * **1.4.0**
     * initial ColorDrawable fix for Lollipop(5.0)
