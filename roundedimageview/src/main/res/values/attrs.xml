@@ -8,7 +8,6 @@
     <attr name="riv_oval" format="boolean" />
     <attr name="android:scaleType" />
     <attr name="riv_tile_mode">
-      <enum name="disabled" value="-1" />
       <enum name="clamp" value="0" />
       <enum name="repeat" value="1" />
       <enum name="mirror" value="2" />
