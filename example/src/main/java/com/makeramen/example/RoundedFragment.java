@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,9 @@ public class RoundedFragment extends Fragment {
     adapter.add(
         new StreamItem(getActivity(), R.drawable.photo7, "Majestic", "Grand Teton, WY",
             ScaleType.FIT_XY));
+    adapter.add(
+        new StreamItem(getActivity(), R.drawable.black_white_tile, "Tiles", "Black and White",
+            ScaleType.FIT_CENTER, Shader.TileMode.REPEAT));
 
     ((ListView) view.findViewById(R.id.main_list)).setAdapter(adapter);
     return view;
@@ -70,12 +74,18 @@ public class RoundedFragment extends Fragment {
     final String mLine1;
     final String mLine2;
     final ScaleType mScaleType;
+    final Shader.TileMode mTileMode;
 
     StreamItem(Context c, int resid, String line1, String line2, ScaleType scaleType) {
+      this(c, resid, line1, line2, scaleType, Shader.TileMode.CLAMP);
+    }
+
+    StreamItem(Context c, int resid, String line1, String line2, ScaleType scaleType, Shader.TileMode tileMode) {
       mBitmap = BitmapFactory.decodeResource(c.getResources(), resid);
       mLine1 = line1;
       mLine2 = line2;
       mScaleType = scaleType;
+      mTileMode = tileMode;
     }
   }
 
@@ -102,9 +112,13 @@ public class RoundedFragment extends Fragment {
       iv.setOval(isOval);
       iv.setImageBitmap(item.mBitmap);
       iv.setScaleType(item.mScaleType);
+      iv.setTileModeX(item.mTileMode);
+      iv.setTileModeY(item.mTileMode);
       ((TextView) view.findViewById(R.id.textView1)).setText(item.mLine1);
       ((TextView) view.findViewById(R.id.textView2)).setText(item.mLine2);
-      ((TextView) view.findViewById(R.id.textView3)).setText(item.mScaleType.toString());
+      String line3 = item.mTileMode == Shader.TileMode.CLAMP ? item.mScaleType.toString() : "TILED";
+      ((TextView) view.findViewById(R.id.textView3)).setText(line3);
+
       return view;
     }
   }

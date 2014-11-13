@@ -28,13 +28,18 @@ public class RoundedDrawable extends Drawable {
   private final RectF mBounds = new RectF();
   private final RectF mDrawableRect = new RectF();
   private final RectF mBitmapRect = new RectF();
-  private final BitmapShader mBitmapShader;
+  private final Bitmap mBitmap;
   private final Paint mBitmapPaint;
   private final int mBitmapWidth;
   private final int mBitmapHeight;
   private final RectF mBorderRect = new RectF();
   private final Paint mBorderPaint;
   private final Matrix mShaderMatrix = new Matrix();
+
+  private BitmapShader mBitmapShader;
+  private Shader.TileMode mTileModeX = Shader.TileMode.CLAMP;
+  private Shader.TileMode mTileModeY = Shader.TileMode.CLAMP;
+  private boolean mRebuildShader = true;
 
   private float mCornerRadius = 0;
   private boolean mOval = false;
@@ -43,18 +48,15 @@ public class RoundedDrawable extends Drawable {
   private ScaleType mScaleType = ScaleType.FIT_CENTER;
 
   public RoundedDrawable(Bitmap bitmap) {
+    mBitmap = bitmap;
 
     mBitmapWidth = bitmap.getWidth();
     mBitmapHeight = bitmap.getHeight();
     mBitmapRect.set(0, 0, mBitmapWidth, mBitmapHeight);
 
-    mBitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-    mBitmapShader.setLocalMatrix(mShaderMatrix);
-
     mBitmapPaint = new Paint();
     mBitmapPaint.setStyle(Paint.Style.FILL);
     mBitmapPaint.setAntiAlias(true);
-    mBitmapPaint.setShader(mBitmapShader);
 
     mBorderPaint = new Paint();
     mBorderPaint.setStyle(Paint.Style.STROKE);
@@ -229,7 +231,6 @@ public class RoundedDrawable extends Drawable {
     }
 
     mDrawableRect.set(mBorderRect);
-    mBitmapShader.setLocalMatrix(mShaderMatrix);
   }
 
   @Override
@@ -243,6 +244,14 @@ public class RoundedDrawable extends Drawable {
 
   @Override
   public void draw(Canvas canvas) {
+    if (mRebuildShader) {
+      mBitmapShader = new BitmapShader(mBitmap, mTileModeX, mTileModeY);
+      if (mTileModeX == Shader.TileMode.CLAMP && mTileModeY == Shader.TileMode.CLAMP) {
+        mBitmapShader.setLocalMatrix(mShaderMatrix);
+      }
+      mBitmapPaint.setShader(mBitmapShader);
+      mRebuildShader = false;
+    }
 
     if (mOval) {
       if (mBorderWidth > 0) {
@@ -356,6 +365,32 @@ public class RoundedDrawable extends Drawable {
     if (mScaleType != scaleType) {
       mScaleType = scaleType;
       updateShaderMatrix();
+    }
+    return this;
+  }
+
+  public Shader.TileMode getTileModeX() {
+    return mTileModeX;
+  }
+
+  public RoundedDrawable setTileModeX(Shader.TileMode tileModeX) {
+    if (mTileModeX != tileModeX) {
+      mTileModeX = tileModeX;
+      mRebuildShader = true;
+      invalidateSelf();
+    }
+    return this;
+  }
+
+  public Shader.TileMode getTileModeY() {
+    return mTileModeY;
+  }
+
+  public RoundedDrawable setTileModeY(Shader.TileMode tileModeY) {
+    if (mTileModeY != tileModeY) {
+      mTileModeY = tileModeY;
+      mRebuildShader = true;
+      invalidateSelf();
     }
     return this;
   }
