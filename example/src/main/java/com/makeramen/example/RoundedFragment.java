@@ -58,13 +58,13 @@ public class RoundedFragment extends Fragment {
     adapter.add(new StreamItem(getActivity(),
         R.drawable.photo7, "Majestic", "Grand Teton, WY", ScaleType.FIT_XY));
     adapter.add(new StreamItem(getActivity(),
-        R.drawable.black_white_tile, "TileMode", "REPEAT", ScaleType.FIT_CENTER,
+        R.drawable.black_white_tile, "TileMode", "REPEAT", ScaleType.FIT_XY,
         Shader.TileMode.REPEAT));
     adapter.add(new StreamItem(getActivity(),
-        R.drawable.black_white_tile, "TileMode", "CLAMP", ScaleType.FIT_CENTER,
+        R.drawable.black_white_tile, "TileMode", "CLAMP", ScaleType.FIT_XY,
         Shader.TileMode.CLAMP));
     adapter.add(new StreamItem(getActivity(),
-        R.drawable.black_white_tile, "TileMode", "MIRROR", ScaleType.FIT_CENTER,
+        R.drawable.black_white_tile, "TileMode", "MIRROR", ScaleType.FIT_XY,
         Shader.TileMode.MIRROR));
 
     ((ListView) view.findViewById(R.id.main_list)).setAdapter(adapter);
