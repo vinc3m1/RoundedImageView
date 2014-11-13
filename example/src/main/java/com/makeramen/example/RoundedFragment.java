@@ -43,27 +43,29 @@ public class RoundedFragment extends Fragment {
 
     StreamAdapter adapter = new StreamAdapter(getActivity());
 
-    adapter.add(new StreamItem(getActivity(), R.drawable.photo1, "Tufa at night", "Mono Lake, CA",
-        ScaleType.CENTER));
-    adapter.add(new StreamItem(getActivity(), R.drawable.photo2, "Starry night", "Lake Powell, AZ",
-        ScaleType.CENTER_CROP));
-    adapter.add(
-        new StreamItem(getActivity(), R.drawable.photo3, "Racetrack playa", "Death Valley, CA",
-            ScaleType.CENTER_INSIDE));
-    adapter.add(
-        new StreamItem(getActivity(), R.drawable.photo4, "Napali coast", "Kauai, HI",
-            ScaleType.FIT_CENTER));
-    adapter.add(
-        new StreamItem(getActivity(), R.drawable.photo5, "Delicate Arch", "Arches, UT",
-            ScaleType.FIT_END));
-    adapter.add(new StreamItem(getActivity(), R.drawable.photo6, "Sierra sunset", "Lone Pine, CA",
-        ScaleType.FIT_START));
-    adapter.add(
-        new StreamItem(getActivity(), R.drawable.photo7, "Majestic", "Grand Teton, WY",
-            ScaleType.FIT_XY));
-    adapter.add(
-        new StreamItem(getActivity(), R.drawable.black_white_tile, "Tiles", "Black and White",
-            ScaleType.FIT_CENTER, Shader.TileMode.REPEAT));
+    adapter.add(new StreamItem(getActivity(),
+        R.drawable.photo1, "Tufa at night", "Mono Lake, CA", ScaleType.CENTER));
+    adapter.add(new StreamItem(getActivity(),
+        R.drawable.photo2, "Starry night", "Lake Powell, AZ", ScaleType.CENTER_CROP));
+    adapter.add(new StreamItem(getActivity(),
+        R.drawable.photo3, "Racetrack playa", "Death Valley, CA", ScaleType.CENTER_INSIDE));
+    adapter.add(new StreamItem(getActivity(),
+        R.drawable.photo4, "Napali coast", "Kauai, HI", ScaleType.FIT_CENTER));
+    adapter.add(new StreamItem(getActivity(),
+        R.drawable.photo5, "Delicate Arch", "Arches, UT", ScaleType.FIT_END));
+    adapter.add(new StreamItem(getActivity(),
+        R.drawable.photo6, "Sierra sunset", "Lone Pine, CA", ScaleType.FIT_START));
+    adapter.add(new StreamItem(getActivity(),
+        R.drawable.photo7, "Majestic", "Grand Teton, WY", ScaleType.FIT_XY));
+    adapter.add(new StreamItem(getActivity(),
+        R.drawable.black_white_tile, "TileMode", "REPEAT", ScaleType.FIT_CENTER,
+        Shader.TileMode.REPEAT));
+    adapter.add(new StreamItem(getActivity(),
+        R.drawable.black_white_tile, "TileMode", "CLAMP", ScaleType.FIT_CENTER,
+        Shader.TileMode.CLAMP));
+    adapter.add(new StreamItem(getActivity(),
+        R.drawable.black_white_tile, "TileMode", "MIRROR", ScaleType.FIT_CENTER,
+        Shader.TileMode.MIRROR));
 
     ((ListView) view.findViewById(R.id.main_list)).setAdapter(adapter);
     return view;
@@ -80,7 +82,8 @@ public class RoundedFragment extends Fragment {
       this(c, resid, line1, line2, scaleType, Shader.TileMode.CLAMP);
     }
 
-    StreamItem(Context c, int resid, String line1, String line2, ScaleType scaleType, Shader.TileMode tileMode) {
+    StreamItem(Context c, int resid, String line1, String line2, ScaleType scaleType,
+        Shader.TileMode tileMode) {
       mBitmap = BitmapFactory.decodeResource(c.getResources(), resid);
       mLine1 = line1;
       mLine2 = line2;
@@ -116,8 +119,7 @@ public class RoundedFragment extends Fragment {
       iv.setTileModeY(item.mTileMode);
       ((TextView) view.findViewById(R.id.textView1)).setText(item.mLine1);
       ((TextView) view.findViewById(R.id.textView2)).setText(item.mLine2);
-      String line3 = item.mTileMode == Shader.TileMode.CLAMP ? item.mScaleType.toString() : "TILED";
-      ((TextView) view.findViewById(R.id.textView3)).setText(line3);
+      ((TextView) view.findViewById(R.id.textView3)).setText(item.mScaleType.toString());
 
       return view;
     }
