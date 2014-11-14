@@ -38,7 +38,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.makeramen:roundedimageview:1.4.0'
+    compile 'com.makeramen:roundedimageview:1.5.0'
 }
 ```
 
