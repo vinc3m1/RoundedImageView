@@ -18,6 +18,14 @@ android {
   compileSdkVersion 21
   buildToolsVersion '21.1.0'
 
+  defaultConfig {
+    applicationId "com.makeramen.roundedimageview.example"
+    minSdkVersion 8
+    targetSdkVersion 21
+    versionCode 1
+    versionName version
+  }
+
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_7
     targetCompatibility JavaVersion.VERSION_1_7
