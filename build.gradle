@@ -15,3 +15,8 @@ allprojects {
     mavenCentral()
   }
 }
+
+ext {
+  compileSdkVersion = 21
+  buildToolsVersion = "21.1.2"
+}

@@ -11,12 +11,12 @@ repositories {
 dependencies {
   //compile 'com.makeramen:roundedimageview:1.4.0'
   compile project(':roundedimageview')
-  compile 'com.squareup.picasso:picasso:2.3.4'
+  compile 'com.squareup.picasso:picasso:2.4.0'
 }
 
 android {
-  compileSdkVersion 21
-  buildToolsVersion '21.1.2'
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
 
   defaultConfig {
     applicationId "com.makeramen.roundedimageview.example"
