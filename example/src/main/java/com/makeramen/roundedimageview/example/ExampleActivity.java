@@ -14,15 +14,15 @@
 * limitations under the License.
 */
 
-package com.makeramen.example;
+package com.makeramen.roundedimageview.example;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.widget.ArrayAdapter;
 
-public class ExampleActivity extends Activity implements ActionBar.OnNavigationListener {
+public class ExampleActivity extends FragmentActivity implements ActionBar.OnNavigationListener {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -37,7 +37,7 @@ public class ExampleActivity extends Activity implements ActionBar.OnNavigationL
         this);
 
     if (savedInstanceState == null) {
-      getFragmentManager().beginTransaction()
+      getSupportFragmentManager().beginTransaction()
           .replace(android.R.id.content, new RoundedFragment())
           .commit();
     }
@@ -63,7 +63,7 @@ public class ExampleActivity extends Activity implements ActionBar.OnNavigationL
         break;
     }
 
-    getFragmentManager().beginTransaction()
+    getSupportFragmentManager().beginTransaction()
         .replace(android.R.id.content, newFragment)
         .commit();
 

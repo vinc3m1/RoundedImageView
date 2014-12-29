@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package com.makeramen;
+package com.makeramen.roundedimageview;
 
 import android.content.Context;
 import android.content.res.ColorStateList;

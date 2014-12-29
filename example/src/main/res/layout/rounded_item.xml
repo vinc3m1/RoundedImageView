@@ -5,7 +5,7 @@
     android:layout_height="200dip"
     >
 
-  <com.makeramen.RoundedImageView
+  <com.makeramen.roundedimageview.RoundedImageView
       android:id="@+id/imageView1"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
