@@ -7,7 +7,7 @@ def sonatypePassword = project.hasProperty('sonatypePassword') ? sonatypePasswor
 
 android {
   compileSdkVersion 21
-  buildToolsVersion '21.1.0'
+  buildToolsVersion '21.1.2'
 
   defaultConfig {
     minSdkVersion 8

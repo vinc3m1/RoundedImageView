@@ -16,7 +16,7 @@ dependencies {
 
 android {
   compileSdkVersion 21
-  buildToolsVersion '21.1.0'
+  buildToolsVersion '21.1.2'
 
   defaultConfig {
     applicationId "com.makeramen.roundedimageview.example"
