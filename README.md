@@ -47,7 +47,7 @@ Usage
 Define in xml:
 
 ```xml
-<com.makeramen.roundedimageview.RoundedImageView
+<com.makeramen.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView1"
         android:src="@drawable/photo1"
