@@ -81,8 +81,8 @@ Or make a Transformation for Picasso:
 ```java
 Transformation transformation = new RoundedTransformationBuilder()
           .borderColor(Color.BLACK)
-          .borderWidthDp((float) 3)
-          .cornerRadiusDp((float) 30)
+          .borderWidthDp(3)
+          .cornerRadiusDp(30)
           .oval(false)
           .build();
 
