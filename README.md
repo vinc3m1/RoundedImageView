@@ -65,8 +65,8 @@ Or in code:
 ```java
 RoundedImageView riv = new RoundedImageView(context);
 riv.setScaleType(ScaleType.CENTER_CROP);
-riv.setCornerRadius(10);
-riv.setBorderWidth(2);
+riv.setCornerRadius((float) 10);
+riv.setBorderWidth((float) 2);
 riv.setBorderColor(Color.DKGRAY);
 riv.mutateBackground(true);
 riv.setImageDrawable(drawable);
