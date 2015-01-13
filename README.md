@@ -1,6 +1,8 @@
 RoundedImageView
 ================
 
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RoundedImageView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/680)
+
 A fast ImageView (and Drawable) that supports rounded corners (and ovals or circles) based on the original [example from Romain Guy](http://www.curious-creature.org/2012/12/11/android-recipe-1-image-with-rounded-corners/). RoundedImageView is a full superset of [CircleImageView](https://github.com/hdodenhof/CircleImageView) (which is actually just a subset based on this lib) with many more advanced features like support for ovals, rounded rectangles, ScaleTypes and TileModes.
 
 ![RoundedImageView screenshot](https://raw.github.com/makeramen/RoundedImageView/master/screenshot.png)
@@ -141,8 +143,4 @@ ChangeLog
 * **1.0.0**
     * Initial release to maven central
     * Programmatically setting attributes with TransitionDrawables not supported.
-
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vinc3m1/roundedimageview/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
