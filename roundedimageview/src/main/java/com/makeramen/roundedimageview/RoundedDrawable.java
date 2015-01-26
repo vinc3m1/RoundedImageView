@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2014 Vincent Mi
+* Copyright (C) 2015 Vincent Mi
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -292,10 +292,18 @@ public class RoundedDrawable extends Drawable {
     return PixelFormat.TRANSLUCENT;
   }
 
+  @Override public int getAlpha() {
+    return mBitmapPaint.getAlpha();
+  }
+
   @Override
   public void setAlpha(int alpha) {
     mBitmapPaint.setAlpha(alpha);
     invalidateSelf();
+  }
+
+  @Override public ColorFilter getColorFilter() {
+    return mBitmapPaint.getColorFilter();
   }
 
   @Override

@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2014 Vincent Mi
+* Copyright (C) 2015 Vincent Mi
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.ColorFilter;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -61,6 +62,10 @@ public class RoundedImageView extends ImageView {
   private boolean mutateBackground = false;
   private Shader.TileMode tileModeX = DEFAULT_TILE_MODE;
   private Shader.TileMode tileModeY = DEFAULT_TILE_MODE;
+
+  private ColorFilter mColorFilter = null;
+  private boolean mHasColorFilter = false;
+  private boolean mColorMod = false;
 
   private int mResource;
   private Drawable mDrawable;
@@ -262,6 +267,31 @@ public class RoundedImageView extends ImageView {
     }
   }
 
+  @Override public void setColorFilter(ColorFilter cf) {
+    if (mColorFilter != cf) {
+      mColorFilter = cf;
+      mHasColorFilter = true;
+      mColorMod = true;
+      applyColorMod();
+      invalidate();
+    }
+  }
+
+  private void applyColorMod() {
+    // Only mutate and apply when modifications have occurred. This should
+    // not reset the mColorMod flag, since these filters need to be
+    // re-applied if the Drawable is changed.
+    if (mDrawable != null && mColorMod) {
+      mDrawable = mDrawable.mutate();
+      if (mHasColorFilter) {
+        mDrawable.setColorFilter(mColorFilter);
+      }
+      // TODO: support, eventually...
+      //mDrawable.setXfermode(mXfermode);
+      //mDrawable.setAlpha(mAlpha * mViewAlphaScale >> 8);
+    }
+  }
+
   private void updateAttrs(Drawable drawable) {
     if (drawable == null) { return; }
 
@@ -274,6 +304,7 @@ public class RoundedImageView extends ImageView {
           .setOval(isOval)
           .setTileModeX(tileModeX)
           .setTileModeY(tileModeY);
+      applyColorMod();
     } else if (drawable instanceof LayerDrawable) {
       // loop through layers to and set drawable attrs
       LayerDrawable ld = ((LayerDrawable) drawable);
