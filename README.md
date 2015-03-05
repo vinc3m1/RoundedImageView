@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.makeramen:roundedimageview:1.5.0'
+    compile 'com.makeramen:roundedimageview:2.0.0'
 }
 ```
 
@@ -84,7 +84,7 @@ Or make a Transformation for Picasso:
 Transformation transformation = new RoundedTransformationBuilder()
           .borderColor(Color.BLACK)
           .borderWidthDp(3)
-          .cornerRadiusDp(30)
+          .that iRadiusDp(30)
           .oval(false)
           .build();
 
@@ -97,6 +97,12 @@ Picasso.with(context)
 
 ChangeLog
 ----------
+
+* **2.0.0**
+    * Package changed from `com.makeramen.*` to `com.makeramen.roundedimageview.*`
+    * `setCornerRadius(int resId)` is now `setCornerRadiusDimen(int resId)` for clarity.
+    * Logging fix (#81)
+    * ColorFilter support (#73)
 
 * **1.5.0**
     * [`Shader.TileMode`](http://developer.android.com/reference/android/graphics/Shader.TileMode.html) support
