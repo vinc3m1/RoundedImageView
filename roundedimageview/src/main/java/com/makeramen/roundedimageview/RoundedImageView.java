@@ -326,7 +326,7 @@ public class RoundedImageView extends ImageView {
     return cornerRadius;
   }
 
-  public void setCornerRadius(int resId) {
+  public void setCornerRadiusDimen(int resId) {
     setCornerRadius(getResources().getDimension(resId));
   }
 

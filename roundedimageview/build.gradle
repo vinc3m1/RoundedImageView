@@ -23,7 +23,7 @@ android {
 }
 
 dependencies {
-  provided 'com.squareup.picasso:picasso:2.3.4'
+  provided 'com.squareup.picasso:picasso:2.5.0'
 }
 
 task androidJavadocs(type: Javadoc) {
