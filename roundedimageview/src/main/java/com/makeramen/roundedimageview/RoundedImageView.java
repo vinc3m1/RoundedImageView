@@ -336,6 +336,7 @@ public class RoundedImageView extends ImageView {
     cornerRadius = radius;
     updateDrawableAttrs();
     updateBackgroundDrawableAttrs(false);
+    invalidate();
   }
 
   public float getBorderWidth() {
