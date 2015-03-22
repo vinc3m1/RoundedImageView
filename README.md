@@ -41,7 +41,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.makeramen:roundedimageview:2.0.0'
+    compile 'com.makeramen:roundedimageview:2.0.1'
 }
 ```
 
@@ -98,6 +98,9 @@ Picasso.with(context)
 
 ChangeLog
 ----------
+
+* **2.0.1**
+    * Invalidate after `setCornerRadius()`
 
 * **2.0.0**
     * Package changed from `com.makeramen.*` to `com.makeramen.roundedimageview.*`
