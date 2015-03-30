@@ -32,6 +32,7 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.NinePatchDrawable;
 import android.util.Log;
 import android.widget.ImageView.ScaleType;
 
@@ -101,9 +102,16 @@ public class RoundedDrawable extends Drawable {
         // loop through layers to and change to RoundedDrawables if possible
         for (int i = 0; i < num; i++) {
           Drawable d = ld.getDrawable(i);
+          if(ld.getId(i) <= 0) {
+            // workaround: setId to make LayerDrawable works
+            ld.setId(i, i+1);
+          }
           ld.setDrawableByLayerId(ld.getId(i), fromDrawable(d));
         }
         return ld;
+      } else if(drawable instanceof NinePatchDrawable) {
+        // cannot resolve NinePatchDrawable
+        return drawable;
       }
 
       // try to get a bitmap from the drawable and
