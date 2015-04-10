@@ -296,60 +296,62 @@ public class RoundedDrawable extends Drawable {
 
   private void redrawBitmapForSquareCorners(Canvas canvas) {
     if (mRoundBottomLeft && mRoundBottomRight && mRoundTopRight && mRoundTopLeft) {
-      return; // no square corners, avoid full redraw
+      return; // no square corners
     }
 
-    int width = (int) mDrawableRect.width();
-    int height = (int) mDrawableRect.height();
-    int halfWidth = width / 2;
-    int halfHeight = height / 2;
+    int l = (int) mDrawableRect.left,
+            t = (int) mDrawableRect.top,
+            w = l + (int) mDrawableRect.width(),
+            h = t + (int) mDrawableRect.height(),
+            r = (int) mCornerRadius;
 
     if (!mRoundTopLeft) {
-      canvas.drawRect(new Rect(0, 0, halfWidth, halfHeight), mBitmapPaint);
+      canvas.drawRect(new Rect(l, t, r, r), mBitmapPaint);
     }
 
     if (!mRoundTopRight) {
-      canvas.drawRect(new Rect(halfWidth, 0, width, halfHeight), mBitmapPaint);
+      canvas.drawRect(new Rect(w - r, t, w, r), mBitmapPaint);
     }
 
     if (!mRoundBottomLeft) {
-      canvas.drawRect(new Rect(0, halfHeight, halfWidth, height), mBitmapPaint);
+      canvas.drawRect(new Rect(l, h - r, r, h), mBitmapPaint);
     }
 
     if (!mRoundBottomRight) {
-      canvas.drawRect(new Rect(halfWidth, halfHeight, width, height), mBitmapPaint);
+      canvas.drawRect(new Rect(w - r, h - r, w, h), mBitmapPaint);
     }
   }
 
   private void redrawBorderForSquareCorners(Canvas canvas) {
     if (mRoundBottomLeft && mRoundBottomRight && mRoundTopRight && mRoundTopLeft) {
-      return; // no square corners, avoid full redraw
+      return; // no square corners
     }
 
-    int width = (int) mDrawableRect.width();
-    int height = (int) mDrawableRect.height();
-    int halfWidth = width / 2;
-    int halfHeight = height / 2;
-    float borderOffset = mBorderWidth / 2;
+    float l = mDrawableRect.left,
+            t = mDrawableRect.top,
+            w = l + mDrawableRect.width(),
+            h = t + mDrawableRect.height(),
+            r = mCornerRadius,
+            b = mBorderWidth / 2;
 
     if (!mRoundTopLeft) {
-      canvas.drawLine(0, borderOffset, halfWidth + mBorderWidth, borderOffset, mBorderPaint);
-      canvas.drawLine(borderOffset, 0, borderOffset, halfHeight + mBorderWidth, mBorderPaint);
+      canvas.drawLine(l - b, t, l + r, t, mBorderPaint);
+      canvas.drawLine(l, t - b, l, t + r, mBorderPaint);
     }
 
     if (!mRoundTopRight) {
-      canvas.drawLine(halfWidth, borderOffset, width + mBorderWidth, borderOffset, mBorderPaint);
-      canvas.drawLine(width + borderOffset, 0, width + borderOffset, halfHeight + mBorderWidth, mBorderPaint);
+      canvas.drawLine(w - r - b, t, w, t, mBorderPaint);
+      canvas.drawLine(w, t - b, w, t + r, mBorderPaint);
     }
 
     if (!mRoundBottomLeft) {
-      canvas.drawLine(0, height + borderOffset, halfWidth + mBorderWidth, height + borderOffset, mBorderPaint);
-      canvas.drawLine(borderOffset, halfHeight, borderOffset, height + mBorderWidth, mBorderPaint);
+      canvas.drawLine(l - b, h, l + r, h, mBorderPaint);
+      canvas.drawLine(l, h - r, l, h, mBorderPaint);
     }
 
     if (!mRoundBottomRight) {
-      canvas.drawLine(halfWidth, height + borderOffset, width + mBorderWidth, height + borderOffset, mBorderPaint);
-      canvas.drawLine(width + borderOffset, halfHeight, width + borderOffset, height + mBorderWidth, mBorderPaint);
+      canvas.drawLine(w - r - b, h, w + b, h, mBorderPaint);
+      canvas.drawLine(w, h - r, w, h, mBorderPaint);
     }
   }
 

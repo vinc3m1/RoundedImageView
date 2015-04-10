@@ -73,6 +73,11 @@ public class RoundedImageView extends ImageView {
 
   private ScaleType mScaleType;
 
+  private boolean mRoundTopLeft;
+  private boolean mRoundBottomLeft;
+  private boolean mRoundTopRight;
+  private boolean mRoundBottomRight;
+
   public RoundedImageView(Context context) {
     super(context);
   }
@@ -112,6 +117,11 @@ public class RoundedImageView extends ImageView {
 
     mutateBackground = a.getBoolean(R.styleable.RoundedImageView_riv_mutate_background, false);
     isOval = a.getBoolean(R.styleable.RoundedImageView_riv_oval, false);
+
+    mRoundTopLeft = a.getBoolean(R.styleable.RoundedImageView_riv_round_top_left, true);
+    mRoundTopRight = a.getBoolean(R.styleable.RoundedImageView_riv_round_top_right, true);
+    mRoundBottomLeft = a.getBoolean(R.styleable.RoundedImageView_riv_round_bottom_left, true);
+    mRoundBottomRight = a.getBoolean(R.styleable.RoundedImageView_riv_round_bottom_right, true);
 
     final int tileMode = a.getInt(R.styleable.RoundedImageView_riv_tile_mode, TILE_MODE_UNDEFINED);
     if (tileMode != TILE_MODE_UNDEFINED) {
@@ -302,6 +312,10 @@ public class RoundedImageView extends ImageView {
           .setBorderWidth(borderWidth)
           .setBorderColor(borderColor)
           .setOval(isOval)
+          .setRoundTopLeft(mRoundTopLeft)
+          .setRoundTopRight(mRoundTopRight)
+          .setRoundBottomLeft(mRoundBottomLeft)
+          .setRoundBottomRight(mRoundBottomRight)
           .setTileModeX(tileModeX)
           .setTileModeY(tileModeY);
       applyColorMod();

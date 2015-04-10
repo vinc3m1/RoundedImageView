@@ -6,6 +6,10 @@
     <attr name="riv_border_color" format="color" />
     <attr name="riv_mutate_background" format="boolean" />
     <attr name="riv_oval" format="boolean" />
+    <attr name="riv_round_top_left" format="boolean" />
+    <attr name="riv_round_top_right" format="boolean" />
+    <attr name="riv_round_bottom_left" format="boolean" />
+    <attr name="riv_round_bottom_right" format="boolean" />
     <attr name="android:scaleType" />
     <attr name="riv_tile_mode">
       <enum name="clamp" value="0" />
