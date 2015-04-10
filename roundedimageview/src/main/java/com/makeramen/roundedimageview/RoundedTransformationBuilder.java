@@ -30,6 +30,10 @@ public final class RoundedTransformationBuilder {
   private final DisplayMetrics mDisplayMetrics;
 
   private float mCornerRadius = 0;
+  private boolean mRoundTopLeft = true;
+  private boolean mRoundBottomLeft = true;
+  private boolean mRoundTopRight = true;
+  private boolean mRoundBottomRight = true;
   private boolean mOval = false;
   private float mBorderWidth = 0;
   private ColorStateList mBorderColor =
@@ -50,6 +54,38 @@ public final class RoundedTransformationBuilder {
    */
   public RoundedTransformationBuilder cornerRadius(float radiusPx) {
     mCornerRadius = radiusPx;
+    return this;
+  }
+
+  /**
+   * set whether the top left corner should be rounded (default is true)
+   */
+  public RoundedTransformationBuilder roundTopLeft(boolean roundTopLeft) {
+    mRoundTopLeft = roundTopLeft;
+    return this;
+  }
+
+  /**
+   * set whether the top right corner should be rounded (default is true)
+   */
+  public RoundedTransformationBuilder roundTopRight(boolean roundTopRight) {
+    mRoundTopRight = roundTopRight;
+    return this;
+  }
+
+  /**
+   * set whether the bottom left corner should be rounded (default is true)
+   */
+  public RoundedTransformationBuilder roundBottomLeft(boolean roundBottomLeft) {
+    mRoundBottomLeft = roundBottomLeft;
+    return this;
+  }
+
+  /**
+   * set whether the bottom right corner should be rounded (default is true)
+   */
+  public RoundedTransformationBuilder roundBottomRight(boolean roundBottomRight) {
+    mRoundBottomRight = roundBottomRight;
     return this;
   }
 
@@ -102,6 +138,10 @@ public final class RoundedTransformationBuilder {
         Bitmap transformed = RoundedDrawable.fromBitmap(source)
             .setScaleType(mScaleType)
             .setCornerRadius(mCornerRadius)
+            .setRoundTopRight(mRoundTopRight)
+            .setRoundTopLeft(mRoundTopLeft)
+            .setRoundBottomLeft(mRoundBottomLeft)
+            .setRoundBottomRight(mRoundBottomRight)
             .setBorderWidth(mBorderWidth)
             .setBorderColor(mBorderColor)
             .setOval(mOval)

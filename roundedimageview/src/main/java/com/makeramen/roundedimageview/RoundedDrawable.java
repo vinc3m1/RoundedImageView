@@ -63,6 +63,11 @@ public class RoundedDrawable extends Drawable {
   private ColorStateList mBorderColor = ColorStateList.valueOf(DEFAULT_BORDER_COLOR);
   private ScaleType mScaleType = ScaleType.FIT_CENTER;
 
+  private boolean mRoundTopLeft = true;
+  private boolean mRoundBottomLeft = true;
+  private boolean mRoundTopRight = true;
+  private boolean mRoundBottomRight = true;
+
   public RoundedDrawable(Bitmap bitmap) {
     mBitmap = bitmap;
 
@@ -278,11 +283,73 @@ public class RoundedDrawable extends Drawable {
     } else {
       if (mBorderWidth > 0) {
         canvas.drawRoundRect(mDrawableRect, Math.max(mCornerRadius, 0),
-            Math.max(mCornerRadius, 0), mBitmapPaint);
+                Math.max(mCornerRadius, 0), mBitmapPaint);
         canvas.drawRoundRect(mBorderRect, mCornerRadius, mCornerRadius, mBorderPaint);
+        redrawBitmapForSquareCorners(canvas);
+        redrawBorderForSquareCorners(canvas);
       } else {
         canvas.drawRoundRect(mDrawableRect, mCornerRadius, mCornerRadius, mBitmapPaint);
+        redrawBitmapForSquareCorners(canvas);
       }
+    }
+  }
+
+  private void redrawBitmapForSquareCorners(Canvas canvas) {
+    if (mRoundBottomLeft && mRoundBottomRight && mRoundTopRight && mRoundTopLeft) {
+      return; // no square corners, avoid full redraw
+    }
+
+    int width = (int) mDrawableRect.width();
+    int height = (int) mDrawableRect.height();
+    int halfWidth = width / 2;
+    int halfHeight = height / 2;
+
+    if (!mRoundTopLeft) {
+      canvas.drawRect(new Rect(0, 0, halfWidth, halfHeight), mBitmapPaint);
+    }
+
+    if (!mRoundTopRight) {
+      canvas.drawRect(new Rect(halfWidth, 0, width, halfHeight), mBitmapPaint);
+    }
+
+    if (!mRoundBottomLeft) {
+      canvas.drawRect(new Rect(0, halfHeight, halfWidth, height), mBitmapPaint);
+    }
+
+    if (!mRoundBottomRight) {
+      canvas.drawRect(new Rect(halfWidth, halfHeight, width, height), mBitmapPaint);
+    }
+  }
+
+  private void redrawBorderForSquareCorners(Canvas canvas) {
+    if (mRoundBottomLeft && mRoundBottomRight && mRoundTopRight && mRoundTopLeft) {
+      return; // no square corners, avoid full redraw
+    }
+
+    int width = (int) mDrawableRect.width();
+    int height = (int) mDrawableRect.height();
+    int halfWidth = width / 2;
+    int halfHeight = height / 2;
+    float borderOffset = mBorderWidth / 2;
+
+    if (!mRoundTopLeft) {
+      canvas.drawLine(0, borderOffset, halfWidth + mBorderWidth, borderOffset, mBorderPaint);
+      canvas.drawLine(borderOffset, 0, borderOffset, halfHeight + mBorderWidth, mBorderPaint);
+    }
+
+    if (!mRoundTopRight) {
+      canvas.drawLine(halfWidth, borderOffset, width + mBorderWidth, borderOffset, mBorderPaint);
+      canvas.drawLine(width + borderOffset, 0, width + borderOffset, halfHeight + mBorderWidth, mBorderPaint);
+    }
+
+    if (!mRoundBottomLeft) {
+      canvas.drawLine(0, height + borderOffset, halfWidth + mBorderWidth, height + borderOffset, mBorderPaint);
+      canvas.drawLine(borderOffset, halfHeight, borderOffset, height + mBorderWidth, mBorderPaint);
+    }
+
+    if (!mRoundBottomRight) {
+      canvas.drawLine(halfWidth, height + borderOffset, width + mBorderWidth, height + borderOffset, mBorderPaint);
+      canvas.drawLine(width + borderOffset, halfHeight, width + borderOffset, height + mBorderWidth, mBorderPaint);
     }
   }
 
@@ -337,6 +404,26 @@ public class RoundedDrawable extends Drawable {
 
   public RoundedDrawable setCornerRadius(float radius) {
     mCornerRadius = radius;
+    return this;
+  }
+
+  public RoundedDrawable setRoundTopRight(boolean roundTopRight) {
+    mRoundTopRight = roundTopRight;
+    return this;
+  }
+
+  public RoundedDrawable setRoundTopLeft(boolean roundTopLeft) {
+    mRoundTopLeft = roundTopLeft;
+    return this;
+  }
+
+  public RoundedDrawable setRoundBottomRight(boolean roundBottomRight) {
+    mRoundBottomRight = roundBottomRight;
+    return this;
+  }
+
+  public RoundedDrawable setRoundBottomLeft(boolean roundBottomLeft) {
+    mRoundBottomLeft = roundBottomLeft;
     return this;
   }
 
@@ -418,7 +505,7 @@ public class RoundedDrawable extends Drawable {
     return this;
   }
 
-  public Bitmap toBitmap() {
+    public Bitmap toBitmap() {
     return drawableToBitmap(this);
   }
 }

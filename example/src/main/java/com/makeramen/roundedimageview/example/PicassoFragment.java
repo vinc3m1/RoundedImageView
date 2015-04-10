@@ -75,6 +75,8 @@ public class PicassoFragment extends Fragment {
           .borderColor(Color.BLACK)
           .borderWidthDp(3)
           .cornerRadiusDp(30)
+          .roundTopRight(false)
+          .roundBottomLeft(false)
           .oval(false)
           .build();
     }
