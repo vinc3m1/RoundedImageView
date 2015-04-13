@@ -170,7 +170,7 @@ public class RoundedDrawable extends Drawable {
 
         mShaderMatrix.reset();
         mShaderMatrix.setTranslate((int) ((mBorderRect.width() - mBitmapWidth) * 0.5f + 0.5f),
-            (int) ((mBorderRect.height() - mBitmapHeight) * 0.5f + 0.5f));
+                (int) ((mBorderRect.height() - mBitmapHeight) * 0.5f + 0.5f));
         break;
 
       case CENTER_CROP:
@@ -192,7 +192,7 @@ public class RoundedDrawable extends Drawable {
 
         mShaderMatrix.setScale(scale, scale);
         mShaderMatrix.postTranslate((int) (dx + 0.5f) + mBorderWidth,
-            (int) (dy + 0.5f) + mBorderWidth);
+                (int) (dy + 0.5f) + mBorderWidth);
         break;
 
       case CENTER_INSIDE:
@@ -202,7 +202,7 @@ public class RoundedDrawable extends Drawable {
           scale = 1.0f;
         } else {
           scale = Math.min(mBounds.width() / (float) mBitmapWidth,
-              mBounds.height() / (float) mBitmapHeight);
+                  mBounds.height() / (float) mBitmapHeight);
         }
 
         dx = (int) ((mBounds.width() - mBitmapWidth * scale) * 0.5f + 0.5f);
@@ -299,26 +299,26 @@ public class RoundedDrawable extends Drawable {
       return; // no square corners
     }
 
-    int l = (int) mDrawableRect.left,
-            t = (int) mDrawableRect.top,
-            w = l + (int) mDrawableRect.width(),
-            h = t + (int) mDrawableRect.height(),
-            r = (int) mCornerRadius;
+    float l = mDrawableRect.left,
+            t = mDrawableRect.top,
+            w = l + mDrawableRect.width(),
+            h = t + mDrawableRect.height(),
+            r = mCornerRadius;
 
     if (!mRoundTopLeft) {
-      canvas.drawRect(new Rect(l, t, r, r), mBitmapPaint);
+      canvas.drawRect(new RectF(l, t, l + r, t + r), mBitmapPaint);
     }
 
     if (!mRoundTopRight) {
-      canvas.drawRect(new Rect(w - r, t, w, r), mBitmapPaint);
+      canvas.drawRect(new RectF(w - r, t, w, r), mBitmapPaint);
     }
 
     if (!mRoundBottomLeft) {
-      canvas.drawRect(new Rect(l, h - r, r, h), mBitmapPaint);
+      canvas.drawRect(new RectF(l, h - r, l + r, h), mBitmapPaint);
     }
 
     if (!mRoundBottomRight) {
-      canvas.drawRect(new Rect(w - r, h - r, w, h), mBitmapPaint);
+      canvas.drawRect(new RectF(w - r, h - r, w, h), mBitmapPaint);
     }
   }
 
@@ -360,7 +360,8 @@ public class RoundedDrawable extends Drawable {
     return PixelFormat.TRANSLUCENT;
   }
 
-  @Override public int getAlpha() {
+  @Override
+  public int getAlpha() {
     return mBitmapPaint.getAlpha();
   }
 
@@ -370,7 +371,8 @@ public class RoundedDrawable extends Drawable {
     invalidateSelf();
   }
 
-  @Override public ColorFilter getColorFilter() {
+  @Override
+  public ColorFilter getColorFilter() {
     return mBitmapPaint.getColorFilter();
   }
 
@@ -380,12 +382,14 @@ public class RoundedDrawable extends Drawable {
     invalidateSelf();
   }
 
-  @Override public void setDither(boolean dither) {
+  @Override
+  public void setDither(boolean dither) {
     mBitmapPaint.setDither(dither);
     invalidateSelf();
   }
 
-  @Override public void setFilterBitmap(boolean filter) {
+  @Override
+  public void setFilterBitmap(boolean filter) {
     mBitmapPaint.setFilterBitmap(filter);
     invalidateSelf();
   }
@@ -507,7 +511,7 @@ public class RoundedDrawable extends Drawable {
     return this;
   }
 
-    public Bitmap toBitmap() {
+  public Bitmap toBitmap() {
     return drawableToBitmap(this);
   }
 }
