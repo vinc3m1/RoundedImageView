@@ -51,6 +51,7 @@ public class RoundedDrawable extends Drawable {
   private final RectF mBorderRect = new RectF();
   private final Paint mBorderPaint;
   private final Matrix mShaderMatrix = new Matrix();
+  private final RectF mSquareCornersRect = new RectF();
 
   private BitmapShader mBitmapShader;
   private Shader.TileMode mTileModeX = Shader.TileMode.CLAMP;
@@ -306,19 +307,23 @@ public class RoundedDrawable extends Drawable {
             r = mCornerRadius;
 
     if (!mRoundTopLeft) {
-      canvas.drawRect(new RectF(l, t, l + r, t + r), mBitmapPaint);
+      mSquareCornersRect.set(l, t, l + r, t + r);
+      canvas.drawRect(mSquareCornersRect, mBitmapPaint);
     }
 
     if (!mRoundTopRight) {
-      canvas.drawRect(new RectF(w - r, t, w, r), mBitmapPaint);
+      mSquareCornersRect.set(w - r, t, w, r);
+      canvas.drawRect(mSquareCornersRect, mBitmapPaint);
     }
 
     if (!mRoundBottomLeft) {
-      canvas.drawRect(new RectF(l, h - r, l + r, h), mBitmapPaint);
+      mSquareCornersRect.set(l, h - r, l + r, h);
+      canvas.drawRect(mSquareCornersRect, mBitmapPaint);
     }
 
     if (!mRoundBottomRight) {
-      canvas.drawRect(new RectF(w - r, h - r, w, h), mBitmapPaint);
+      mSquareCornersRect.set(w - r, h - r, w, h);
+      canvas.drawRect(mSquareCornersRect, mBitmapPaint);
     }
   }
 
