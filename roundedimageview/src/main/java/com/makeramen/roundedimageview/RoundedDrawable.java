@@ -137,6 +137,10 @@ public class RoundedDrawable extends Drawable {
     return bitmap;
   }
 
+  public Bitmap getSourceBitmap() {
+    return mBitmap;
+  }
+
   @Override
   public boolean isStateful() {
     return mBorderColor.isStateful();
