@@ -74,9 +74,8 @@ public class PicassoFragment extends Fragment {
       mTransformation = new RoundedTransformationBuilder()
           .borderColor(Color.BLACK)
           .borderWidthDp(3)
-          .cornerRadiusDp(30)
-          .roundTopRight(false)
-          .roundBottomLeft(false)
+          .cornerRadiusBottomLeftDp(30)
+          .cornerRadiusTopRightDp(30)
           .oval(false)
           .build();
     }
