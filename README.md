@@ -85,7 +85,7 @@ Or make a Transformation for Picasso:
 Transformation transformation = new RoundedTransformationBuilder()
           .borderColor(Color.BLACK)
           .borderWidthDp(3)
-          .that iRadiusDp(30)
+          .cornerRadiusDp(30)
           .oval(false)
           .build();
 
