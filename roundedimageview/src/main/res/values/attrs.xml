@@ -2,6 +2,10 @@
 <resources>
   <declare-styleable name="RoundedImageView">
     <attr name="riv_corner_radius" format="dimension" />
+    <attr name="riv_corner_radius_top_left" format="dimension" />
+    <attr name="riv_corner_radius_top_right" format="dimension" />
+    <attr name="riv_corner_radius_bottom_left" format="dimension" />
+    <attr name="riv_corner_radius_bottom_right" format="dimension" />
     <attr name="riv_border_width" format="dimension" />
     <attr name="riv_border_color" format="color" />
     <attr name="riv_mutate_background" format="boolean" />
