@@ -32,14 +32,24 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView.ScaleType;
+import java.util.HashSet;
+import java.util.Set;
 
 @SuppressWarnings("UnusedDeclaration")
 public class RoundedDrawable extends Drawable {
 
   public static final String TAG = "RoundedDrawable";
   public static final int DEFAULT_BORDER_COLOR = Color.BLACK;
+
+  public enum Corner {
+    TOP_LEFT,
+    TOP_RIGHT,
+    BOTTOM_RIGHT,
+    BOTTOM_LEFT
+  }
 
   private final RectF mBounds = new RectF();
   private final RectF mDrawableRect = new RectF();
@@ -53,14 +63,13 @@ public class RoundedDrawable extends Drawable {
   private final Matrix mShaderMatrix = new Matrix();
   private final RectF mSquareCornersRect = new RectF();
 
-  private BitmapShader mBitmapShader;
   private Shader.TileMode mTileModeX = Shader.TileMode.CLAMP;
   private Shader.TileMode mTileModeY = Shader.TileMode.CLAMP;
   private boolean mRebuildShader = true;
 
   // [ topLeft, topRight, bottomLeft, bottomRight ]
-  private float[] mCornerRadius = new float[] { 0, 0, 0, 0 };
-  private float mCommonCornerRadius = 0;
+  private float mCornerRadius = 0f;
+  private final boolean[] mCornersRounded = new boolean[] { true, true, true, true };
 
   private boolean mOval = false;
   private float mBorderWidth = 0;
@@ -169,16 +178,16 @@ public class RoundedDrawable extends Drawable {
     switch (mScaleType) {
       case CENTER:
         mBorderRect.set(mBounds);
-        mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
+        mBorderRect.inset(mBorderWidth / 2, mBorderWidth / 2);
 
         mShaderMatrix.reset();
         mShaderMatrix.setTranslate((int) ((mBorderRect.width() - mBitmapWidth) * 0.5f + 0.5f),
-                (int) ((mBorderRect.height() - mBitmapHeight) * 0.5f + 0.5f));
+            (int) ((mBorderRect.height() - mBitmapHeight) * 0.5f + 0.5f));
         break;
 
       case CENTER_CROP:
         mBorderRect.set(mBounds);
-        mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
+        mBorderRect.inset(mBorderWidth / 2, mBorderWidth / 2);
 
         mShaderMatrix.reset();
 
@@ -195,7 +204,7 @@ public class RoundedDrawable extends Drawable {
 
         mShaderMatrix.setScale(scale, scale);
         mShaderMatrix.postTranslate((int) (dx + 0.5f) + mBorderWidth,
-                (int) (dy + 0.5f) + mBorderWidth);
+            (int) (dy + 0.5f) + mBorderWidth);
         break;
 
       case CENTER_INSIDE:
@@ -205,7 +214,7 @@ public class RoundedDrawable extends Drawable {
           scale = 1.0f;
         } else {
           scale = Math.min(mBounds.width() / (float) mBitmapWidth,
-                  mBounds.height() / (float) mBitmapHeight);
+              mBounds.height() / (float) mBitmapHeight);
         }
 
         dx = (int) ((mBounds.width() - mBitmapWidth * scale) * 0.5f + 0.5f);
@@ -216,7 +225,7 @@ public class RoundedDrawable extends Drawable {
 
         mBorderRect.set(mBitmapRect);
         mShaderMatrix.mapRect(mBorderRect);
-        mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
+        mBorderRect.inset(mBorderWidth / 2, mBorderWidth / 2);
         mShaderMatrix.setRectToRect(mBitmapRect, mBorderRect, Matrix.ScaleToFit.FILL);
         break;
 
@@ -225,7 +234,7 @@ public class RoundedDrawable extends Drawable {
         mBorderRect.set(mBitmapRect);
         mShaderMatrix.setRectToRect(mBitmapRect, mBounds, Matrix.ScaleToFit.CENTER);
         mShaderMatrix.mapRect(mBorderRect);
-        mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
+        mBorderRect.inset(mBorderWidth / 2, mBorderWidth / 2);
         mShaderMatrix.setRectToRect(mBitmapRect, mBorderRect, Matrix.ScaleToFit.FILL);
         break;
 
@@ -233,7 +242,7 @@ public class RoundedDrawable extends Drawable {
         mBorderRect.set(mBitmapRect);
         mShaderMatrix.setRectToRect(mBitmapRect, mBounds, Matrix.ScaleToFit.END);
         mShaderMatrix.mapRect(mBorderRect);
-        mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
+        mBorderRect.inset(mBorderWidth / 2, mBorderWidth / 2);
         mShaderMatrix.setRectToRect(mBitmapRect, mBorderRect, Matrix.ScaleToFit.FILL);
         break;
 
@@ -241,13 +250,13 @@ public class RoundedDrawable extends Drawable {
         mBorderRect.set(mBitmapRect);
         mShaderMatrix.setRectToRect(mBitmapRect, mBounds, Matrix.ScaleToFit.START);
         mShaderMatrix.mapRect(mBorderRect);
-        mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
+        mBorderRect.inset(mBorderWidth / 2, mBorderWidth / 2);
         mShaderMatrix.setRectToRect(mBitmapRect, mBorderRect, Matrix.ScaleToFit.FILL);
         break;
 
       case FIT_XY:
         mBorderRect.set(mBounds);
-        mBorderRect.inset((mBorderWidth) / 2, (mBorderWidth) / 2);
+        mBorderRect.inset(mBorderWidth / 2, mBorderWidth / 2);
         mShaderMatrix.reset();
         mShaderMatrix.setRectToRect(mBitmapRect, mBorderRect, Matrix.ScaleToFit.FILL);
         break;
@@ -257,7 +266,7 @@ public class RoundedDrawable extends Drawable {
   }
 
   @Override
-  protected void onBoundsChange(Rect bounds) {
+  protected void onBoundsChange(@NonNull Rect bounds) {
     super.onBoundsChange(bounds);
 
     mBounds.set(bounds);
@@ -266,13 +275,13 @@ public class RoundedDrawable extends Drawable {
   }
 
   @Override
-  public void draw(Canvas canvas) {
+  public void draw(@NonNull Canvas canvas) {
     if (mRebuildShader) {
-      mBitmapShader = new BitmapShader(mBitmap, mTileModeX, mTileModeY);
+      BitmapShader bitmapShader = new BitmapShader(mBitmap, mTileModeX, mTileModeY);
       if (mTileModeX == Shader.TileMode.CLAMP && mTileModeY == Shader.TileMode.CLAMP) {
-        mBitmapShader.setLocalMatrix(mShaderMatrix);
+        bitmapShader.setLocalMatrix(mShaderMatrix);
       }
-      mBitmapPaint.setShader(mBitmapShader);
+      mBitmapPaint.setShader(bitmapShader);
       mRebuildShader = false;
     }
 
@@ -284,95 +293,96 @@ public class RoundedDrawable extends Drawable {
         canvas.drawOval(mDrawableRect, mBitmapPaint);
       }
     } else {
-      float radius = mCommonCornerRadius;
-      if (mBorderWidth > 0) {
-        canvas.drawRoundRect(mDrawableRect, radius, radius, mBitmapPaint);
-        canvas.drawRoundRect(mBorderRect, radius, radius, mBorderPaint);
-        redrawBitmapForSquareCorners(canvas);
-        redrawBorderForSquareCorners(canvas);
+      if (any(mCornersRounded)) {
+        float radius = mCornerRadius;
+        if (mBorderWidth > 0) {
+          canvas.drawRoundRect(mDrawableRect, radius, radius, mBitmapPaint);
+          canvas.drawRoundRect(mBorderRect, radius, radius, mBorderPaint);
+          redrawBitmapForSquareCorners(canvas);
+          redrawBorderForSquareCorners(canvas);
+        } else {
+          canvas.drawRoundRect(mDrawableRect, radius, radius, mBitmapPaint);
+          redrawBitmapForSquareCorners(canvas);
+        }
       } else {
-        canvas.drawRoundRect(mDrawableRect, radius, radius, mBitmapPaint);
-        redrawBitmapForSquareCorners(canvas);
+        canvas.drawRect(mDrawableRect, mBitmapPaint);
+        canvas.drawRect(mBorderRect, mBorderPaint);
       }
     }
   }
 
   private void redrawBitmapForSquareCorners(Canvas canvas) {
-    if (mCornerRadius[0] != 0
-            && mCornerRadius[1] != 0
-            && mCornerRadius[2] != 0
-            && mCornerRadius[3] != 0) {
-      return; // no square corners
+    if (all(mCornersRounded)) {
+      // no square corners
+      return;
     }
 
-    if (mCommonCornerRadius == 0) {
+    if (mCornerRadius == 0) {
       return; // no round corners
     }
 
-    float l = mDrawableRect.left,
-            t = mDrawableRect.top,
-            w = l + mDrawableRect.width(),
-            h = t + mDrawableRect.height(),
-            r = mCommonCornerRadius;
+    float left = mDrawableRect.left;
+    float top = mDrawableRect.top;
+    float right = left + mDrawableRect.width();
+    float bottom = top + mDrawableRect.height();
+    float radius = mCornerRadius;
 
-    if (mCornerRadius[0] == 0) {
-      mSquareCornersRect.set(l, t, l + r, t + r);
+    if (!mCornersRounded[Corner.TOP_LEFT.ordinal()]) {
+      mSquareCornersRect.set(left, top, left + radius, top + radius);
       canvas.drawRect(mSquareCornersRect, mBitmapPaint);
     }
 
-    if (mCornerRadius[1] == 0) {
-      mSquareCornersRect.set(w - r, t, w, r);
+    if (!mCornersRounded[Corner.TOP_RIGHT.ordinal()]) {
+      mSquareCornersRect.set(right - radius, top, right, radius);
       canvas.drawRect(mSquareCornersRect, mBitmapPaint);
     }
 
-    if (mCornerRadius[2] == 0) {
-      mSquareCornersRect.set(l, h - r, l + r, h);
+    if (!mCornersRounded[Corner.BOTTOM_RIGHT.ordinal()]) {
+      mSquareCornersRect.set(right - radius, bottom - radius, right, bottom);
       canvas.drawRect(mSquareCornersRect, mBitmapPaint);
     }
 
-    if (mCornerRadius[3] == 0) {
-      mSquareCornersRect.set(w - r, h - r, w, h);
+    if (!mCornersRounded[Corner.BOTTOM_LEFT.ordinal()]) {
+      mSquareCornersRect.set(left, bottom - radius, left + radius, bottom);
       canvas.drawRect(mSquareCornersRect, mBitmapPaint);
     }
   }
 
   private void redrawBorderForSquareCorners(Canvas canvas) {
-    if (mCornerRadius[0] != 0
-            && mCornerRadius[1] != 0
-            && mCornerRadius[2] != 0
-            && mCornerRadius[3] != 0) {
-      return; // no square corners
+    if (all(mCornersRounded)) {
+      // no square corners
+      return;
     }
 
-    if (mCommonCornerRadius == 0) {
+    if (mCornerRadius == 0) {
       return; // no round corners
     }
 
-    float l = mDrawableRect.left,
-            t = mDrawableRect.top,
-            w = l + mDrawableRect.width(),
-            h = t + mDrawableRect.height(),
-            r = mCommonCornerRadius,
-            b = mBorderWidth / 2;
+    float left = mDrawableRect.left;
+    float top = mDrawableRect.top;
+    float right = left + mDrawableRect.width();
+    float bottom = top + mDrawableRect.height();
+    float radius = mCornerRadius;
+    float offset = mBorderWidth / 2;
 
-    if (mCornerRadius[0] == 0) {
-      canvas.drawLine(l - b, t, l + r, t, mBorderPaint);
-      canvas.drawLine(l, t - b, l, t + r, mBorderPaint);
+    if (!mCornersRounded[Corner.TOP_LEFT.ordinal()]) {
+      canvas.drawLine(left - offset, top, left + radius, top, mBorderPaint);
+      canvas.drawLine(left, top - offset, left, top + radius, mBorderPaint);
     }
 
-    if (mCornerRadius[1] == 0) {
-      canvas.drawLine(w - r - b, t, w, t, mBorderPaint);
-      canvas.drawLine(w, t - b, w, t + r, mBorderPaint);
+    if (!mCornersRounded[Corner.TOP_RIGHT.ordinal()]) {
+      canvas.drawLine(right - radius - offset, top, right, top, mBorderPaint);
+      canvas.drawLine(right, top - offset, right, top + radius, mBorderPaint);
     }
 
-    if (mCornerRadius[2] == 0) {
-      canvas.drawLine(l - b, h, l + r, h, mBorderPaint);
-      canvas.drawLine(l, h - r, l, h, mBorderPaint);
+    if (!mCornersRounded[Corner.BOTTOM_RIGHT.ordinal()]) {
+      canvas.drawLine(right - radius - offset, bottom, right + offset, bottom, mBorderPaint);
+      canvas.drawLine(right, bottom - radius, right, bottom, mBorderPaint);
     }
 
-    if (mCornerRadius[3] == 0) {
-      canvas.drawLine(w - r - b, h, w + b, h, mBorderPaint);
-      canvas.drawLine(w, h - r, w, h, mBorderPaint);
+    if (!mCornersRounded[Corner.BOTTOM_LEFT.ordinal()]) {
+      canvas.drawLine(left - offset, bottom, left + radius, bottom, mBorderPaint);
+      canvas.drawLine(left, bottom - radius, left, bottom, mBorderPaint);
     }
   }
 
@@ -426,54 +436,96 @@ public class RoundedDrawable extends Drawable {
   }
 
   /**
-   * get the positive corner radius in px (if any) or zero.
+   * @return the corner radius.
    */
-  @Deprecated
   public float getCornerRadius() {
-    return mCommonCornerRadius;
+    return mCornerRadius;
   }
 
   /**
-   * set the corner radius for all corners in px.
+   * @param corner the specific corner to get radius of.
+   * @return the corner radius of the specified {@link Corner}.
+   */
+  public float getCornerRadius(Corner corner) {
+    return mCornersRounded[corner.ordinal()] ? mCornerRadius : 0f;
+  }
+
+  /**
+   * Sets all corners to the specified radius.
+   *
+   * @param radius the radius.
+   * @return the {@link RoundedDrawable} for chaining.
    */
   public RoundedDrawable setCornerRadius(float radius) {
-    mCommonCornerRadius = Math.max(radius, 0);
-    setCornerRadius(mCommonCornerRadius, mCommonCornerRadius, mCommonCornerRadius, mCommonCornerRadius);
+    setCornerRadius(radius, radius, radius, radius);
     return this;
   }
 
   /**
-   * set the corner radius for all corners in px.
+   * Sets the corner radius of one specific corner.
+   *
+   * @param corner the corner.
+   * @param radius the radius.
+   * @return the {@link RoundedDrawable} for chaining.
    */
-  public RoundedDrawable setCornerRadius(float topLeft, float topRight, float bottomLeft, float bottomRight) {
-    mCornerRadius[0] = Math.max(topLeft, 0);
-    mCornerRadius[1] = Math.max(topRight, 0);
-    mCornerRadius[2] = Math.max(bottomLeft, 0);
-    mCornerRadius[3] = Math.max(bottomRight, 0);
-    mCommonCornerRadius = getFirstPositiveCornerRadiusOrZero();
-    validateCornerRadius();
+  public RoundedDrawable setCornerRadius(Corner corner, float radius) {
+    if (radius != 0 && mCornerRadius != 0 && mCornerRadius != radius) {
+      throw new IllegalArgumentException("Multiple nonzero corner radii not yet supported.");
+    }
+
+    if (radius == 0) {
+      if (only(corner.ordinal(), mCornersRounded)) {
+        mCornerRadius = 0;
+      }
+      mCornersRounded[corner.ordinal()] = false;
+    } else {
+      if (mCornerRadius == 0) {
+        mCornerRadius = radius;
+      }
+      mCornersRounded[corner.ordinal()] = true;
+    }
+
     return this;
   }
 
-  private float getFirstPositiveCornerRadiusOrZero() {
-    for (int i = 0; i < 4; i++) {
-      if (mCornerRadius[i] != 0) {
-        return mCornerRadius[i];
-      }
-    }
-    return 0;
-  }
+  /**
+   * Sets the corner radii of all the corners.
+   *
+   * @param topLeft top left corner radius.
+   * @param topRight top right corner radius
+   * @param bottomRight bototm right corner radius.
+   * @param bottomLeft bottom left corner radius.
+   * @return the {@link RoundedDrawable} for chaining.
+   */
+  public RoundedDrawable setCornerRadius(float topLeft, float topRight, float bottomRight,
+      float bottomLeft) {
+    Set<Float> radiusSet = new HashSet<>(4);
+    radiusSet.add(topLeft);
+    radiusSet.add(topRight);
+    radiusSet.add(bottomRight);
+    radiusSet.add(bottomLeft);
 
-  private void validateCornerRadius() {
-    // check that all radius have the same value or zero
-    if (mCommonCornerRadius != 0) {
-      for (int i = 0; i < 4; i++) {
-        if (mCornerRadius[i] != 0 && mCommonCornerRadius != mCornerRadius[i]) {
-          throw new IllegalArgumentException(
-                  "Using different positive corner radius is not supported yet.");
-        }
-      }
+    radiusSet.remove(0f);
+
+    if (radiusSet.size() > 1) {
+      throw new IllegalArgumentException("Multiple nonzero corner radii not yet supported.");
     }
+
+    if (!radiusSet.isEmpty()) {
+      float radius = radiusSet.iterator().next();
+      if (Float.isInfinite(radius) || Float.isNaN(radius) || radius < 0) {
+        throw new IllegalArgumentException("Invalid radius value: " + radius);
+      }
+      mCornerRadius = radius;
+    } else {
+      mCornerRadius = 0f;
+    }
+
+    mCornersRounded[Corner.TOP_LEFT.ordinal()] = topLeft > 0;
+    mCornersRounded[Corner.TOP_RIGHT.ordinal()] = topRight > 0;
+    mCornersRounded[Corner.BOTTOM_RIGHT.ordinal()] = bottomRight > 0;
+    mCornersRounded[Corner.BOTTOM_LEFT.ordinal()] = bottomLeft > 0;
+    return this;
   }
 
   public float getBorderWidth() {
@@ -552,6 +604,29 @@ public class RoundedDrawable extends Drawable {
       invalidateSelf();
     }
     return this;
+  }
+
+  private static boolean only(int index, boolean[] booleans) {
+    for (int i = 0, len = booleans.length; i < len; i++) {
+      if (booleans[i] != (i == index)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private static boolean any(boolean[] booleans) {
+    for (boolean b : booleans) {
+      if (b) { return true; }
+    }
+    return false;
+  }
+
+  private static boolean all(boolean[] booleans) {
+    for (boolean b : booleans) {
+      if (b) { return false; }
+    }
+    return true;
   }
 
   public Bitmap toBitmap() {
