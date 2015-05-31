@@ -19,6 +19,7 @@ package com.makeramen.roundedimageview.example;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,13 +75,14 @@ public class PicassoFragment extends Fragment {
       mTransformation = new RoundedTransformationBuilder()
           .borderColor(Color.BLACK)
           .borderWidthDp(3)
-          .cornerRadiusBottomLeftDp(30)
-          .cornerRadiusTopRightDp(30)
+          //.cornerRadiusBottomLeftDp(30)
+          //.cornerRadiusTopRightDp(30)
+          .cornerRadiusDp(30)
           .oval(false)
           .build();
     }
 
-    @Override public View getView(int position, View convertView, ViewGroup parent) {
+    @Override public View getView(int position, View convertView, @NonNull ViewGroup parent) {
       ViewGroup view;
       if (convertView == null) {
         view = (ViewGroup) mInflater.inflate(R.layout.picasso_item, parent, false);
@@ -91,14 +93,13 @@ public class PicassoFragment extends Fragment {
       PicassoItem item = getItem(position);
 
       ImageView imageView = ((ImageView) view.findViewById(R.id.imageView1));
+      imageView.setScaleType(item.mScaleType);
 
       Picasso.with(getContext())
           .load(item.mUrl)
           .fit()
           .transform(mTransformation)
           .into(imageView);
-
-      imageView.setScaleType(item.mScaleType);
 
       ((TextView) view.findViewById(R.id.textView3)).setText(item.mScaleType.toString());
       return view;
