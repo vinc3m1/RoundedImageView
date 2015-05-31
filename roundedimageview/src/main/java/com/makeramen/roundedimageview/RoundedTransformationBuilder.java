@@ -23,16 +23,19 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.widget.ImageView;
 import com.squareup.picasso.Transformation;
-
 import java.util.Arrays;
+
+import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_BOTTOM_LEFT;
+import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_BOTTOM_RIGHT;
+import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_TOP_LEFT;
+import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_TOP_RIGHT;
 
 public final class RoundedTransformationBuilder {
 
   //private final Resources mResources;
   private final DisplayMetrics mDisplayMetrics;
 
-  // [ topLeft, topRight, bottomLeft, bottomRight ]
-  private float[] mCornerRadius = new float[] { 0, 0, 0, 0 };
+  private float[] mCornerRadii = new float[] { 0, 0, 0, 0 };
 
   private boolean mOval = false;
   private float mBorderWidth = 0;
@@ -50,127 +53,120 @@ public final class RoundedTransformationBuilder {
   }
 
   /**
-   * set corner radius for all corners in px
+   * Set corner radius for all corners in px.
+   *
+   * @param radius the radius in px
+   * @return the builder for chaining.
    */
-  public RoundedTransformationBuilder cornerRadius(float radiusPx) {
-    mCornerRadius[0] = radiusPx;
-    mCornerRadius[1] = radiusPx;
-    mCornerRadius[2] = radiusPx;
-    mCornerRadius[3] = radiusPx;
+  public RoundedTransformationBuilder cornerRadius(float radius) {
+    mCornerRadii[CORNER_TOP_LEFT] = radius;
+    mCornerRadii[CORNER_TOP_RIGHT] = radius;
+    mCornerRadii[CORNER_BOTTOM_RIGHT] = radius;
+    mCornerRadii[CORNER_BOTTOM_LEFT] = radius;
     return this;
   }
 
   /**
-   * set top-left corner radius in px
+   * Set corner radius for a specific corner in px.
+   *
+   * @param corner the corner to set.
+   * @param radius the radius in px.
+   * @return the builder for chaning.
    */
-  public RoundedTransformationBuilder cornerRadiusTopLeft(float radiusPx) {
-    mCornerRadius[0] = radiusPx;
+  public RoundedTransformationBuilder cornerRadius(int corner, float radius) {
+    mCornerRadii[corner] = radius;
     return this;
   }
 
   /**
-   * set top-right corner radius in px
+   * Set corner radius for all corners in density independent pixels.
+   *
+   * @param radius the radius in density independent pixels.
+   * @return the builder for chaining.
    */
-  public RoundedTransformationBuilder cornerRadiusTopRight(float radiusPx) {
-    mCornerRadius[1] = radiusPx;
+  public RoundedTransformationBuilder cornerRadiusDp(float radius) {
+    return cornerRadius(
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radius, mDisplayMetrics));
+  }
+
+  /**
+   * Set corner radius for a specific corner in density independent pixels.
+   *
+   * @param corner the corner to set
+   * @param radius the radius in density independent pixels.
+   * @return the builder for chaining.
+   */
+  public RoundedTransformationBuilder cornerRadiusDp(int corner, float radius) {
+    return cornerRadius(corner,
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radius, mDisplayMetrics));
+  }
+
+  /**
+   * Set the border width in pixels.
+   *
+   * @param width border width in pixels.
+   * @return the builder for chaining.
+   */
+  public RoundedTransformationBuilder borderWidth(float width) {
+    mBorderWidth = width;
     return this;
   }
 
   /**
-   * set bottom-left corner radius in px
+   * Set the border width in density independent pixels.
+   *
+   * @param width border width in density independent pixels.
+   * @return the builder for chaining.
    */
-  public RoundedTransformationBuilder cornerRadiusBottomLeft(float radiusPx) {
-    mCornerRadius[2] = radiusPx;
+  public RoundedTransformationBuilder borderWidthDp(float width) {
+    mBorderWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, width, mDisplayMetrics);
     return this;
   }
 
   /**
-   * set bottom-right corner radius in px
-   */
-  public RoundedTransformationBuilder cornerRadiusBottomRight(float radiusPx) {
-    mCornerRadius[3] = radiusPx;
-    return this;
-  }
-
-  /**
-   * set corner radius for all corners in dip
-   */
-  public RoundedTransformationBuilder cornerRadiusDp(float radiusDp) {
-    return cornerRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radiusDp, mDisplayMetrics));
-  }
-
-  /**
-   * set top-left corner radius in dip
-   */
-  public RoundedTransformationBuilder cornerRadiusTopLeftDp(float radiusDp) {
-    mCornerRadius[0] = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radiusDp, mDisplayMetrics);
-    return this;
-  }
-
-  /**
-   * set top-right corner radius in dip
-   */
-  public RoundedTransformationBuilder cornerRadiusTopRightDp(float radiusDp) {
-    mCornerRadius[1] = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radiusDp, mDisplayMetrics);
-    return this;
-  }
-
-  /**
-   * set bottom-left corner radius in dip
-   */
-  public RoundedTransformationBuilder cornerRadiusBottomLeftDp(float radiusDp) {
-    mCornerRadius[2] = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radiusDp, mDisplayMetrics);
-    return this;
-  }
-
-  /**
-   * set bottom-right corner radius in dip
-   */
-  public RoundedTransformationBuilder cornerRadiusBottomRightDp(float radiusDp) {
-    mCornerRadius[3] = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radiusDp, mDisplayMetrics);
-    return this;
-  }
-
-  /**
-   * set border width in px
-   */
-  public RoundedTransformationBuilder borderWidth(float widthPx) {
-    mBorderWidth = widthPx;
-    return this;
-  }
-
-  /**
-   * set border width in dip
-   */
-  public RoundedTransformationBuilder borderWidthDp(float widthDp) {
-    mBorderWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthDp, mDisplayMetrics);
-    return this;
-  }
-
-  /**
-   * set border color
+   * Set the border color.
+   *
+   * @param color the color to set.
+   * @return the builder for chaining.
    */
   public RoundedTransformationBuilder borderColor(int color) {
     mBorderColor = ColorStateList.valueOf(color);
     return this;
   }
 
+  /**
+   * Set the border color as a {@link ColorStateList}.
+   *
+   * @param colors the {@link ColorStateList} to set.
+   * @return the builder for chaining.
+   */
   public RoundedTransformationBuilder borderColor(ColorStateList colors) {
     mBorderColor = colors;
     return this;
   }
 
+  /**
+   * Sets whether the image should be oval or not.
+   *
+   * @param oval if the image should be oval.
+   * @return the builder for chaining.
+   */
   public RoundedTransformationBuilder oval(boolean oval) {
     mOval = oval;
     return this;
   }
 
+  /**
+   * Creates a {@link Transformation} for use with picasso.
+   *
+   * @return the {@link Transformation}
+   */
   public Transformation build() {
     return new Transformation() {
       @Override public Bitmap transform(Bitmap source) {
         Bitmap transformed = RoundedDrawable.fromBitmap(source)
             .setScaleType(mScaleType)
-            .setCornerRadius(mCornerRadius[0], mCornerRadius[1], mCornerRadius[2], mCornerRadius[3])
+            .setCornerRadius(mCornerRadii[0], mCornerRadii[1], mCornerRadii[2], mCornerRadii[3])
             .setBorderWidth(mBorderWidth)
             .setBorderColor(mBorderColor)
             .setOval(mOval)
@@ -182,7 +178,7 @@ public final class RoundedTransformationBuilder {
       }
 
       @Override public String key() {
-        return "r:" + Arrays.toString(mCornerRadius)
+        return "r:" + Arrays.toString(mCornerRadii)
             + "b:" + mBorderWidth
             + "c:" + mBorderColor
             + "o:" + mOval;

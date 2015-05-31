@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.ArrayAdapter;
+import com.makeramen.roundedimageview.example.RoundedFragment.ExampleType;
 
 public class ExampleActivity extends FragmentActivity implements ActionBar.OnNavigationListener {
 
@@ -50,15 +51,23 @@ public class ExampleActivity extends FragmentActivity implements ActionBar.OnNav
     switch (itemPosition) {
       default:
       case 0:
-        newFragment = RoundedFragment.getInstance(false);
+        // bitmap
+        newFragment = RoundedFragment.getInstance(ExampleType.DEFAULT);
         break;
       case 1:
-        newFragment = RoundedFragment.getInstance(true);
+        // oval
+        newFragment = RoundedFragment.getInstance(ExampleType.OVAL);
         break;
       case 2:
-        newFragment = new PicassoFragment();
+        // select
+        newFragment = RoundedFragment.getInstance(ExampleType.SELECT_CORNERS);
         break;
       case 3:
+        // picasso
+        newFragment = new PicassoFragment();
+        break;
+      case 4:
+        // color
         newFragment = new ColorFragment();
         break;
     }

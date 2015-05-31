@@ -6,6 +6,7 @@
   <string-array name="action_list">
     <item>Bitmap</item>
     <item>Ovals</item>
+    <item>Select Corners</item>
     <item>Picasso</item>
     <item>Color</item>
   </string-array>

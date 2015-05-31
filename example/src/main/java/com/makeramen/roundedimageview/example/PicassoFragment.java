@@ -29,9 +29,14 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.makeramen.roundedimageview.RoundedDrawable;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_BOTTOM_LEFT;
+import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_BOTTOM_RIGHT;
+import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_TOP_LEFT;
 
 public class PicassoFragment extends Fragment {
 
@@ -75,9 +80,6 @@ public class PicassoFragment extends Fragment {
       mTransformation = new RoundedTransformationBuilder()
           .borderColor(Color.BLACK)
           .borderWidthDp(3)
-          //.cornerRadiusBottomLeftDp(30)
-          //.cornerRadiusTopRightDp(30)
-          .cornerRadiusDp(30)
           .oval(false)
           .build();
     }

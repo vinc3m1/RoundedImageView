@@ -22,6 +22,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Shader;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,18 +30,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.makeramen.roundedimageview.RoundedDrawable;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 public class RoundedFragment extends Fragment {
 
-  static final String ARG_IS_OVAL = "is_oval";
+  static final String ARG_EXAMPLE_TYPE = "example_type";
 
-  private boolean isOval = false;
+  private ExampleType exampleType;
 
-  public static RoundedFragment getInstance(boolean isOval) {
+  public static RoundedFragment getInstance(ExampleType exampleType) {
     RoundedFragment f = new RoundedFragment();
     Bundle args = new Bundle();
-    args.putBoolean(ARG_IS_OVAL, isOval);
+    args.putString(ARG_EXAMPLE_TYPE, exampleType.name());
     f.setArguments(args);
     return f;
   }
@@ -49,7 +51,7 @@ public class RoundedFragment extends Fragment {
     super.onCreate(savedInstanceState);
 
     if (getArguments() != null) {
-      isOval = getArguments().getBoolean(ARG_IS_OVAL);
+      exampleType = ExampleType.valueOf(getArguments().getString(ARG_EXAMPLE_TYPE));
     }
   }
 
@@ -120,7 +122,11 @@ public class RoundedFragment extends Fragment {
     public View getView(int position, View convertView, ViewGroup parent) {
       ViewGroup view;
       if (convertView == null) {
-        view = (ViewGroup) mInflater.inflate(R.layout.rounded_item, parent, false);
+        if (exampleType == ExampleType.SELECT_CORNERS) {
+          view = (ViewGroup) mInflater.inflate(R.layout.rounded_item_select, parent, false);
+        } else {
+          view = (ViewGroup) mInflater.inflate(R.layout.rounded_item, parent, false);
+        }
       } else {
         view = (ViewGroup) convertView;
       }
@@ -128,16 +134,23 @@ public class RoundedFragment extends Fragment {
       StreamItem item = getItem(position);
 
       RoundedImageView iv = ((RoundedImageView) view.findViewById(R.id.imageView1));
-      iv.setOval(isOval);
+      iv.setOval(exampleType == ExampleType.OVAL);
       iv.setImageBitmap(item.mBitmap);
       iv.setScaleType(item.mScaleType);
       iv.setTileModeX(item.mTileMode);
       iv.setTileModeY(item.mTileMode);
+
       ((TextView) view.findViewById(R.id.textView1)).setText(item.mLine1);
       ((TextView) view.findViewById(R.id.textView2)).setText(item.mLine2);
       ((TextView) view.findViewById(R.id.textView3)).setText(item.mScaleType.toString());
 
       return view;
     }
+  }
+
+  public enum ExampleType {
+    DEFAULT,
+    OVAL,
+    SELECT_CORNERS
   }
 }

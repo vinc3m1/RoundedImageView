@@ -44,12 +44,10 @@ public class RoundedDrawable extends Drawable {
   public static final String TAG = "RoundedDrawable";
   public static final int DEFAULT_BORDER_COLOR = Color.BLACK;
 
-  public enum Corner {
-    TOP_LEFT,
-    TOP_RIGHT,
-    BOTTOM_RIGHT,
-    BOTTOM_LEFT
-  }
+  public static final int CORNER_TOP_LEFT = 0;
+  public static final int CORNER_TOP_RIGHT = 1;
+  public static final int CORNER_BOTTOM_RIGHT = 2;
+  public static final int CORNER_BOTTOM_LEFT = 3;
 
   private final RectF mBounds = new RectF();
   private final RectF mDrawableRect = new RectF();
@@ -327,22 +325,22 @@ public class RoundedDrawable extends Drawable {
     float bottom = top + mDrawableRect.height();
     float radius = mCornerRadius;
 
-    if (!mCornersRounded[Corner.TOP_LEFT.ordinal()]) {
+    if (!mCornersRounded[CORNER_TOP_LEFT]) {
       mSquareCornersRect.set(left, top, left + radius, top + radius);
       canvas.drawRect(mSquareCornersRect, mBitmapPaint);
     }
 
-    if (!mCornersRounded[Corner.TOP_RIGHT.ordinal()]) {
+    if (!mCornersRounded[CORNER_TOP_RIGHT]) {
       mSquareCornersRect.set(right - radius, top, right, radius);
       canvas.drawRect(mSquareCornersRect, mBitmapPaint);
     }
 
-    if (!mCornersRounded[Corner.BOTTOM_RIGHT.ordinal()]) {
+    if (!mCornersRounded[CORNER_BOTTOM_RIGHT]) {
       mSquareCornersRect.set(right - radius, bottom - radius, right, bottom);
       canvas.drawRect(mSquareCornersRect, mBitmapPaint);
     }
 
-    if (!mCornersRounded[Corner.BOTTOM_LEFT.ordinal()]) {
+    if (!mCornersRounded[CORNER_BOTTOM_LEFT]) {
       mSquareCornersRect.set(left, bottom - radius, left + radius, bottom);
       canvas.drawRect(mSquareCornersRect, mBitmapPaint);
     }
@@ -365,22 +363,22 @@ public class RoundedDrawable extends Drawable {
     float radius = mCornerRadius;
     float offset = mBorderWidth / 2;
 
-    if (!mCornersRounded[Corner.TOP_LEFT.ordinal()]) {
+    if (!mCornersRounded[CORNER_TOP_LEFT]) {
       canvas.drawLine(left - offset, top, left + radius, top, mBorderPaint);
       canvas.drawLine(left, top - offset, left, top + radius, mBorderPaint);
     }
 
-    if (!mCornersRounded[Corner.TOP_RIGHT.ordinal()]) {
+    if (!mCornersRounded[CORNER_TOP_RIGHT]) {
       canvas.drawLine(right - radius - offset, top, right, top, mBorderPaint);
       canvas.drawLine(right, top - offset, right, top + radius, mBorderPaint);
     }
 
-    if (!mCornersRounded[Corner.BOTTOM_RIGHT.ordinal()]) {
+    if (!mCornersRounded[CORNER_BOTTOM_RIGHT]) {
       canvas.drawLine(right - radius - offset, bottom, right + offset, bottom, mBorderPaint);
       canvas.drawLine(right, bottom - radius, right, bottom, mBorderPaint);
     }
 
-    if (!mCornersRounded[Corner.BOTTOM_LEFT.ordinal()]) {
+    if (!mCornersRounded[CORNER_BOTTOM_LEFT]) {
       canvas.drawLine(left - offset, bottom, left + radius, bottom, mBorderPaint);
       canvas.drawLine(left, bottom - radius, left, bottom, mBorderPaint);
     }
@@ -444,10 +442,10 @@ public class RoundedDrawable extends Drawable {
 
   /**
    * @param corner the specific corner to get radius of.
-   * @return the corner radius of the specified {@link Corner}.
+   * @return the corner radius of the specified corner.
    */
-  public float getCornerRadius(Corner corner) {
-    return mCornersRounded[corner.ordinal()] ? mCornerRadius : 0f;
+  public float getCornerRadius(int corner) {
+    return mCornersRounded[corner] ? mCornerRadius : 0f;
   }
 
   /**
@@ -468,21 +466,21 @@ public class RoundedDrawable extends Drawable {
    * @param radius the radius.
    * @return the {@link RoundedDrawable} for chaining.
    */
-  public RoundedDrawable setCornerRadius(Corner corner, float radius) {
+  public RoundedDrawable setCornerRadius(int corner, float radius) {
     if (radius != 0 && mCornerRadius != 0 && mCornerRadius != radius) {
       throw new IllegalArgumentException("Multiple nonzero corner radii not yet supported.");
     }
 
     if (radius == 0) {
-      if (only(corner.ordinal(), mCornersRounded)) {
+      if (only(corner, mCornersRounded)) {
         mCornerRadius = 0;
       }
-      mCornersRounded[corner.ordinal()] = false;
+      mCornersRounded[corner] = false;
     } else {
       if (mCornerRadius == 0) {
         mCornerRadius = radius;
       }
-      mCornersRounded[corner.ordinal()] = true;
+      mCornersRounded[corner] = true;
     }
 
     return this;
@@ -521,10 +519,10 @@ public class RoundedDrawable extends Drawable {
       mCornerRadius = 0f;
     }
 
-    mCornersRounded[Corner.TOP_LEFT.ordinal()] = topLeft > 0;
-    mCornersRounded[Corner.TOP_RIGHT.ordinal()] = topRight > 0;
-    mCornersRounded[Corner.BOTTOM_RIGHT.ordinal()] = bottomRight > 0;
-    mCornersRounded[Corner.BOTTOM_LEFT.ordinal()] = bottomLeft > 0;
+    mCornersRounded[CORNER_TOP_LEFT] = topLeft > 0;
+    mCornersRounded[CORNER_TOP_RIGHT] = topRight > 0;
+    mCornersRounded[CORNER_BOTTOM_RIGHT] = bottomRight > 0;
+    mCornersRounded[CORNER_BOTTOM_LEFT] = bottomLeft > 0;
     return this;
   }
 
