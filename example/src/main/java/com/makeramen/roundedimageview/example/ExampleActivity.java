@@ -16,51 +16,54 @@
 
 package com.makeramen.roundedimageview.example;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import com.makeramen.roundedimageview.example.RoundedFragment.ExampleType;
+import android.widget.Spinner;
 
-public class ExampleActivity extends FragmentActivity implements ActionBar.OnNavigationListener {
+public class ExampleActivity extends AppCompatActivity
+    implements AdapterView.OnItemSelectedListener {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+    setContentView(R.layout.example_activity);
 
-    getActionBar().setListNavigationCallbacks(
-        ArrayAdapter.createFromResource(
-            getActionBar().getThemedContext(),
-            R.array.action_list,
-            android.R.layout.simple_spinner_dropdown_item),
-        this);
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    Spinner navSpinner = (Spinner) findViewById(R.id.spinner_nav);
+
+    navSpinner.setAdapter(ArrayAdapter.createFromResource(
+        navSpinner.getContext(),
+        R.array.action_list,
+        android.R.layout.simple_spinner_dropdown_item));
+
+    navSpinner.setOnItemSelectedListener(this);
 
     if (savedInstanceState == null) {
-      getSupportFragmentManager().beginTransaction()
-          .replace(android.R.id.content, new RoundedFragment())
-          .commit();
+      navSpinner.setSelection(0);
     }
-
   }
 
-  @Override public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-
+  @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
     Fragment newFragment;
-    switch (itemPosition) {
+    switch (position) {
       default:
       case 0:
         // bitmap
-        newFragment = RoundedFragment.getInstance(ExampleType.DEFAULT);
+        newFragment = RoundedFragment.getInstance(RoundedFragment.ExampleType.DEFAULT);
         break;
       case 1:
         // oval
-        newFragment = RoundedFragment.getInstance(ExampleType.OVAL);
+        newFragment = RoundedFragment.getInstance(RoundedFragment.ExampleType.OVAL);
         break;
       case 2:
         // select
-        newFragment = RoundedFragment.getInstance(ExampleType.SELECT_CORNERS);
+        newFragment = RoundedFragment.getInstance(RoundedFragment.ExampleType.SELECT_CORNERS);
         break;
       case 3:
         // picasso
@@ -73,9 +76,9 @@ public class ExampleActivity extends FragmentActivity implements ActionBar.OnNav
     }
 
     getSupportFragmentManager().beginTransaction()
-        .replace(android.R.id.content, newFragment)
+        .replace(R.id.fragment_container, newFragment)
         .commit();
-
-    return true;
   }
+
+  @Override public void onNothingSelected(AdapterView<?> parent) { }
 }

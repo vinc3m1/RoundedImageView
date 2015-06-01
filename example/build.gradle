@@ -12,7 +12,8 @@ dependencies {
   //compile 'com.makeramen:roundedimageview:2.0.0-SNAPSHOT'
   compile project(':roundedimageview')
   compile 'com.squareup.picasso:picasso:2.5.2'
-  compile 'com.android.support:support-v4:22.1.1'
+  compile 'com.android.support:support-v4:22.2.0'
+  compile 'com.android.support:appcompat-v7:22.2.0'
 }
 
 android {
