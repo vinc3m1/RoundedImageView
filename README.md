@@ -99,7 +99,7 @@ Picasso.with(context)
 ChangeLog
 ----------
 * **2.1.1**
-    * Fix for CENTER_CROP bug (#8) 
+    * Fix for CENTER_CROP bug ([#8](https://github.com/vinc3m1/RoundedImageView/issues/8)) 
 
 * **2.1.0**
     * Add APIs for setting different corner radii. Currently only supports a single radius or 0 (allows you to choose which corners to be rounded by setting otheres to 0).
