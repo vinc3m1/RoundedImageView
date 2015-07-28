@@ -32,6 +32,7 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView.ScaleType;
@@ -443,7 +444,7 @@ public class RoundedDrawable extends Drawable {
    * @param corner the specific corner to get radius of.
    * @return the corner radius of the specified corner.
    */
-  public float getCornerRadius(int corner) {
+  public float getCornerRadius(@Corner int corner) {
     return mCornersRounded[corner] ? mCornerRadius : 0f;
   }
 
@@ -465,7 +466,7 @@ public class RoundedDrawable extends Drawable {
    * @param radius the radius.
    * @return the {@link RoundedDrawable} for chaining.
    */
-  public RoundedDrawable setCornerRadius(int corner, float radius) {
+  public RoundedDrawable setCornerRadius(@Corner int corner, float radius) {
     if (radius != 0 && mCornerRadius != 0 && mCornerRadius != radius) {
       throw new IllegalArgumentException("Multiple nonzero corner radii not yet supported.");
     }
@@ -539,7 +540,7 @@ public class RoundedDrawable extends Drawable {
     return mBorderColor.getDefaultColor();
   }
 
-  public RoundedDrawable setBorderColor(int color) {
+  public RoundedDrawable setBorderColor(@ColorInt int color) {
     return setBorderColor(ColorStateList.valueOf(color));
   }
 
