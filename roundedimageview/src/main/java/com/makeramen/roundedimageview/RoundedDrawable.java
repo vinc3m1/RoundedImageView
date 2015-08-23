@@ -304,7 +304,9 @@ public class RoundedDrawable extends Drawable {
         }
       } else {
         canvas.drawRect(mDrawableRect, mBitmapPaint);
-        canvas.drawRect(mBorderRect, mBorderPaint);
+        if (mBorderWidth > 0) {
+          canvas.drawRect(mBorderRect, mBorderPaint);
+        }
       }
     }
   }
