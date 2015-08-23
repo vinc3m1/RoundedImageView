@@ -6,7 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.SOURCE)
 @IntDef({
-    RoundedDrawable.CORNER_TOP_LEFT, RoundedDrawable.CORNER_TOP_RIGHT,
-    RoundedDrawable.CORNER_BOTTOM_LEFT, RoundedDrawable.CORNER_BOTTOM_RIGHT
+    Corner.TOP_LEFT, Corner.TOP_RIGHT,
+    Corner.BOTTOM_LEFT, Corner.BOTTOM_RIGHT
 })
-public @interface Corner {}
+public @interface Corner {
+  int TOP_LEFT = 0;
+  int TOP_RIGHT = 1;
+  int BOTTOM_RIGHT = 2;
+  int BOTTOM_LEFT = 3;
+}

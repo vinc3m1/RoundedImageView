@@ -33,12 +33,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
 
-import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_BOTTOM_LEFT;
-import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_BOTTOM_RIGHT;
-import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_TOP_LEFT;
-import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_TOP_RIGHT;
-
-
 @SuppressWarnings("UnusedDeclaration")
 public class RoundedImageView extends ImageView {
 
@@ -105,10 +99,14 @@ public class RoundedImageView extends ImageView {
     float cornerRadiusOverride =
         a.getDimensionPixelSize(R.styleable.RoundedImageView_riv_corner_radius, -1);
 
-    mCornerRadii[CORNER_TOP_LEFT] = a.getDimensionPixelSize(R.styleable.RoundedImageView_riv_corner_radius_top_left, -1);
-    mCornerRadii[CORNER_TOP_RIGHT] = a.getDimensionPixelSize(R.styleable.RoundedImageView_riv_corner_radius_top_right, -1);
-    mCornerRadii[CORNER_BOTTOM_RIGHT] = a.getDimensionPixelSize(R.styleable.RoundedImageView_riv_corner_radius_bottom_right, -1);
-    mCornerRadii[CORNER_BOTTOM_LEFT] = a.getDimensionPixelSize(R.styleable.RoundedImageView_riv_corner_radius_bottom_left, -1);
+    mCornerRadii[Corner.TOP_LEFT] =
+        a.getDimensionPixelSize(R.styleable.RoundedImageView_riv_corner_radius_top_left, -1);
+    mCornerRadii[Corner.TOP_RIGHT] =
+        a.getDimensionPixelSize(R.styleable.RoundedImageView_riv_corner_radius_top_right, -1);
+    mCornerRadii[Corner.BOTTOM_RIGHT] =
+        a.getDimensionPixelSize(R.styleable.RoundedImageView_riv_corner_radius_bottom_right, -1);
+    mCornerRadii[Corner.BOTTOM_LEFT] =
+        a.getDimensionPixelSize(R.styleable.RoundedImageView_riv_corner_radius_bottom_left, -1);
 
     boolean any = false;
     for (int i = 0, len = mCornerRadii.length; i < len; i++) {
@@ -322,9 +320,11 @@ public class RoundedImageView extends ImageView {
           .setTileModeY(mTileModeY);
 
       if (mCornerRadii != null) {
-        ((RoundedDrawable) drawable).setCornerRadius(mCornerRadii[CORNER_TOP_LEFT],
-            mCornerRadii[CORNER_TOP_RIGHT], mCornerRadii[CORNER_BOTTOM_RIGHT],
-            mCornerRadii[CORNER_BOTTOM_LEFT]);
+        ((RoundedDrawable) drawable).setCornerRadius(
+            mCornerRadii[Corner.TOP_LEFT],
+            mCornerRadii[Corner.TOP_RIGHT],
+            mCornerRadii[Corner.BOTTOM_RIGHT],
+            mCornerRadii[Corner.BOTTOM_LEFT]);
       }
 
       applyColorMod();
@@ -429,17 +429,17 @@ public class RoundedImageView extends ImageView {
    * @param bottomLeft radius of the bottom left corner in px.
    */
   public void setCornerRadius(float topLeft, float topRight, float bottomLeft, float bottomRight) {
-    if (mCornerRadii[CORNER_TOP_LEFT] == topLeft
-        && mCornerRadii[CORNER_TOP_RIGHT] == topRight
-        && mCornerRadii[CORNER_BOTTOM_RIGHT] == bottomRight
-        && mCornerRadii[CORNER_BOTTOM_LEFT] == bottomLeft) {
+    if (mCornerRadii[Corner.TOP_LEFT] == topLeft
+        && mCornerRadii[Corner.TOP_RIGHT] == topRight
+        && mCornerRadii[Corner.BOTTOM_RIGHT] == bottomRight
+        && mCornerRadii[Corner.BOTTOM_LEFT] == bottomLeft) {
       return;
     }
 
-    mCornerRadii[CORNER_TOP_LEFT] = topLeft;
-    mCornerRadii[CORNER_TOP_RIGHT] = topRight;
-    mCornerRadii[CORNER_BOTTOM_LEFT] = bottomLeft;
-    mCornerRadii[CORNER_BOTTOM_RIGHT] = bottomRight;
+    mCornerRadii[Corner.TOP_LEFT] = topLeft;
+    mCornerRadii[Corner.TOP_RIGHT] = topRight;
+    mCornerRadii[Corner.BOTTOM_LEFT] = bottomLeft;
+    mCornerRadii[Corner.BOTTOM_RIGHT] = bottomRight;
 
     updateDrawableAttrs();
     updateBackgroundDrawableAttrs(false);

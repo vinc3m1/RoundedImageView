@@ -25,11 +25,6 @@ import android.widget.ImageView;
 import com.squareup.picasso.Transformation;
 import java.util.Arrays;
 
-import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_BOTTOM_LEFT;
-import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_BOTTOM_RIGHT;
-import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_TOP_LEFT;
-import static com.makeramen.roundedimageview.RoundedDrawable.CORNER_TOP_RIGHT;
-
 public final class RoundedTransformationBuilder {
 
   //private final Resources mResources;
@@ -59,10 +54,10 @@ public final class RoundedTransformationBuilder {
    * @return the builder for chaining.
    */
   public RoundedTransformationBuilder cornerRadius(float radius) {
-    mCornerRadii[CORNER_TOP_LEFT] = radius;
-    mCornerRadii[CORNER_TOP_RIGHT] = radius;
-    mCornerRadii[CORNER_BOTTOM_RIGHT] = radius;
-    mCornerRadii[CORNER_BOTTOM_LEFT] = radius;
+    mCornerRadii[Corner.TOP_LEFT] = radius;
+    mCornerRadii[Corner.TOP_RIGHT] = radius;
+    mCornerRadii[Corner.BOTTOM_RIGHT] = radius;
+    mCornerRadii[Corner.BOTTOM_LEFT] = radius;
     return this;
   }
 

@@ -12,8 +12,8 @@ dependencies {
   //compile 'com.makeramen:roundedimageview:2.0.0-SNAPSHOT'
   compile project(':roundedimageview')
   compile 'com.squareup.picasso:picasso:2.5.2'
-  compile 'com.android.support:support-v4:22.2.0'
-  compile 'com.android.support:appcompat-v7:22.2.0'
+  compile 'com.android.support:support-v4:23.0.0'
+  compile 'com.android.support:appcompat-v7:23.0.0'
 }
 
 android {
@@ -23,7 +23,7 @@ android {
   defaultConfig {
     applicationId "com.makeramen.roundedimageview.example"
     minSdkVersion 14
-    targetSdkVersion 22
+    targetSdkVersion 23
     versionCode 1
     versionName version
   }
