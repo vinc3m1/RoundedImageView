@@ -197,7 +197,8 @@ public class RoundedDrawable extends Drawable {
         }
 
         mShaderMatrix.setScale(scale, scale);
-        mShaderMatrix.postTranslate((int) (dx + 0.5f), (int) (dy + 0.5f));
+        mShaderMatrix.postTranslate((int) (dx + 0.5f) + mBorderWidth / 2,
+            (int) (dy + 0.5f) + mBorderWidth / 2);
         break;
 
       case CENTER_INSIDE:
