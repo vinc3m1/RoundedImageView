@@ -24,7 +24,7 @@ android {
 
 dependencies {
   provided 'com.squareup.picasso:picasso:2.5.2'
-  provided 'com.android.support:support-annotations:23.0.0'
+  provided 'com.android.support:support-annotations:23.1.0'
 }
 
 task androidJavadocs(type: Javadoc) {
