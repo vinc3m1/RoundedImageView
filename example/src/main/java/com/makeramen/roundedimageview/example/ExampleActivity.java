@@ -72,6 +72,10 @@ public class ExampleActivity extends AppCompatActivity
         // color
         newFragment = new ColorFragment();
         break;
+      case 5:
+        // background
+        newFragment = RoundedFragment.getInstance(RoundedFragment.ExampleType.BACKGROUND);
+        break;
     }
 
     getSupportFragmentManager().beginTransaction()
