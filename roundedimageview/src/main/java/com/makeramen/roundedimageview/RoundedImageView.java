@@ -164,15 +164,12 @@ public class RoundedImageView extends ImageView {
     updateBackgroundDrawableAttrs(true);
 
     if (mMutateBackground) {
-        // when setBackground() is called by View constructor, mMutateBackground is not loaded from the attribute,
-        // so it's false by default, what doesn't allow to create the RoundedDrawable. At this point, after load
-        // mMutateBackground and updated BackgroundDrawable to RoundedDrawable, the View's background drawable needs to
-        // be changed to this new drawable.
-
-      if (BuildConfig.VERSION_CODE >= Build.VERSION_CODES.JELLY_BEAN)
-        super.setBackground(mBackgroundDrawable);
-      else
-        super.setBackgroundDrawable(mBackgroundDrawable);
+      // when setBackground() is called by View constructor, mMutateBackground is not loaded from the attribute,
+      // so it's false by default, what doesn't allow to create the RoundedDrawable. At this point, after load
+      // mMutateBackground and updated BackgroundDrawable to RoundedDrawable, the View's background drawable needs to
+      // be changed to this new drawable.
+      //noinspection deprecation
+      super.setBackgroundDrawable(mBackgroundDrawable);
     }
 
     a.recycle();
@@ -390,10 +387,8 @@ public class RoundedImageView extends ImageView {
   public void setBackgroundDrawable(Drawable background) {
     mBackgroundDrawable = background;
     updateBackgroundDrawableAttrs(true);
-    if (BuildConfig.VERSION_CODE >= Build.VERSION_CODES.JELLY_BEAN)
-      super.setBackground(mBackgroundDrawable);
-    else
-      super.setBackgroundDrawable(mBackgroundDrawable);
+    //noinspection deprecation
+    super.setBackgroundDrawable(mBackgroundDrawable);
   }
 
   /**
