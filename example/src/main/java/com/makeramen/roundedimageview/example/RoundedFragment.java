@@ -30,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.makeramen.roundedimageview.RoundedImageView;
 
 public class RoundedFragment extends Fragment {
@@ -123,6 +124,8 @@ public class RoundedFragment extends Fragment {
       if (convertView == null) {
         if (exampleType == ExampleType.SELECT_CORNERS) {
           view = (ViewGroup) mInflater.inflate(R.layout.rounded_item_select, parent, false);
+        } else if (exampleType == ExampleType.BACKGROUND) {
+          view = (ViewGroup) mInflater.inflate(R.layout.rounded_background_item, parent, false);
         } else {
           view = (ViewGroup) mInflater.inflate(R.layout.rounded_item, parent, false);
         }
@@ -150,6 +153,7 @@ public class RoundedFragment extends Fragment {
   public enum ExampleType {
     DEFAULT,
     OVAL,
-    SELECT_CORNERS
+    SELECT_CORNERS,
+    BACKGROUND
   }
 }
