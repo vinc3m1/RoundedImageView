@@ -11,6 +11,7 @@ android {
 
   defaultConfig {
     minSdkVersion 8
+    consumerProguardFiles 'release-proguard.cfg'
     versionCode 1
     versionName version
   }
