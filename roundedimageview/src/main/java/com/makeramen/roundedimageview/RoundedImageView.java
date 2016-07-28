@@ -74,7 +74,7 @@ public class RoundedImageView extends ImageView {
   private boolean mMutateBackground = false;
   private int mResource;
   private int mBackgroundResource;
-  private ScaleType mScaleType = ScaleType.FIT_CENTER;
+  private ScaleType mScaleType;
   private Shader.TileMode mTileModeX = DEFAULT_TILE_MODE;
   private Shader.TileMode mTileModeY = DEFAULT_TILE_MODE;
 
