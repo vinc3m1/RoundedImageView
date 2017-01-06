@@ -11,7 +11,7 @@ public class GlideRoundedTransformationBuilder {
   private RoundedTransformationBuilder mBuilder;
 
   public GlideRoundedTransformationBuilder(final RoundedTransformationBuilder builder) {
-    mBuilder = builder;
+    mBuilder = builder.copy();
   }
 
   /**

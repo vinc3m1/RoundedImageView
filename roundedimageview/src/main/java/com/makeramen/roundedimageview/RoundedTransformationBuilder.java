@@ -173,6 +173,16 @@ public final class RoundedTransformationBuilder {
                           .toBitmap();
   }
 
+  public RoundedTransformationBuilder copy() {
+    final RoundedTransformationBuilder builder = new RoundedTransformationBuilder();
+    builder.mScaleType = mScaleType;
+    builder.mCornerRadii = mCornerRadii.clone();
+    builder.mBorderWidth = mBorderWidth;
+    builder.mBorderColor = mBorderColor;
+    builder.mOval = mOval;
+    return builder;
+  }
+
   /**
    * @return Picasso-specific transformation builder
    */

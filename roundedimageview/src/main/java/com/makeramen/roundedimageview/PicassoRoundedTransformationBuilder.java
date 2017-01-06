@@ -9,7 +9,7 @@ public class PicassoRoundedTransformationBuilder {
   private RoundedTransformationBuilder mBuilder;
 
   public PicassoRoundedTransformationBuilder(final RoundedTransformationBuilder builder) {
-    mBuilder = builder;
+    mBuilder = builder.copy();
   }
 
   /**
