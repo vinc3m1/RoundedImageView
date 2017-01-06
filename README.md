@@ -41,7 +41,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.makeramen:roundedimageview:2.2.1'
+    compile 'com.makeramen:roundedimageview:2.3.0'
 }
 ```
 
@@ -80,21 +80,34 @@ riv.setTileModeX(Shader.TileMode.REPEAT);
 riv.setTileModeY(Shader.TileMode.REPEAT);
 ```
 
-Or make a Transformation for Picasso:
+Or make a Transformation:
 
 ```java
-Transformation transformation = new RoundedTransformationBuilder()
+RoundedTransformationBuilder builder = new RoundedTransformationBuilder()
           .borderColor(Color.BLACK)
           .borderWidthDp(3)
           .cornerRadiusDp(30)
-          .oval(false)
-          .build();
+          .oval(false);
+```
 
+And then use it with Picasso:
+```java
 Picasso.with(context)
-    .load(url)
-    .fit()
-    .transform(transformation)
-    .into(imageView);
+       .load(url)
+       .fit()
+       .transform(builder.picasso()
+                         .build())
+       .into(imageView);
+```
+
+Or with Glide:
+```java
+Glide.with(context)
+     .load(url)
+     .asBitmap()
+     .transform(builder.glide()
+                       .build(context))
+     .into(imageView);
 ```
 
 Changelog

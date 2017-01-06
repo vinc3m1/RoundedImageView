@@ -22,24 +22,23 @@ import android.graphics.Bitmap;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.widget.ImageView;
-import com.squareup.picasso.Transformation;
+
 import java.util.Arrays;
 
 public final class RoundedTransformationBuilder {
 
-  //private final Resources mResources;
   private final DisplayMetrics mDisplayMetrics;
 
   private float[] mCornerRadii = new float[] { 0, 0, 0, 0 };
 
   private boolean mOval = false;
   private float mBorderWidth = 0;
-  private ColorStateList mBorderColor =
-      ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
+  private ColorStateList mBorderColor = ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
   private ImageView.ScaleType mScaleType = ImageView.ScaleType.FIT_CENTER;
 
   public RoundedTransformationBuilder() {
-    mDisplayMetrics = Resources.getSystem().getDisplayMetrics();
+    mDisplayMetrics = Resources.getSystem()
+                               .getDisplayMetrics();
   }
 
   public RoundedTransformationBuilder scaleType(ImageView.ScaleType scaleType) {
@@ -66,7 +65,7 @@ public final class RoundedTransformationBuilder {
    *
    * @param corner the corner to set.
    * @param radius the radius in px.
-   * @return the builder for chaning.
+   * @return the builder for chaining.
    */
   public RoundedTransformationBuilder cornerRadius(int corner, float radius) {
     mCornerRadii[corner] = radius;
@@ -152,32 +151,40 @@ public final class RoundedTransformationBuilder {
   }
 
   /**
-   * Creates a {@link Transformation} for use with picasso.
-   *
-   * @return the {@link Transformation}
+   * Creates an unique indentifier for chosen transformation to provide ability to cache transformed bitmaps and reuse them later
+   * @return unique identifier, based on transformation parameters
    */
-  public Transformation build() {
-    return new Transformation() {
-      @Override public Bitmap transform(Bitmap source) {
-        Bitmap transformed = RoundedDrawable.fromBitmap(source)
-            .setScaleType(mScaleType)
-            .setCornerRadius(mCornerRadii[0], mCornerRadii[1], mCornerRadii[2], mCornerRadii[3])
-            .setBorderWidth(mBorderWidth)
-            .setBorderColor(mBorderColor)
-            .setOval(mOval)
-            .toBitmap();
-        if (!source.equals(transformed)) {
-          source.recycle();
-        }
-        return transformed;
-      }
-
-      @Override public String key() {
-        return "r:" + Arrays.toString(mCornerRadii)
-            + "b:" + mBorderWidth
-            + "c:" + mBorderColor
-            + "o:" + mOval;
-      }
-    };
+  String getId() {
+    return "r:" + Arrays.toString(mCornerRadii) + "b:" + mBorderWidth + "c:" + mBorderColor + "o:" + mOval;
   }
+
+  /**
+   * Base method used to transform bitmap using chosen transformation parameters
+   * @param toTransform bitmap that will be transformed
+   * @return transformed bitmap
+   */
+  Bitmap transform(final Bitmap toTransform) {
+    return RoundedDrawable.fromBitmap(toTransform)
+                          .setScaleType(mScaleType)
+                          .setCornerRadius(mCornerRadii[0], mCornerRadii[1], mCornerRadii[2], mCornerRadii[3])
+                          .setBorderWidth(mBorderWidth)
+                          .setBorderColor(mBorderColor)
+                          .setOval(mOval)
+                          .toBitmap();
+  }
+
+  /**
+   * @return Picasso-specific transformation builder
+   */
+  public PicassoRoundedTransformationBuilder picasso() {
+    return new PicassoRoundedTransformationBuilder(this);
+  }
+
+  /**
+   * @return Glide-specific transformation builder
+   */
+  public GlideRoundedTransformationBuilder glide() {
+    return new GlideRoundedTransformationBuilder(this);
+  }
+
 }
