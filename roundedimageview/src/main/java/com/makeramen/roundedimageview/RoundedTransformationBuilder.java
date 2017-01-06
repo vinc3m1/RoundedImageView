@@ -189,7 +189,7 @@ public final class RoundedTransformationBuilder {
       @Override public Bitmap transform(Bitmap source) {
         Bitmap transformed = RoundedDrawable.fromBitmap(source)
             .setScaleType(mScaleType)
-            .setCornerRadius(mCornerRadii[0], mCornerRadii[1], mCornerRadii[2], mCornerRadii[3])
+            .setCornerRadius(mCornerRadii)
             .setBorderWidth(mBorderWidth)
             .setBorderColor(mBorderColor)
             .setOval(mOval)
