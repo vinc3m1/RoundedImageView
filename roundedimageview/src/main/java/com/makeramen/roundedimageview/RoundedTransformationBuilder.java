@@ -27,19 +27,18 @@ import java.util.Arrays;
 
 public final class RoundedTransformationBuilder {
 
-  //private final Resources mResources;
   private final DisplayMetrics mDisplayMetrics;
 
   private float[] mCornerRadii = new float[] { 0, 0, 0, 0 };
 
   private boolean mOval = false;
   private float mBorderWidth = 0;
-  private ColorStateList mBorderColor =
-      ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
+  private ColorStateList mBorderColor = ColorStateList.valueOf(RoundedDrawable.DEFAULT_BORDER_COLOR);
   private ImageView.ScaleType mScaleType = ImageView.ScaleType.FIT_CENTER;
 
   public RoundedTransformationBuilder() {
-    mDisplayMetrics = Resources.getSystem().getDisplayMetrics();
+    mDisplayMetrics = Resources.getSystem()
+                               .getDisplayMetrics();
   }
 
   public RoundedTransformationBuilder scaleType(ImageView.ScaleType scaleType) {
@@ -54,10 +53,7 @@ public final class RoundedTransformationBuilder {
    * @return the builder for chaining.
    */
   public RoundedTransformationBuilder cornerRadius(float radius) {
-    mCornerRadii[Corner.TOP_LEFT] = radius;
-    mCornerRadii[Corner.TOP_RIGHT] = radius;
-    mCornerRadii[Corner.BOTTOM_RIGHT] = radius;
-    mCornerRadii[Corner.BOTTOM_LEFT] = radius;
+    mCornerRadii = Corners.ALL.getAll(radius);
     return this;
   }
 
@@ -66,11 +62,45 @@ public final class RoundedTransformationBuilder {
    *
    * @param corner the corner to set.
    * @param radius the radius in px.
-   * @return the builder for chaning.
+   * @return the builder for chaining.
    */
-  public RoundedTransformationBuilder cornerRadius(int corner, float radius) {
-    mCornerRadii[corner] = radius;
+  public RoundedTransformationBuilder cornerRadius(Corner corner, float radius) {
+    mCornerRadii[corner.index] = radius;
     return this;
+  }
+
+  /**
+   * Set radius to all corners, defined in chosen {@link Corners} enum
+   *
+   * @param corners the corners to set
+   * @param radius  the radius in px
+   * @return the builder for chaining
+   */
+  public RoundedTransformationBuilder corners(Corners corners, float radius) {
+    mCornerRadii = corners.getAll(radius);
+    return this;
+  }
+
+  /**
+   * Set radius to all corners in density independent pixels, defined in chosen {@link Corners} enum
+   *
+   * @param corners the corners to set
+   * @param radius  the radius in density independent pixels
+   * @return the builder for chaining
+   */
+  public RoundedTransformationBuilder cornersDp(Corners corners, float radius) {
+    mCornerRadii = corners.getAll(dpToPx(radius));
+    return this;
+  }
+
+  /**
+   * Converts density independent pixels to normal pixels
+   *
+   * @param dp the value to convert
+   * @return converted value
+   */
+  private float dpToPx(final float dp) {
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, mDisplayMetrics);
   }
 
   /**
@@ -80,8 +110,7 @@ public final class RoundedTransformationBuilder {
    * @return the builder for chaining.
    */
   public RoundedTransformationBuilder cornerRadiusDp(float radius) {
-    return cornerRadius(
-        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radius, mDisplayMetrics));
+    return cornerRadius(dpToPx(radius));
   }
 
   /**
@@ -91,9 +120,8 @@ public final class RoundedTransformationBuilder {
    * @param radius the radius in density independent pixels.
    * @return the builder for chaining.
    */
-  public RoundedTransformationBuilder cornerRadiusDp(int corner, float radius) {
-    return cornerRadius(corner,
-        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radius, mDisplayMetrics));
+  public RoundedTransformationBuilder cornerRadiusDp(Corner corner, float radius) {
+    return cornerRadius(corner, dpToPx(radius));
   }
 
   /**
@@ -114,7 +142,7 @@ public final class RoundedTransformationBuilder {
    * @return the builder for chaining.
    */
   public RoundedTransformationBuilder borderWidthDp(float width) {
-    mBorderWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, width, mDisplayMetrics);
+    mBorderWidth = dpToPx(width);
     return this;
   }
 

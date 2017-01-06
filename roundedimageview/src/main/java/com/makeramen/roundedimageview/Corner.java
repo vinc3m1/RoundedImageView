@@ -1,17 +1,14 @@
 package com.makeramen.roundedimageview;
 
-import android.support.annotation.IntDef;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+public enum Corner {
+  TOP_LEFT(0),
+  TOP_RIGHT(1),
+  BOTTOM_LEFT(2),
+  BOTTOM_RIGHT(3);
 
-@Retention(RetentionPolicy.SOURCE)
-@IntDef({
-    Corner.TOP_LEFT, Corner.TOP_RIGHT,
-    Corner.BOTTOM_LEFT, Corner.BOTTOM_RIGHT
-})
-public @interface Corner {
-  int TOP_LEFT = 0;
-  int TOP_RIGHT = 1;
-  int BOTTOM_RIGHT = 2;
-  int BOTTOM_LEFT = 3;
+  public int index;
+
+  Corner(final int index) {
+    this.index = index;
+  }
 }
