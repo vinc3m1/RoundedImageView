@@ -107,7 +107,7 @@ see [Releases](https://github.com/vinc3m1/RoundedImageView/releases)
 License
 -------
 
-    Copyright 2015 Vincent Mi
+    Copyright 2017 Vincent Mi
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
