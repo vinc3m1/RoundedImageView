@@ -257,6 +257,7 @@ public class RoundedDrawable extends Drawable {
     }
 
     mDrawableRect.set(mBorderRect);
+    mRebuildShader = true;
   }
 
   @Override
