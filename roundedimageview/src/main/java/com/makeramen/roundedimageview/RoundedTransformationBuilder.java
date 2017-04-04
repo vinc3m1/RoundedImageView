@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2015 Vincent Mi
+* Copyright (C) 2017 Vincent Mi
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import java.util.Arrays;
 
 public final class RoundedTransformationBuilder {
 
-  //private final Resources mResources;
   private final DisplayMetrics mDisplayMetrics;
 
   private float[] mCornerRadii = new float[] { 0, 0, 0, 0 };
@@ -68,7 +67,7 @@ public final class RoundedTransformationBuilder {
    * @param radius the radius in px.
    * @return the builder for chaning.
    */
-  public RoundedTransformationBuilder cornerRadius(int corner, float radius) {
+  public RoundedTransformationBuilder cornerRadius(@Corner int corner, float radius) {
     mCornerRadii[corner] = radius;
     return this;
   }
@@ -91,7 +90,7 @@ public final class RoundedTransformationBuilder {
    * @param radius the radius in density independent pixels.
    * @return the builder for chaining.
    */
-  public RoundedTransformationBuilder cornerRadiusDp(int corner, float radius) {
+  public RoundedTransformationBuilder cornerRadiusDp(@Corner int corner, float radius) {
     return cornerRadius(corner,
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radius, mDisplayMetrics));
   }

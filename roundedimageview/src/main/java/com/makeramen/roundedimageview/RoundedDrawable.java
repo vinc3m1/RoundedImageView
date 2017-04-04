@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2015 Vincent Mi
+* Copyright (C) 2017 Vincent Mi
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -61,8 +61,8 @@ public class RoundedDrawable extends Drawable {
   private Shader.TileMode mTileModeY = Shader.TileMode.CLAMP;
   private boolean mRebuildShader = true;
 
-  // [ topLeft, topRight, bottomLeft, bottomRight ]
   private float mCornerRadius = 0f;
+  // [ topLeft, topRight, bottomLeft, bottomRight ]
   private final boolean[] mCornersRounded = new boolean[] { true, true, true, true };
 
   private boolean mOval = false;

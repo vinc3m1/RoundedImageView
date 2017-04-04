@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2015 Vincent Mi
+* Copyright (C) 2017 Vincent Mi
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
@@ -164,10 +163,6 @@ public class RoundedImageView extends ImageView {
     updateBackgroundDrawableAttrs(true);
 
     if (mMutateBackground) {
-      // when setBackground() is called by View constructor, mMutateBackground is not loaded from the attribute,
-      // so it's false by default, what doesn't allow to create the RoundedDrawable. At this point, after load
-      // mMutateBackground and updated BackgroundDrawable to RoundedDrawable, the View's background drawable needs to
-      // be changed to this new drawable.
       //noinspection deprecation
       super.setBackgroundDrawable(mBackgroundDrawable);
     }
@@ -534,10 +529,22 @@ public class RoundedImageView extends ImageView {
     }
   }
 
+  /**
+   * Return true if this view should be oval and always set corner radii to half the height or
+   * width.
+   *
+   * @return if this {@link RoundedImageView} is set to oval.
+   */
   public boolean isOval() {
     return mIsOval;
   }
 
+  /**
+   * Set if the drawable should ignore the corner radii set and always round the source to
+   * exactly half the height or width.
+   *
+   * @param oval if this {@link RoundedImageView} should be oval.
+   */
   public void setOval(boolean oval) {
     mIsOval = oval;
     updateDrawableAttrs();
@@ -571,10 +578,22 @@ public class RoundedImageView extends ImageView {
     invalidate();
   }
 
+  /**
+   * If {@code true}, we will also round the background drawable according to the settings on this
+   * ImageView.
+   *
+   * @return whether the background is mutated.
+   */
   public boolean mutatesBackground() {
     return mMutateBackground;
   }
 
+  /**
+   * Set whether the {@link RoundedImageView} should round the background drawable according to
+   * the settings in addition to the source drawable.
+   *
+   * @param mutate true if this view should mutate the background drawable.
+   */
   public void mutateBackground(boolean mutate) {
     if (mMutateBackground == mutate) { return; }
 
