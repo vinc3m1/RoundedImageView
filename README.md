@@ -33,8 +33,7 @@ Known Issues
 ----
 - VectorDrawables are **not** supported. This library is designed for BitmapDrawables only. Other drawables will likely fail or cause high memory usage. 
 - ColorDrawables are poorly supported, use your own rounded VectorDrawables instead if you want less memory pressure.
-- Glide transforms are **not** supported, please use [wasabeef/glide-transformations](https://github
-.com/wasabeef/glide-transformations) if you want to round images loaded from Glide.
+- Glide transforms are **not** supported, please use [wasabeef/glide-transformations](https://github.com/wasabeef/glide-transformations) if you want to round images loaded from Glide.
 
 Gradle
 ----
