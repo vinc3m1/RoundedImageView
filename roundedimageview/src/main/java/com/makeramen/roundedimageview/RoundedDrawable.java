@@ -26,9 +26,12 @@ import android.graphics.ColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.Xfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -56,6 +59,7 @@ public class RoundedDrawable extends Drawable {
   private final Paint mBorderPaint;
   private final Matrix mShaderMatrix = new Matrix();
   private final RectF mSquareCornersRect = new RectF();
+  private final Xfermode mCornerXfermode = new PorterDuffXfermode(PorterDuff.Mode.SRC);
 
   private Shader.TileMode mTileModeX = Shader.TileMode.CLAMP;
   private Shader.TileMode mTileModeY = Shader.TileMode.CLAMP;
@@ -271,6 +275,7 @@ public class RoundedDrawable extends Drawable {
 
   @Override
   public void draw(@NonNull Canvas canvas) {
+    canvas.saveLayer(mBounds, null, Canvas.ALL_SAVE_FLAG);
     if (mRebuildShader) {
       BitmapShader bitmapShader = new BitmapShader(mBitmap, mTileModeX, mTileModeY);
       if (mTileModeX == Shader.TileMode.CLAMP && mTileModeY == Shader.TileMode.CLAMP) {
@@ -306,6 +311,7 @@ public class RoundedDrawable extends Drawable {
         }
       }
     }
+    canvas.restore();
   }
 
   private void redrawBitmapForSquareCorners(Canvas canvas) {
@@ -323,6 +329,8 @@ public class RoundedDrawable extends Drawable {
     float right = left + mDrawableRect.width();
     float bottom = top + mDrawableRect.height();
     float radius = mCornerRadius;
+
+    mBitmapPaint.setXfermode(mCornerXfermode);
 
     if (!mCornersRounded[Corner.TOP_LEFT]) {
       mSquareCornersRect.set(left, top, left + radius, top + radius);
@@ -343,6 +351,8 @@ public class RoundedDrawable extends Drawable {
       mSquareCornersRect.set(left, bottom - radius, left + radius, bottom);
       canvas.drawRect(mSquareCornersRect, mBitmapPaint);
     }
+
+    mBitmapPaint.setXfermode(null);
   }
 
   private void redrawBorderForSquareCorners(Canvas canvas) {
