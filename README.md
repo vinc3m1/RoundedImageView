@@ -1,5 +1,4 @@
-RoundedImageView
-================
+# RoundedImageView
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.makeramen/roundedimageview/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.makeramen/roundedimageview)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RoundedImageView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/680)
@@ -29,14 +28,14 @@ Also has proper support for:
 * Support for LayerDrawables (including TransitionDrawables)
 * TileModes for repeating drawables
 
-Known Issues
-----
+## Known Issues
+
 - VectorDrawables are **not** supported. This library is designed for BitmapDrawables only. Other drawables will likely fail or cause high memory usage. 
 - ColorDrawables are poorly supported, use your own rounded VectorDrawables instead if you want less memory pressure.
 - Glide transforms are **not** supported, please use [wasabeef/glide-transformations](https://github.com/wasabeef/glide-transformations) if you want to round images loaded from Glide.
 
-Gradle
-----
+## Gradle
+
 RoundedImageView is available in [Maven Central](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.makeramen%22%20AND%20a%3A%22roundedimageview%22).
 
 Add the following to your `build.gradle` to use:
@@ -51,8 +50,8 @@ dependencies {
 ```
 
 
-Usage
-----
+## Usage
+
 Define in xml:
 
 ```xml
@@ -85,7 +84,9 @@ riv.setTileModeX(Shader.TileMode.REPEAT);
 riv.setTileModeY(Shader.TileMode.REPEAT);
 ```
 
-Or make a Transformation for Picasso:
+### Picasso
+
+To make a Transformation for Picasso:
 
 ```java
 Transformation transformation = new RoundedTransformationBuilder()
@@ -102,15 +103,14 @@ Picasso.with(context)
     .into(imageView);
 ```
 
-Changelog
-----------
+## Changelog
+
 see [Releases](https://github.com/vinc3m1/RoundedImageView/releases)
 
 
 
 
-License
--------
+## License
 
     Copyright 2017 Vincent Mi
 
