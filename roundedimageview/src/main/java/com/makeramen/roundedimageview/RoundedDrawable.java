@@ -38,6 +38,7 @@ import android.util.Log;
 import android.widget.ImageView.ScaleType;
 import java.util.HashSet;
 import java.util.Set;
+import java.lang.Throwable;
 
 @SuppressWarnings("UnusedDeclaration")
 public class RoundedDrawable extends Drawable {
@@ -135,7 +136,7 @@ public class RoundedDrawable extends Drawable {
       Canvas canvas = new Canvas(bitmap);
       drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
       drawable.draw(canvas);
-    } catch (Exception e) {
+    } catch (Throwable e) {
       e.printStackTrace();
       Log.w(TAG, "Failed to create bitmap from drawable!");
       bitmap = null;
