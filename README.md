@@ -45,7 +45,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 }
 ```
 
@@ -112,7 +112,7 @@ see [Releases](https://github.com/vinc3m1/RoundedImageView/releases)
 
 ## License
 
-    Copyright 2017 Vincent Mi
+    Copyright 2019 Vincent Mi
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
