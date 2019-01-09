@@ -11,8 +11,8 @@ repositories {
 dependencies {
   //compile 'com.makeramen:roundedimageview:2.0.0-SNAPSHOT'
   implementation project(':roundedimageview')
-  implementation 'com.squareup.picasso:picasso:2.5.2'
-  implementation 'com.github.bumptech.glide:glide:3.7.0'
+  implementation 'com.squareup.picasso:picasso:2.71828'
+  implementation 'com.github.bumptech.glide:glide:4.8.0'
   implementation 'com.android.support:support-v4:28.0.0'
   implementation 'com.android.support:appcompat-v7:28.0.0'
 }
