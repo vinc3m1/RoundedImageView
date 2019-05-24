@@ -25,6 +25,7 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -36,9 +37,9 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView.ScaleType;
+
 import java.util.HashSet;
 import java.util.Set;
-import java.lang.Throwable;
 
 @SuppressWarnings("UnusedDeclaration")
 public class RoundedDrawable extends Drawable {
@@ -46,15 +47,15 @@ public class RoundedDrawable extends Drawable {
   public static final String TAG = "RoundedDrawable";
   public static final int DEFAULT_BORDER_COLOR = Color.BLACK;
 
-  private final RectF mBounds = new RectF();
-  private final RectF mDrawableRect = new RectF();
-  private final RectF mBitmapRect = new RectF();
-  private final Bitmap mBitmap;
-  private final Paint mBitmapPaint;
+  protected final RectF mBounds = new RectF();
+  protected final RectF mDrawableRect = new RectF();
+  protected final RectF mBitmapRect = new RectF();
+  protected final Bitmap mBitmap;
+  protected final Paint mBitmapPaint;
   private final int mBitmapWidth;
   private final int mBitmapHeight;
-  private final RectF mBorderRect = new RectF();
-  private final Paint mBorderPaint;
+  protected final RectF mBorderRect = new RectF();
+  protected final Paint mBorderPaint;
   private final Matrix mShaderMatrix = new Matrix();
   private final RectF mSquareCornersRect = new RectF();
 
@@ -270,8 +271,7 @@ public class RoundedDrawable extends Drawable {
     updateShaderMatrix();
   }
 
-  @Override
-  public void draw(@NonNull Canvas canvas) {
+  public void buildShader() {
     if (mRebuildShader) {
       BitmapShader bitmapShader = new BitmapShader(mBitmap, mTileModeX, mTileModeY);
       if (mTileModeX == Shader.TileMode.CLAMP && mTileModeY == Shader.TileMode.CLAMP) {
@@ -280,6 +280,11 @@ public class RoundedDrawable extends Drawable {
       mBitmapPaint.setShader(bitmapShader);
       mRebuildShader = false;
     }
+  }
+
+  @Override
+  public void draw(@NonNull Canvas canvas) {
+    buildShader();
 
     if (mOval) {
       if (mBorderWidth > 0) {

@@ -222,10 +222,18 @@ public class RoundedImageView extends ImageView {
     }
   }
 
+  public Drawable getDrawable(Drawable drawable) {
+    return RoundedDrawable.fromDrawable(drawable);
+  }
+
+  public Drawable getDrawable(Bitmap bitmap) {
+    return RoundedDrawable.fromBitmap(bitmap);
+  }
+
   @Override
   public void setImageDrawable(Drawable drawable) {
     mResource = 0;
-    mDrawable = RoundedDrawable.fromDrawable(drawable);
+    mDrawable = getDrawable(drawable);
     updateDrawableAttrs();
     super.setImageDrawable(mDrawable);
   }
@@ -233,7 +241,7 @@ public class RoundedImageView extends ImageView {
   @Override
   public void setImageBitmap(Bitmap bm) {
     mResource = 0;
-    mDrawable = RoundedDrawable.fromBitmap(bm);
+    mDrawable = getDrawable(bm);
     updateDrawableAttrs();
     super.setImageDrawable(mDrawable);
   }
@@ -268,7 +276,7 @@ public class RoundedImageView extends ImageView {
         mResource = 0;
       }
     }
-    return RoundedDrawable.fromDrawable(d);
+    return getDrawable(d);
   }
 
   @Override
@@ -306,7 +314,7 @@ public class RoundedImageView extends ImageView {
         mBackgroundResource = 0;
       }
     }
-    return RoundedDrawable.fromDrawable(d);
+    return getDrawable(d);
   }
 
   private void updateDrawableAttrs() {
@@ -316,7 +324,7 @@ public class RoundedImageView extends ImageView {
   private void updateBackgroundDrawableAttrs(boolean convert) {
     if (mMutateBackground) {
       if (convert) {
-        mBackgroundDrawable = RoundedDrawable.fromDrawable(mBackgroundDrawable);
+        mBackgroundDrawable = getDrawable(mBackgroundDrawable);
       }
       updateAttrs(mBackgroundDrawable, ScaleType.FIT_XY);
     }
