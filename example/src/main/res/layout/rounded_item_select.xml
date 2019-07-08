@@ -19,7 +19,7 @@
       android:src="@drawable/photo1"
       android:scaleType="center"
       app:riv_corner_radius_top_left="30dp"
-      app:riv_corner_radius_bottom_right="30dp"
+      app:riv_corner_radius_bottom_right="45dp"
       app:riv_border_width="3dip"
       app:riv_oval="false"
       app:riv_border_color="@color/border"
