@@ -103,7 +103,9 @@ public class RoundedDrawable extends Drawable {
         // just return if it's already a RoundedDrawable
         return drawable;
       } else if (drawable instanceof LayerDrawable) {
-        LayerDrawable ld = (LayerDrawable) drawable;
+        ConstantState cs = drawable.mutate().getConstantState();
+        LayerDrawable ld = (LayerDrawable) (cs != null ? cs.newDrawable() : drawable);
+
         int num = ld.getNumberOfLayers();
 
         // loop through layers to and change to RoundedDrawables if possible
