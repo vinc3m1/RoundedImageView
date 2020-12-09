@@ -1,0 +1,107 @@
+Folder PATH listing for volume Another
+Volume serial number is 6E99-6860
+D:.
+|   .gitattributes
+|   .gitconfig
+|   .gitignore
+|   build.gradle
+|   gradlew
+|   gradlew.bat
+|   LICENSE
+|   README.md
+|   screenshot-oval.png
+|   screenshot-round-specific-corners.png
+|   screenshot.png
+|   settings.gradle
+|   tree.txt
+|   
++---docs
+|       B o c o QTDA.docx
+|       
++---example
+|   |   build.gradle
+|   |   ic_launcher-web.png
+|   |   lint.xml
+|   |   proguard-project.txt
+|   |   
+|   \---src
+|       \---main
+|           |   AndroidManifest.xml
+|           |   
+|           +---java
+|           |   \---com
+|           |       \---makeramen
+|           |           \---roundedimageview
+|           |               \---example
+|           |                       ColorFragment.java
+|           |                       ExampleActivity.java
+|           |                       PicassoFragment.java
+|           |                       RoundedFragment.java
+|           |                       
+|           \---res
+|               +---color
+|               |       border.xml
+|               |       
+|               +---drawable-hdpi
+|               |       ic_launcher.png
+|               |       
+|               +---drawable-ldpi
+|               |       ic_launcher.png
+|               |       
+|               +---drawable-mdpi
+|               |       ic_launcher.png
+|               |       
+|               +---drawable-nodpi
+|               |       photo1.jpg
+|               |       photo2.jpg
+|               |       photo3.jpg
+|               |       photo4.jpg
+|               |       photo5.jpg
+|               |       photo6.jpg
+|               |       photo7.jpg
+|               |       
+|               +---drawable-xhdpi
+|               |       black_white_tile.png
+|               |       ic_launcher.png
+|               |       
+|               +---layout
+|               |       example_activity.xml
+|               |       fragment_rounded.xml
+|               |       picasso_item.xml
+|               |       rounded_background_item.xml
+|               |       rounded_item.xml
+|               |       rounded_item_select.xml
+|               |       
+|               \---values
+|                       colors.xml
+|                       strings.xml
+|                       styles.xml
+|                       
++---gradle
+|   \---wrapper
+|           gradle-wrapper.jar
+|           gradle-wrapper.properties
+|           
+\---roundedimageview
+    |   build.gradle
+    |   release-proguard.cfg
+    |   roundedimageview.smproj
+    |   
+    \---src
+        \---main
+            |   AndroidManifest.xml
+            |   
+            +---java
+            |   \---com
+            |       \---makeramen
+            |           \---roundedimageview
+            |                   Corner.java
+            |                   RoundedDrawable.java
+            |                   RoundedImageView.java
+            |                   RoundedTransformationBuilder.java
+            |                   
+            \---res
+                \---values
+                        about_libraries_def.xml
+                        attrs.xml
+                        
