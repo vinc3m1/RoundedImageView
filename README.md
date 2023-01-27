@@ -20,7 +20,7 @@ RoundedBitmapDrawable avoids the many pitfalls of RoundedImageView by:
 
 ### 3. For vector drawables and other non-Bitmap drawables, modify the vector or drawable to include rounding for best performance.
 
-RoundedImageView would try its best to rasterizing these to a Bitmap and round them, at a rather high cost to memory (creating an extra bitmap) and fidelity (scaling bitmaps after rasterizing leads to artifacts). There are much better methods to achieve this today depending on your use case with better quality and performance.
+RoundedImageView would try its best to rasterize these to a Bitmap and round them, at a rather high cost to memory (creating an extra bitmap) and fidelity (scaling rasterized bitmaps leads to artifacts). While rasterizing these drawables technically works, the resulting performance and quality impact is in direct contrast with the original goals of RoundedImageView around memory efficiency and image quality and probably should have been left unsupported completely.
 
 ---
 
