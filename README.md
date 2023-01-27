@@ -1,3 +1,29 @@
+# [ARCHIVED] RoundedImageView is no longer actively maintained as there are better alternatives available
+
+RoundedImageView was originally made with a primary goal of memory and rendering performance, and specifically only worked well on Bitmaps. It had some very poorly performing hacks built in for non-bitmaps, along with a lot of hard to maintain synchronization of ScaleTypes and sizing between the ImageView and the Drawable itself. 
+
+RoundedImageView has also never supported image loaders like Picasso and Glide well, especially when they leverage TransitionDrawables for fade effects. These use cases are always best served by using the respective library's own Transformation APIs for image manipulation inside the async pipelines where the performance impact is less apparent.
+
+As the ImageView and Drawable APIs evolved to support even more features like tinting, and Android's hardware acceleration support improved, the need for a library like RoundedImageView has dwindled while the maintenance cost remained. Finally with the inclusion of [RoundedBitmapDrawable](https://developer.android.com/reference/kotlin/androidx/core/graphics/drawable/RoundedBitmapDrawable) in androidx which has a much simpler (and better IMO) API, I have recommended that as the best solution for everyone considering RoundedImageView.
+
+
+## Here are my recommended alternatives:
+
+### 1. For rounding bitmaps bundled in your APK (not loaded from internet or disk) use [RoundedBitmapDrawable](https://developer.android.com/reference/kotlin/androidx/core/graphics/drawable/RoundedBitmapDrawable)
+
+RoundedBitmapDrawable avoids the many pitfalls of RoundedImageView by:
+1. Working only on Bitmaps and BitmapDrawables which is what RoundedImageView was primrarily built for.
+2. Decoupling the Drawable from the ImageView, which could have different size and ScaleType constraints and was always complicated to synchronize in RoundedImageView.
+3. Decoupling the Drawable from other Drawable wrappers like [TransitionDrawable](https://developer.android.com/reference/android/graphics/drawable/TransitionDrawable) and other [LayerDrawable](https://developer.android.com/reference/android/graphics/drawable/LayerDrawable) and [DrawableContainer](https://developer.android.com/reference/android/graphics/drawable/DrawableContainer) types. This was always hard to manage in RoundedImageView because it was hard to guess the intent of the author whether
+
+### 2. For loading from network or disk, use the library's transformation API, for example [wasabeef/glide-transformations](https://github.com/wasabeef/glide-transformations) can round images loaded by [Glide](https://github.com/bumptech/glide), and [wasabeef/picasso-transformations](https://github.com/wasabeef/picasso-transformations) can round images loaded by [Picasso](https://github.com/square/picasso).
+
+### 3. For vector drawables and other non-Bitmap drawables, modify the vector or drawable to include rounding for best performance.
+
+RoundedImageView would try its best to rasterizing these to a Bitmap and round them, at a rather high cost to memory (creating an extra bitmap) and fidelity (scaling bitmaps after rasterizing leads to artifacts). There are much better methods to achieve this today depending on your use case with better quality and performance.
+
+---
+
 # RoundedImageView
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.makeramen/roundedimageview/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.makeramen/roundedimageview)
